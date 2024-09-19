@@ -3,7 +3,7 @@ import gpiod
 import time
 
 # Pin Definitons:
-ledPin = 40 # Broadcom pin 23 (P1 pin 16)
+ledPin = 37 # Broadcom pin 23 (P1 pin 16)
 
 chip = gpiod.Chip('gpiochip4')
 led_line = chip.get_line(ledPin)
