@@ -31,12 +31,12 @@ try:
        time.sleep(switchTime)
        RELAY_CH3_Line.set_value(0)
        time.sleep(switchTime)
-finally:
-    RELAY_CH1_Line.set_value(0)
+except KeyboardInterrupt:
+    RELAY_CH1_Line.set_value(1)
     time.sleep(switchTime)
-    RELAY_CH2_Line.set_value(0)
+    RELAY_CH2_Line.set_value(1)
     time.sleep(switchTime)
-    RELAY_CH3_Line.set_value(0)
+    RELAY_CH3_Line.set_value(1)
     time.sleep(switchTime)
 
     RELAY_CH1_Line.release()
