@@ -32,4 +32,13 @@ try:
        RELAY_CH3_Line.set_value(0)
        time.sleep(switchTime)
 finally:
-   led_line.release()
+    RELAY_CH1_Line.set_value(0)
+    time.sleep(switchTime)
+    RELAY_CH2_Line.set_value(0)
+    time.sleep(switchTime)
+    RELAY_CH3_Line.set_value(0)
+    time.sleep(switchTime)
+
+    RELAY_CH1_Line.release()
+    RELAY_CH2_Line.release()
+    RELAY_CH3_Line.release()
