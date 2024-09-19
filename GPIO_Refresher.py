@@ -10,13 +10,6 @@ led_line = chip.get_line(ledPin)
 led_line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
 
 
-# Pin Setup:
-GPIO.setmode(GPIO.BCM) # Broadcom pin-numbering scheme
-GPIO.setup(ledPin, GPIO.OUT) # LED pin set as output
-
-# Initial state for LEDs:
-GPIO.output(ledPin, GPIO.LOW)
-
 print("Here we go! Press CTRL+C to exit")
 try:
     while 1:
