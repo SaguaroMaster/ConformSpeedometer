@@ -1,9 +1,13 @@
 # External module imports
-import RPi.GPIO as GPIO
+import gpiod
 import time
 
 # Pin Definitons:
 ledPin = 40 # Broadcom pin 23 (P1 pin 16)
+
+chip = gpiod.Chip('gpiochip4')
+led_line = chip.get_line(ledPin)
+led_line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
 
 
 # Pin Setup:
@@ -16,9 +20,9 @@ GPIO.output(ledPin, GPIO.LOW)
 print("Here we go! Press CTRL+C to exit")
 try:
     while 1:
-        GPIO.output(ledPin, GPIO.HIGH)
+        led_line.set_value(1)
         time.sleep(0.5)
-        GPIO.output(ledPin, GPIO.LOW)
+        led_line.set_value(0)
         time.sleep(0.5)
 except KeyboardInterrupt: # If CTRL+C is pressed, exit cleanly:
-    GPIO.cleanup() # cleanup all GPIO
+    led_line.release()
