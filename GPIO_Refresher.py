@@ -1,6 +1,6 @@
 import gpiod
 import time
-LED_PIN = 17
+LED_PIN = 21
 chip = gpiod.Chip('gpiochip4')
 led_line = chip.get_line(LED_PIN)
 led_line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
