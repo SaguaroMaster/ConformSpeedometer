@@ -14,6 +14,7 @@ samplePeriod = 60 #seconds
 wheelCircumference = 0.25 #meter
 time_old = time.time()
 time1 = time_old
+time2 = time1
 databaseName = 'Database.db'
 
 relay1 = GPIO.LED(RELAY_CH1)
@@ -66,10 +67,12 @@ samplePeriod = getSamplingPeriod()
 
 try:
    while True:
-      if time.time() > time1+samplePeriod:
+      if time.time() > time2+samplePeriod:
          speed = pulseCount * wheelCircumference
          pulseCount = 0
          print(speed)
+         time2 = time.time()
+
 
 except KeyboardInterrupt:
    print("Terminating program...")
