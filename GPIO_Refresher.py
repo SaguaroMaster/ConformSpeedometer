@@ -12,6 +12,7 @@ pulseCount = 0
 samplePeriod = 60 #seconds
 wheelCircumference = 0.25 #meter
 time_old = time.time()
+time1 = time_old
 
 relay1 = GPIO.LED(RELAY_CH1)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
