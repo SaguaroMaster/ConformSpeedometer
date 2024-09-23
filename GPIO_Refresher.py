@@ -5,7 +5,7 @@ RELAY_CH1 = 26
 RELAY_CH2 = 20
 RELAY_CH3 = 21
 
-SENSOR_PIN = 18
+SENSOR_PIN = 6
 
 switchTime = 0.1
 
@@ -45,7 +45,7 @@ try:
     sensor_state = sensor_line.get_value()
     print(sensor_state)
 
-    time.sleep(50)
+    time.sleep(0.05)
 
 except KeyboardInterrupt:
     RELAY_CH1_Line.set_value(1)
