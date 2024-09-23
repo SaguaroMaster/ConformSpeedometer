@@ -81,13 +81,14 @@ runningAvgShort = deque(maxlen = 10)
 
 try:
    while True:
-      if time.time() > time2+samplePeriod:
+      if time.time() > time2 + samplePeriod:
          time2 = time.time() 
          speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
          pulseCount = 0
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
          print(mean(runningAvgShort))
+         print samplePeriod
 
          if time.time() > time3 + savePeriod:
             time3 = time.time()
