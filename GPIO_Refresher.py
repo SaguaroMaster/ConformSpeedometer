@@ -70,11 +70,11 @@ try:
    while True:
       if time.time() > time2+samplePeriod:
          time2 = time.time()
-         speed = pulseCount * wheelCircumference
+         speed = pulseCount * wheelCircumference * (60/samplePeriod)
          pulseCount = 0
          print(speed)
 
-         if time.time() > time3+60:
+         if time.time() > time3 + 60:
             time3 = time.time()
             logData(speed)
 
