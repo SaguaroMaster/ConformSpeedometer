@@ -15,6 +15,7 @@ wheelCircumference = 0.25 #meter
 time_old = time.time()
 time1 = time_old
 time2 = time1
+time3 = time2
 databaseName = 'Database.db'
 
 relay1 = GPIO.LED(RELAY_CH1)
@@ -27,7 +28,7 @@ def pulseCallback(self):
    time1 = time.time()
    speed = (1 / (time1 - time_old)) * wheelCircumference * 60
    time_old = time1
-   print(speed)
+   #print(speed)
 
 sensor.when_released = pulseCallback
 
@@ -72,7 +73,12 @@ try:
          speed = pulseCount * wheelCircumference
          pulseCount = 0
          print(speed)
-      time.sleep(0.1)
+
+         if time.time() > time3+60:
+            time3 = time.time()
+            logData(speed)
+
+      time.sleep(0.01)
 
 
 except KeyboardInterrupt:
