@@ -42,7 +42,7 @@ def logData(speed):
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
    print(type(speed))
-   curs.execute("INSERT INTO data values(datetime('now', 'localtime'), (?))", (speed))
+   curs.execute("INSERT INTO data values(datetime('now', 'localtime'), (?))", (speed,))
    conn.commit()
    conn.close()
 
