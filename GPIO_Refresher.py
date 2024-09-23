@@ -11,7 +11,6 @@ switchTime = 0.1
 
 relay1 = GPIO.LED(RELAY_CH1)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time= 50)
-sensor.pull = 
 
 def impulseCallback(self):
    print("PUUUUUUUUUUUULSE")
