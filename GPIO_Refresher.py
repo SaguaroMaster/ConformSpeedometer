@@ -42,7 +42,7 @@ try:
     
     '''
 
-    sensor_state = button_line.get_value()
+    sensor_state = sensor_line.get_value()
     print(sensor_state)
 
 except KeyboardInterrupt:
