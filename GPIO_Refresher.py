@@ -1,6 +1,7 @@
 import gpiozero as GPIO
 import time
 import sqlite3
+import os
 
 RELAY_CH1 = 26
 RELAY_CH2 = 20
@@ -13,6 +14,7 @@ samplePeriod = 60 #seconds
 wheelCircumference = 0.25 #meter
 time_old = time.time()
 time1 = time_old
+databaseName = 'Database.db'
 
 relay1 = GPIO.LED(RELAY_CH1)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
@@ -23,14 +25,22 @@ def pulseCallback(self):
    global time_old
    pulseCount = pulseCount + 1
    time1 = time.time()
-   speed = (1 / (time1 - time_old)) * wheelCircumference
+   speed = (1 / (time1 - time_old)) * wheelCircumference * 60
    time_old = time1
    print(speed)
 
-
 sensor.when_released = pulseCallback
 
-conn = sqlite3.connect('Database.db') #Create database if doesnt exist, otherwise just connect
+if  not os.path.isfile(databaseName):
+   conn = sqlite3.connect(databaseName)
+   curs=conn.cursor()
+	curs.execute("CREATE TABLE data(timestamp DATETIME, speed NUMERIC);")
+	conn.commit()
+   curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC;")
+	conn.commit()
+   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 1, 0.25, 5000, 0, 0, 0, 0);")
+   conn.commit()
+	conn.close()
 
 try:
    while True:
