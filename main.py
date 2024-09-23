@@ -39,12 +39,12 @@ if not os.path.isfile(databaseName):
    conn.close()
 
 def logData(speed):
-	conn=sqlite3.connect(databaseName)
-	curs=conn.cursor()
+   conn=sqlite3.connect(databaseName)
+   curs=conn.cursor()
    print(type(speed))
-	curs.execute("INSERT INTO data values(datetime('now', 'localtime'), (?))", (speed))
-	conn.commit()
-	conn.close()
+   curs.execute("INSERT INTO data values(datetime('now', 'localtime'), (?))", (speed))
+   conn.commit()
+   conn.close()
 
 def getSamplingPeriod():
 	conn=sqlite3.connect(databaseName)
