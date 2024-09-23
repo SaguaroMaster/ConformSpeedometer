@@ -17,6 +17,8 @@ def impulseCallback(self):
 
 sensor.when_released = impulseCallback
 
+conn = sqlite3.connect('Database.db')
+
 try:
    while True:
       time.sleep(100)
