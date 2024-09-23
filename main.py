@@ -27,7 +27,7 @@ sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_stat
 
 def pulseCallback(self):
    global pulseCount
-   global timeDiff
+   global timeDiff time_old
    timeDiff = time.time() - time_old
    time_old = time.time()
    print(timeDiff)
