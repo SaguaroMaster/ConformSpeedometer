@@ -45,6 +45,8 @@ try:
     sensor_state = sensor_line.get_value()
     print(sensor_state)
 
+    time.sleep(50)
+
 except KeyboardInterrupt:
     RELAY_CH1_Line.set_value(1)
     time.sleep(switchTime)
@@ -56,3 +58,4 @@ except KeyboardInterrupt:
     RELAY_CH1_Line.release()
     RELAY_CH2_Line.release()
     RELAY_CH3_Line.release()
+    sensor_line.release()
