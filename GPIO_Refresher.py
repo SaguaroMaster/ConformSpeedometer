@@ -19,7 +19,7 @@ sensor.when_released = impulseCallback
 
 try:
    while True:
-      time.wait(100)
+      time.sleep(100)
 
 except KeyboardInterrupt:
    print("Terminating program...")
