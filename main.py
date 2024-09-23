@@ -68,7 +68,7 @@ def getSavingPeriod():
 		savingPeriod = row[0]
 		if savingPeriod > 1800 : 
 			savingPeriod = 1800
-		elif savinggPeriod < 10 :
+		elif savingPeriod < 10 :
 			savingPeriod = 10
 	conn.close()
 	return savingPeriod
