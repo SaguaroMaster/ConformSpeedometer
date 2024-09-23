@@ -75,7 +75,7 @@ def getSavingPeriod():
 
 samplePeriod = getSamplingPeriod()
 savePeriod = getSavingPeriod()
-runningAvg = deque(maxlen = savePeriod / samplePeriod)
+runningAvg = deque(maxlen = int(savePeriod / samplePeriod))
 
 
 try:
