@@ -12,6 +12,7 @@ SENSOR_PIN = 6
 
 switchTime = 0.1
 pulseCount = 0
+pulseCount2 = 0
 samplePeriod = 3 #seconds
 savePeriod = 300 #seconds
 wheelCircumference = 0.23 #meter
@@ -27,9 +28,11 @@ relay1 = GPIO.LED(RELAY_CH1)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
 
 def pulseCallback(self):
-   global pulseCount, lastPulse
+   global pulseCount, lastPulse, pulseCount2
    lastPulse = time.time()
    pulseCount = pulseCount + 1
+   pulseCount2 = pulseCount2 + 1
+
 
 sensor.when_released = pulseCallback
 
