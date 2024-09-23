@@ -35,7 +35,7 @@ if not os.path.isfile(databaseName):
    curs=conn.cursor()
    curs.execute("CREATE TABLE data(timestamp DATETIME, speed REAL);")
    conn.commit()
-   curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period NUMERIC, saving_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);")
+   curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period REAL, saving_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);")
    conn.commit()
    curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 0.5, 300, 0.25, 5000, 0, 0, 0, 0);")
    conn.commit()
