@@ -39,7 +39,7 @@ sensor.when_released = pulseCallback
 if not os.path.isfile(databaseName):
    conn = sqlite3.connect(databaseName)
    curs=conn.cursor()
-   curs.execute("CREATE TABLE data(timestamp DATETIME, speed REAL);")
+   curs.execute("CREATE TABLE data(timestamp DATETIME, speed REAL, length REAL);")
    conn.commit()
    curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period REAL, saving_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);")
    conn.commit()
@@ -47,11 +47,11 @@ if not os.path.isfile(databaseName):
    conn.commit()
    conn.close()
 
-def logData(speed):
+def logData(speed, length):
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
    print(type(speed))
-   curs.execute("INSERT INTO data values(datetime('now', 'localtime'), (?))", (speed,))
+   curs.execute("INSERT INTO data values(datetime('now', 'localtime'), (?), (?))", (speed, length))
    conn.commit()
    conn.close()
 
@@ -83,6 +83,7 @@ samplePeriod = getSamplingPeriod()
 savePeriod = getSavingPeriod()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
 runningAvgShort = deque(maxlen = 2)
+maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
 
 try:
@@ -91,14 +92,16 @@ try:
          time2 = time.time() 
          speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
          pulseCount = 0
+         length = pulseCount2 * wheelCircumference
+         maxLength.append(length)
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
-         print(runningAvgShort)
          print(mean(runningAvgShort))
+         print(length)
 
          if time.time() > time3 + savePeriod:
             time3 = time.time()
-            logData(round(mean(runningAvgLong), 2))
+            logData(round(mean(runningAvgLong), 2), max(maxLength))
             print('Logged')
 
       time.sleep(0.01)
