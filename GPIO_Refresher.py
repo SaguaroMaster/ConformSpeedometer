@@ -68,10 +68,11 @@ samplePeriod = getSamplingPeriod()
 try:
    while True:
       if time.time() > time2+samplePeriod:
+         time2 = time.time()
          speed = pulseCount * wheelCircumference
          pulseCount = 0
          print(speed)
-         time2 = time.time()
+      time.sleep(0.1)
 
 
 except KeyboardInterrupt:
