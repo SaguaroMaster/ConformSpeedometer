@@ -2,6 +2,8 @@ import gpiozero as GPIO
 import time
 import sqlite3
 import os
+from collections import deque
+from statistics import mean
 
 RELAY_CH1 = 26
 RELAY_CH2 = 20
@@ -10,7 +12,8 @@ SENSOR_PIN = 6
 
 switchTime = 0.1
 pulseCount = 0
-samplePeriod = 60 #seconds
+samplePeriod = 3 #seconds
+savePeriod = 300 #seconds
 wheelCircumference = 0.25 #meter
 time_old = time.time()
 time1 = time_old
@@ -32,9 +35,9 @@ if not os.path.isfile(databaseName):
    curs=conn.cursor()
    curs.execute("CREATE TABLE data(timestamp DATETIME, speed REAL);")
    conn.commit()
-   curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);")
+   curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period NUMERIC, saving_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);")
    conn.commit()
-   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 3, 0.25, 5000, 0, 0, 0, 0);")
+   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 3, 300, 0.25, 5000, 0, 0, 0, 0);")
    conn.commit()
    conn.close()
 
@@ -58,19 +61,36 @@ def getSamplingPeriod():
 	conn.close()
 	return samplingPeriod
 
+def getSavingPeriod():
+	conn=sqlite3.connect(databaseName)
+	curs=conn.cursor()
+	for row in curs.execute("SELECT saving_period FROM settings ORDER BY timestamp DESC LIMIT 1"):
+		savingPeriod = row[0]
+		if savingPeriod > 1800 : 
+			savingPeriod = 1800
+		elif savinggPeriod < 10 :
+			savingPeriod = 10
+	conn.close()
+	return savingPeriod
+
 samplePeriod = getSamplingPeriod()
+savePeriod = getSavingPeriod()
+runningAvg = deque(maxlen = savePeriod / samplePeriod)
+
 
 try:
    while True:
       if time.time() > time2+samplePeriod:
          time2 = time.time() 
-         speed = pulseCount * wheelCircumference * (60.0 / samplePeriod)
+         speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
          pulseCount = 0
+         runningAvg.append(speed)
          print(speed)
 
-         if time.time() > time3 + 5:
+         if time.time() > time3 + savingPeriod:
             time3 = time.time()
-            logData(speed)
+            logData(mean(runningAvg))
+            print(runningAvg)
 
       time.sleep(0.01)
 
