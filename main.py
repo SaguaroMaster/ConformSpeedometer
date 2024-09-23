@@ -4,6 +4,8 @@ import sqlite3
 import os
 from collections import deque
 from statistics import mean
+from tkinter import *
+from tkinter import ttk
 
 RELAY_CH1 = 26
 RELAY_CH2 = 20
