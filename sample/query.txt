@@ -1,0 +1,13 @@
+to set up database:
+CREATE TABLE data(timestamp DATETIME, power NUMERIC, energy NUMERIC);
+CREATE TABLE monthly_sum(timestamp DATETIME, daily_avg NUMERIC, monthly_total NUMERIC);
+CREATE TABLE daily_sum(timestamp DATETIME, daily_total NUMERIC);
+CREATE TABLE settings(timestamp DATETIME, sampling_period NUMERIC, language varchar(255), theme varchar(255));
+INSERT INTO settings values(datetime('now', 'localtime'), 60, 'en', 'light');
+
+to start thigs on boot do in shell in home directory:
+cp HomePowerMeter/startup.sh startup.sh
+sudo chmod +x startup.sh
+crontab-e
+and write after the comments
+@reboot /home/pi/startup.sh
