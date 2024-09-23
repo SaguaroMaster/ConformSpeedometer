@@ -87,7 +87,7 @@ try:
          runningAvg.append(speed)
          print(speed)
 
-         if time.time() > time3 + savingPeriod:
+         if time.time() > time3 + savePeriod:
             time3 = time.time()
             logData(mean(runningAvg))
             print(runningAvg)
