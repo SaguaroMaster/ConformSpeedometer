@@ -90,7 +90,7 @@ try:
          pulseCount = 0
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
-         print(round(runningAvgShort, 2))
+         print(runningAvgShort)
 
          if time.time() > time3 + savePeriod:
             time3 = time.time()
