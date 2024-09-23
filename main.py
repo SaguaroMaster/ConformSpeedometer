@@ -88,7 +88,7 @@ try:
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
          print(mean(runningAvgShort))
-         print samplePeriod
+         print(samplePeriod)
 
          if time.time() > time3 + savePeriod:
             time3 = time.time()
