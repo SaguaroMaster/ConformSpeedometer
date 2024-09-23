@@ -56,8 +56,8 @@ def getSamplingPeriod():
 		samplingPeriod = row[0]
 		if samplingPeriod > 900 : 
 			samplingPeriod = 900
-		elif samplingPeriod < 1 :
-			samplingPeriod = 1
+		elif samplingPeriod < 0.01 :
+			samplingPeriod = 0.01
 	conn.close()
 	return samplingPeriod
 
