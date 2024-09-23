@@ -14,7 +14,7 @@ switchTime = 0.1
 pulseCount = 0
 samplePeriod = 3 #seconds
 savePeriod = 300 #seconds
-wheelCircumference = 0.25 #meter
+wheelCircumference = 0.23 #meter
 time_old = time.time()
 time1 = time_old
 time2 = time1
@@ -40,7 +40,7 @@ if not os.path.isfile(databaseName):
    conn.commit()
    curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period REAL, saving_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);")
    conn.commit()
-   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 0.5, 300, 0.25, 5000, 0, 0, 0, 0);")
+   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 3, 300, 0.23, 5000, 0, 0, 0, 0);")
    conn.commit()
    conn.close()
 
@@ -79,7 +79,7 @@ def getSavingPeriod():
 samplePeriod = getSamplingPeriod()
 savePeriod = getSavingPeriod()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
-runningAvgShort = deque(maxlen = 10)
+runningAvgShort = deque(maxlen = 2)
 
 
 try:
@@ -87,12 +87,10 @@ try:
       if time.time() > time2 + samplePeriod:
          time2 = time.time() 
          speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
-         speed2 = round( 1 / (time.time() - lastPulse) * wheelCircumference * 60, 2 )
          pulseCount = 0
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
          print(speed)
-         print(speed2)
 
          if time.time() > time3 + savePeriod:
             time3 = time.time()
