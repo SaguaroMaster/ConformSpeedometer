@@ -21,7 +21,6 @@ sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_stat
 
 def pulseCallback(self):
    global pulseCount
-   global speed
    global time_old
    pulseCount = pulseCount + 1
    time1 = time.time()
@@ -42,10 +41,35 @@ if not os.path.isfile(databaseName):
    conn.commit()
    conn.close()
 
+def logData(speed):
+	
+	conn=sqlite3.connect(databaseName)
+	curs=conn.cursor()
+
+	curs.execute("INSERT INTO data values(datetime('now', 'localtime'), (?))", (speed))
+	conn.commit()
+	conn.close()
+
+def getSamplingPeriod():
+	conn=sqlite3.connect(databaseName)
+	curs=conn.cursor()
+	for row in curs.execute("SELECT sampling_period FROM settings ORDER BY timestamp DESC LIMIT 1"):
+		samplingPeriod = row[0]
+		if samplingPeriod > 900 : 
+			samplingPeriod = 900
+		elif samplingPeriod < 1 :
+			samplingPeriod = 1
+	conn.close()
+	return samplingPeriod
+
+samplePeriod = getSamplingPeriod()
+
 try:
    while True:
       if time.time() > time1+samplePeriod:
-         time1 = time.time()
+         speed = pulseCount * wheelCircumference
+         print(speed)
+         pulseCount = 0
          time.sleep(100)
 
 except KeyboardInterrupt:
