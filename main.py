@@ -90,11 +90,11 @@ try:
          pulseCount = 0
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
-         print(speed)
+         print(round(runningAvgShort, 2))
 
          if time.time() > time3 + savePeriod:
             time3 = time.time()
-            logData(mean(runningAvgLong))
+            logData(round(mean(runningAvgLong), 2))
             print('Logged')
 
       time.sleep(0.01)
