@@ -75,7 +75,8 @@ def getSavingPeriod():
 
 samplePeriod = getSamplingPeriod()
 savePeriod = getSavingPeriod()
-runningAvg = deque(maxlen = int(savePeriod / samplePeriod))
+runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
+runningAvgShort = deque(maxlen = 5)
 
 
 try:
@@ -84,13 +85,14 @@ try:
          time2 = time.time() 
          speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
          pulseCount = 0
-         runningAvg.append(speed)
-         print(speed)
+         runningAvgLong.append(speed)
+         runningAvgShort.append(speed)
+         print(mean(runningAvgShort))
 
          if time.time() > time3 + savePeriod:
             time3 = time.time()
-            logData(mean(runningAvg))
-            print(runningAvg)
+            logData(mean(runningAvgLong))
+            print('Logged')
 
       time.sleep(0.01)
 
