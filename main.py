@@ -87,7 +87,7 @@ try:
       if time.time() > time2 + samplePeriod:
          time2 = time.time() 
          speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
-         speed2 = 1 / (time.time() - lastPulse) * wheelCircumference * 60
+         speed2 = round( 1 / (time.time() - lastPulse) * wheelCircumference * 60, 2 )
          pulseCount = 0
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
