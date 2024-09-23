@@ -20,12 +20,17 @@ time1 = time_old
 time2 = time1
 time3 = time2
 databaseName = 'Database.db'
+timeDiff = 0
 
 relay1 = GPIO.LED(RELAY_CH1)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
 
 def pulseCallback(self):
    global pulseCount
+   global timeDiff
+   timeDiff = time.time() - time_old
+   time_old = time.time()
+   print(timeDiff)
    pulseCount = pulseCount + 1
 
 sensor.when_released = pulseCallback
@@ -88,7 +93,6 @@ try:
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
          print(mean(runningAvgShort))
-         print(samplePeriod)
 
          if time.time() > time3 + savePeriod:
             time3 = time.time()
