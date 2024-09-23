@@ -31,16 +31,16 @@ def pulseCallback(self):
 
 sensor.when_released = pulseCallback
 
-if  not os.path.isfile(databaseName):
+if not os.path.isfile(databaseName):
    conn = sqlite3.connect(databaseName)
    curs=conn.cursor()
-	curs.execute("CREATE TABLE data(timestamp DATETIME, speed NUMERIC);")
-	conn.commit()
+   curs.execute("CREATE TABLE data(timestamp DATETIME, speed NUMERIC);")
+   conn.commit()
    curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC;")
-	conn.commit()
+   conn.commit()
    curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 1, 0.25, 5000, 0, 0, 0, 0);")
    conn.commit()
-	conn.close()
+   conn.close()
 
 try:
    while True:
