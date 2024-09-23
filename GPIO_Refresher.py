@@ -70,7 +70,7 @@ try:
    while True:
       if time.time() > time2+samplePeriod:
          time2 = time.time()
-         speed = pulseCount * wheelCircumference * (60/samplePeriod)
+         speed = pulseCount * wheelCircumference * (60.0/samplePeriod)
          pulseCount = 0
          print(speed)
 
