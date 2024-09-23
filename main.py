@@ -41,7 +41,6 @@ if not os.path.isfile(databaseName):
 def logData(speed):
 	conn=sqlite3.connect(databaseName)
 	curs=conn.cursor()
-   print(speed)
    print(type(speed))
 	curs.execute("INSERT INTO data values(datetime('now', 'localtime'), (?))", (speed))
 	conn.commit()
