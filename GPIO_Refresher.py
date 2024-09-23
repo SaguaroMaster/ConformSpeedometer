@@ -68,9 +68,8 @@ try:
    while True:
       if time.time() > time1+samplePeriod:
          speed = pulseCount * wheelCircumference
-         print(speed)
          pulseCount = 0
-         time.sleep(100)
+         print(speed)
 
 except KeyboardInterrupt:
    print("Terminating program...")
