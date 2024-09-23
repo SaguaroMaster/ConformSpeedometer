@@ -35,7 +35,7 @@ sensor.when_released = pulseCallback
 if not os.path.isfile(databaseName):
    conn = sqlite3.connect(databaseName)
    curs=conn.cursor()
-   curs.execute("CREATE TABLE data(timestamp DATETIME, speed NUMERIC);")
+   curs.execute("CREATE TABLE data(timestamp DATETIME, speed REAL);")
    conn.commit()
    curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);")
    conn.commit()
@@ -69,8 +69,8 @@ samplePeriod = getSamplingPeriod()
 try:
    while True:
       if time.time() > time2+samplePeriod:
-         time2 = time.time()
-         speed = pulseCount * wheelCircumference * (60.0/samplePeriod)
+         time2 = time.time() 
+         speed = pulseCount * wheelCircumference * (60.0 / samplePeriod)
          pulseCount = 0
          print(speed)
 
