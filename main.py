@@ -91,6 +91,7 @@ try:
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
          print(runningAvgShort)
+         print(mean(runningAvgShort))
 
          if time.time() > time3 + savePeriod:
             time3 = time.time()
