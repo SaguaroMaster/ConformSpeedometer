@@ -21,7 +21,7 @@ RELAY_CH1_Line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
 RELAY_CH2_Line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
 RELAY_CH3_Line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
 
-sensor_line.request(consumer="Sensor", type=gpiod.LINE_REQ_DIR_IN)
+sensor_line.request(consumer="Sensor", type=gpiod.LINE_REQ_DIR_IN, flags=gpiod.LINE_REQ_FLAG_BIAS_PULL_NONE)
 
 try:
    while True:
