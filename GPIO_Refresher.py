@@ -23,12 +23,7 @@ sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_stat
 
 def pulseCallback(self):
    global pulseCount
-   global time_old
    pulseCount = pulseCount + 1
-   time1 = time.time()
-   speed = (1 / (time1 - time_old)) * wheelCircumference * 60
-   time_old = time1
-   #print(speed)
 
 sensor.when_released = pulseCallback
 
@@ -44,7 +39,6 @@ if not os.path.isfile(databaseName):
    conn.close()
 
 def logData(speed):
-	
 	conn=sqlite3.connect(databaseName)
 	curs=conn.cursor()
 
@@ -75,7 +69,7 @@ try:
          print(speed)
          print(type(speed))
 
-         if time.time() > time3 + 60:
+         if time.time() > time3 + 5:
             time3 = time.time()
             logData(speed)
 
