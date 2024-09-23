@@ -26,8 +26,7 @@ relay1 = GPIO.LED(RELAY_CH1)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
 
 def pulseCallback(self):
-   global pulseCount
-   global timeDiff time_old
+   global pulseCount, timeDiff, time_old
    timeDiff = time.time() - time_old
    time_old = time.time()
    print(timeDiff)
