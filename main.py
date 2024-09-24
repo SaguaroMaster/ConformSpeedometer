@@ -31,12 +31,13 @@ alarmState = 0
 lengthTarget = 1000
 unlockFlag = 0
 unlockDuration = 30
+speed2 = 0
 
 relay1 = GPIO.LED(RELAY_CH1, active_high=False)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
 
 def pulseCallback(self):
-   global pulseCount, lastPulse, pulseCount2
+   global pulseCount, lastPulse, pulseCount2, speed2
    pulseCount = pulseCount + 1
    pulseCount2 = pulseCount2 + 1
 
