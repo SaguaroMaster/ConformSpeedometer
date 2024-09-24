@@ -179,7 +179,7 @@ MeterText2 = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, p
 ButtonCounterReset = Button(root, text = 'RESET COUNTER', font=('bold', 25), command = resetLength, height = 2, bg = ResetButtonColor).grid(row=10,column=9, padx=(10,10), columnspan = 9)
 ButtonAlarmReset = Button(root, text = 'RESET ALARM', font=('bold', 25), command = resetAlarm, height = 2, bg = ResetButtonColor).grid(row=12,column=9, padx=(10,10), columnspan = 9)
 
-Unlock = Button(root, text = 'U N L O C K', font=('bold', 20), command = lambda: unclockSetting, height = 1, width = 2).grid(row=5,column=5, padx=(10,10), columnspan = 10)
+Unlock = Button(root, text = 'U N L O C K', font=('bold', 20), command = lambda: unclockSetting, height = 1).grid(row=5,column=5, padx=(10,10), columnspan = 10)
 Plus1 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1), height = 1, width = 2, bg = TargetButtonColor).grid(row=11,column=6, padx=(10,10))
 Plus10 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(10), height = 1, width = 2, bg = TargetButtonColor).grid(row=11,column=5, padx=(10,10))
 Plus100 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(100), height = 1, width = 2, bg = TargetButtonColor).grid(row=11,column=4, padx=(10,10))
