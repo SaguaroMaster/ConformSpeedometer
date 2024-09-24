@@ -25,6 +25,7 @@ time3 = time2
 lastPulse = 0
 databaseName = 'Database.db'
 timeDiff = 0
+alarmState = 0
 
 relay1 = GPIO.LED(RELAY_CH1)
 relay1.off()
@@ -82,6 +83,14 @@ def getSavingPeriod():
 	conn.close()
 	return savingPeriod
 
+def resetLength():
+   global length
+   length = 0
+
+def resetAlarm():
+   global alarmState
+   alarmState = 0
+
 samplePeriod = getSamplingPeriod()
 savePeriod = getSavingPeriod()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
@@ -96,14 +105,14 @@ root.after(50, root.wm_attributes, '-fullscreen', 'true')
 SpeedString = StringVar(value=0.00)
 LengthString = StringVar(value=0.00)
 
-SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 150)).grid(row=2, column=1, padx=(10,0), columnspan=2)
-LengthVarString = Label(root, textvariable = LengthString, font=('bold', 150)).grid(row=4, column=1, padx=(10,0), columnspan=2)
+SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=1, padx=(10,0), columnspan=2)
+LengthVarString = Label(root, textvariable = LengthString, font=('bold', 130)).grid(row=4, column=1, padx=(10,0), columnspan=2)
 
 
-SpeedText = Label(root, text = 'SPEED: ', font=('bold', 70)).grid(row=1, column=1, pady=(15,15))
-LengthText = Label(root, text = 'LENGTH: ', font=('bold', 70)).grid(row=3, column=1, pady=(15,15))
-MeterMinText = Label(root, text = 'm/min', font=('bold', 60)).grid(row=2, column=3, padx=(10,0))
-MeterText = Label(root, text = 'm', font=('bold', 60)).grid(row=4, column=3, padx=(10,0))
+SpeedText = Label(root, text = 'SPEED: ', font=('bold', 40)).grid(row=1, column=1, pady=(15,15))
+LengthText = Label(root, text = 'LENGTH: ', font=('bold', 40)).grid(row=3, column=1, pady=(15,15))
+MeterMinText = Label(root, text = 'm/min', font=('bold', 80)).grid(row=2, column=3, padx=(10,0))
+MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=3, padx=(10,0))
 
 
 
