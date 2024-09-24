@@ -90,6 +90,7 @@ maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
 root = Tk()
 root.title('FDM 1.75 mm Filament Diameter and Color Meter')
+root.after(1000, win.wm_attributes, '-fullscreen', 'true')
 
 SpeedString = StringVar(value=0)
 LengthString = StringVar(value=0)
