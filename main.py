@@ -127,4 +127,3 @@ try:
 
 except:
    print("Terminating program...")
-   break
