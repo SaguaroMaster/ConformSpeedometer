@@ -42,8 +42,8 @@ def pulseCallback(self):
 
    if time.time() > lastPulse + 3:
          speed2 = 0
-      else:
-         speed2 = 60 / (time.time() - lastPulse) * wheelCircumference
+   else:
+      speed2 = 60 / (time.time() - lastPulse) * wheelCircumference
 
    lastPulse = time.time()
 
