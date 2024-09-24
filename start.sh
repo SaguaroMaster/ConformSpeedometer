@@ -1,2 +1,2 @@
 #!/bin/bash
-python3 /home/kberta/ConformSpeedometer/main.py && fg
+python3 /home/kberta/ConformSpeedometer/main.py
