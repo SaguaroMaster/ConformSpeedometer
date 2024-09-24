@@ -41,7 +41,6 @@ def pulseCallback(self):
    pulseCount = pulseCount + 1
    pulseCount2 = pulseCount2 + 1
 
-
 sensor.when_released = pulseCallback
 
 if not os.path.isfile(databaseName):
@@ -199,6 +198,12 @@ Plus10000.grid(row=11,column=2, padx=(10,10))
 while True:
    if time.time() > time2 + samplePeriod:
       time2 = time.time() 
+
+      if time.time() > lastPulse + 3:
+         speed2 = 0
+      else:
+         speed2 = 60 / (time.time() - lastPulse) * wheelCircumference
+
       speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
       pulseCount = 0
       length = pulseCount2 * wheelCircumference
@@ -231,8 +236,11 @@ while True:
       Plus1000.config(state = DISABLED)
       Plus10000.config(state = DISABLED)
 
-   SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
-   LengthString.set('{0: 08.1f}'.format(length))
+   SpeedString.set('{0: 06.1f}'.format(speed))
+   LengthString.set('{0: 08.1f}'.format(speed2))
+
+   #SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
+   #LengthString.set('{0: 08.1f}'.format(length))
    Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
    Digit10String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 1)))
    Digit100String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 2)))
