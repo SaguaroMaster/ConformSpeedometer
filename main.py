@@ -98,12 +98,12 @@ def setLength(length):
       else:
          lengthTarget = lengthTarget + 10
    elif length == 100:
-      if getDigit(lengthTarget, 1) == 9:
+      if getDigit(lengthTarget, 2) == 9:
          lengthTarget = lengthTarget - 900
       else:
          lengthTarget = lengthTarget + 100
    elif length == 1000:
-      if getDigit(lengthTarget, 1) == 9:
+      if getDigit(lengthTarget, 3) == 9:
          lengthTarget = lengthTarget - 9000
       else:
          lengthTarget = lengthTarget + 1000
