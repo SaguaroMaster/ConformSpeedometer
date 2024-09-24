@@ -22,12 +22,15 @@ time_old = time.time()-5
 time1 = time_old
 time2 = time1
 time3 = time2
+unlockTime = time.time()
 alarmTime1 = time1
 lastPulse = 0
 databaseName = 'Database.db'
 timeDiff = 0
 alarmState = 0
 lengthTarget = 1000
+unlockFlag = 0
+unlockDuration = 30
 
 relay1 = GPIO.LED(RELAY_CH1, active_high=False)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
@@ -208,7 +211,20 @@ try:
          alarmState = 1
          setAlarm()
 
-
+      if unlockFlag == 1:
+         Plus1.config(state = NORMAL)
+         Plus10.config(state = NORMAL)
+         Plus100.config(state = NORMAL)
+         Plus1000.config(state = NORMAL)
+         Plus10000.config(state = NORMAL)
+         unlockFlag = 0
+         unlockTime = time.time()
+      elif unlockFlag == 0 and time.time() > unlockTime + unlockDuration:
+         Plus1.config(state = DISABLED)
+         Plus10.config(state = DISABLED)
+         Plus100.config(state = DISABLED)
+         Plus1000.config(state = DISABLED)
+         Plus10000.config(state = DISABLED)
 
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 08.1f}'.format(length))
