@@ -205,14 +205,17 @@ Plus10000.grid(row=11,column=2, padx=(10,10))
 #try:
 while True:
    if time.time() > time2 + samplePeriod:
-      time2 = time.time() 
+      time2 = time.time()
+
+      if time2 > lastPulse + maxPulseInterval:
+         speed = 0
 
       #speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
       pulseCount = 0
       length = pulseCount2 * wheelCircumference
       maxLength.append(length)
-      runningAvgLong.append(speed2)
-      runningAvgShort.append(speed2)
+      runningAvgLong.append(speed)
+      runningAvgShort.append(speed)
 
       if time.time() > time3 + savePeriod:
          time3 = time.time()
