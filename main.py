@@ -96,9 +96,11 @@ LengthString = StringVar(value=0)
 
 SpeedVarString = Label(root, textvariable = SpeedString)
 LengthVarString = Label(root, textvariable = LengthString)
+SpeedText = Label(root, text = 'LINE SPEED: ', font='bold').grid(row=1, column=1, columnspan=3)
+LengthText = Label(root, text = 'LENGTH: ', font='bold').grid(row=2, column=1, columnspan=3)
 
-SpeedVarString.grid(row=1, column=1)
-LengthVarString.grid(row=2, column=1)
+SpeedVarString.grid(row=1, column=2, columnspan=3)
+LengthVarString.grid(row=2, column=2, columnspan=3)
 
 try:
    while True:
