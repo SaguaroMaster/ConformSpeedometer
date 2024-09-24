@@ -27,6 +27,7 @@ databaseName = 'Database.db'
 timeDiff = 0
 
 relay1 = GPIO.LED(RELAY_CH1)
+relay1.off()
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
 
 def pulseCallback(self):
