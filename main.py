@@ -31,7 +31,7 @@ alarmState = 0
 lengthTarget = 1000
 unlockFlag = 0
 unlockDuration = 30
-speed2 = 0
+speed = 0
 maxPulseInterval = 3
 
 
