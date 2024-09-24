@@ -164,7 +164,7 @@ MeterText2 = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, p
 
 ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 10), command = resetLength, height = 5, width = 15).grid(row=10,column=8, padx=(10,10))
 
-Plus10 = Button(root, text = '+', font=('bold', size=10), command = lambda: setLength(10), height = 5, width = 5).grid(row=11,column=5, padx=(10,10))
+Plus10 = Button(root, text = '+', font=('bold', 100), command = lambda: setLength(10), height = 5, width = 5).grid(row=11,column=5, padx=(10,10))
 Plus100 = Button(root, text = '+', font=('bold', 10), command = lambda: setLength(100), height = 5, width = 5).grid(row=11,column=4, padx=(10,10))
 Plus1000 = Button(root, text = '+', font=('bold', 10), command = lambda: setLength(1000), height = 5, width = 5).grid(row=11,column=3, padx=(10,10))
 Plus10000 = Button(root, text = '+', font=('bold', 10), command = lambda: setLength(10000), height = 5, width = 5).grid(row=11,column=2, padx=(10,10))
