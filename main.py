@@ -96,14 +96,14 @@ root.after(50, root.wm_attributes, '-fullscreen', 'true')
 SpeedString = StringVar(value=0.00)
 LengthString = StringVar(value=0.00)
 
-SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 150)).grid(row=2, column=1, padx=(10,0))
-LengthVarString = Label(root, textvariable = LengthString, font=('bold', 150)).grid(row=4, column=1, padx=(10,0))
+SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 150)).grid(row=2, column=1, padx=(10,0), columnspan=2)
+LengthVarString = Label(root, textvariable = LengthString, font=('bold', 150)).grid(row=4, column=1, padx=(10,0), columnspan=2)
 
 
 SpeedText = Label(root, text = 'SPEED: ', font=('bold', 70)).grid(row=1, column=1, pady=(30,30))
 LengthText = Label(root, text = 'LENGTH: ', font=('bold', 70)).grid(row=3, column=1, pady=(30,30))
-MeterMinText = Label(root, text = 'm/min', font=('bold', 60)).grid(row=2, column=2, padx=(10,0))
-MeterText = Label(root, text = 'm', font=('bold', 60)).grid(row=4, column=2, padx=(10,0))
+MeterMinText = Label(root, text = 'm/min', font=('bold', 60)).grid(row=2, column=3, padx=(10,0))
+MeterText = Label(root, text = 'm', font=('bold', 60)).grid(row=4, column=3, padx=(10,0))
 
 
 
