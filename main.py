@@ -145,8 +145,8 @@ Digit100String = StringVar(value=0)
 Digit1000String = StringVar(value=0)
 Digit10000String = StringVar(value=0)
 
-SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=3, padx=(10,0), columnspan=12)
-LengthVarString = Label(root, textvariable = LengthString, font=('bold', 130)).grid(row=4, column=3, padx=(10,0), columnspan=12)
+SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=3, padx=(0,0), columnspan=12)
+LengthVarString = Label(root, textvariable = LengthString, font=('bold', 130)).grid(row=4, column=3, padx=(0,0), columnspan=12)
 
 Digit10000VarString = Label(root, textvariable = Digit10000String, font=('bold', 40)).grid(row=10, column=2, padx=(0,0))
 Digit1000VarString = Label(root, textvariable = Digit1000String, font=('bold', 40)).grid(row=10, column=3, padx=(0,0))
