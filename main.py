@@ -115,7 +115,7 @@ LengthText = Label(root, text = 'LENGTH: ', font=('bold', 40)).grid(row=3, colum
 MeterMinText = Label(root, text = 'm/min', font=('bold', 80)).grid(row=2, column=3, padx=(10,0))
 MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=3, padx=(10,0))
 
-AlarmSetting = NumpadEntry(root, width=15).grid(row=10, column=1)
+AlarmSetting = numpad.NumpadEntry(root, width=15).grid(row=10, column=1)
 
 
 
