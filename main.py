@@ -18,7 +18,7 @@ pulseCount2 = 0
 samplePeriod = 3 #seconds
 savePeriod = 300 #seconds
 wheelCircumference = 0.23 #meter
-time_old = time.time()
+time_old = time.time()-5
 time1 = time_old
 time2 = time1
 time3 = time2
@@ -107,10 +107,6 @@ MeterText = Label(root, text = 'm', font=('bold', 60)).grid(row=2, column=3, pad
 
 
 try:
-   
-   SpeedString.set('%.2f'%round(mean(runningAvgShort), 2))
-   LengthString.set('%.2f'%length)
-
    while True:
       if time.time() > time2 + samplePeriod:
          time2 = time.time() 
