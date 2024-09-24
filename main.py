@@ -93,17 +93,17 @@ def setLength(length):
    lengthTarget = int(lengthTarget)
 
    if length == 10:
-      if getDigit(lengthTarget, 1) > 9:
+      if getDigit(lengthTarget, 1) == 9:
          lengthTarget = lengthTarget - 90
       else:
          lengthTarget = lengthTarget + 10
    elif length == 100:
-      if getDigit(lengthTarget, 1) > 9:
+      if getDigit(lengthTarget, 1) == 9:
          lengthTarget = lengthTarget - 900
       else:
          lengthTarget = lengthTarget + 100
    elif length == 1000:
-      if getDigit(lengthTarget, 1) > 9:
+      if getDigit(lengthTarget, 1) == 9:
          lengthTarget = lengthTarget - 9000
       else:
          lengthTarget = lengthTarget + 1000
@@ -153,30 +153,30 @@ Plus1000 = Button(root, text = '+1000', font=('bold', 10), command = lambda: set
 
 
 
-#try:
-while True:
-   if time.time() > time2 + samplePeriod:
-      time2 = time.time() 
-      speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
-      pulseCount = 0
-      length = pulseCount2 * wheelCircumference
-      maxLength.append(length)
-      runningAvgLong.append(speed)
-      runningAvgShort.append(speed)
+try:
+   while True:
+      if time.time() > time2 + samplePeriod:
+         time2 = time.time() 
+         speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
+         pulseCount = 0
+         length = pulseCount2 * wheelCircumference
+         maxLength.append(length)
+         runningAvgLong.append(speed)
+         runningAvgShort.append(speed)
 
-      if time.time() > time3 + savePeriod:
-         time3 = time.time()
-         logData(round(mean(runningAvgLong), 2), max(maxLength))
-         print('Logged')
-   
-   SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
-   LengthString.set('{0: 07.1f}'.format(length))
-   AlarmLimitString.set('{0: 06.0f}'.format(lengthTarget))
-   
-   root.state()
-   root.update()
-   time.sleep(0.01)
+         if time.time() > time3 + savePeriod:
+            time3 = time.time()
+            logData(round(mean(runningAvgLong), 2), max(maxLength))
+            print('Logged')
+      
+      SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
+      LengthString.set('{0: 07.1f}'.format(length))
+      AlarmLimitString.set('{0: 05.0f}'.format(lengthTarget))
+      
+      root.state()
+      root.update()
+      time.sleep(0.01)
 
 
-#except:
-#   print("Terminating program...")
+except:
+   print("Terminating program...")
