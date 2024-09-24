@@ -157,7 +157,7 @@ Digit1VarString = Label(root, textvariable = Digit1String, font=('bold', 40)).gr
 
 SpeedText = Label(root, text = 'SPEED: ', font=('bold', 30)).grid(row=2, column=1, pady=(15,15), columnspan = 2)
 LengthText = Label(root, text = 'LENGTH: ', font=('bold', 30)).grid(row=4, column=1, pady=(15,15), columnspan = 2)
-LengthTargetText = Label(root, text = 'ALARM SETTING: ', font=('bold', 30)).grid(row=5, column=1, pady=(15,15), columnspan = 2)
+LengthTargetText = Label(root, text = 'ALARM SETTING: ', font=('bold', 30)).grid(row=5, column=1, pady=(15,15), columnspan = 4)
 MeterMinText = Label(root, text = 'm/min', font=('bold', 50)).grid(row=2, column=16, padx=(10,0), columnspan = 2)
 MeterText = Label(root, text = 'm', font=('bold', 50)).grid(row=4, column=16, padx=(10,0), columnspan = 2)
 MeterText2 = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, padx=(10,0), columnspan = 1)
