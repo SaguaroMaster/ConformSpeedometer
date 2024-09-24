@@ -92,8 +92,10 @@ def setLength(length):
 def resetLength():
    global length
    global pulseCount2
+   global alarmState
    length = 0
    pulseCount2 = 0
+   alarmState = 0
 
 def resetAlarm():
    global alarmState
@@ -125,7 +127,7 @@ MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=3, pad
 AlarmSetting = numpad.NumpadEntry(root, width=15).grid(row=10, column=1)
 AlarmSetting3 = Entry(root, width=15).grid(row=11, column=1)
 
-ButtonAlarmSetting = Button(root, text = 'RESET', command = resetLength).grid(row=10,column=2, padx=(10,10), pady=(10,10))
+ButtonAlarmSetting = Button(root, text = 'RESET', command = resetLength, height = 100, width = 100).grid(row=10,column=2, padx=(10,10), pady=(10,10))
 
 
 
@@ -145,7 +147,7 @@ try:
             logData(round(mean(runningAvgLong), 2), max(maxLength))
             print('Logged')
       
-      SpeedString.set('{0: 05.1f}'.format(round(mean(runningAvgShort), 1)))
+      SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 07.1f}'.format(length))
 
       try:  # try-except to not cause an exception when there are no/invalid characters in the text input field
