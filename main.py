@@ -91,6 +91,7 @@ def setLength(length):
 
 def resetLength():
    global length
+   global pulseCount2
    length = 0
    pulseCount2 = 0
 
