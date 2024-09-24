@@ -32,16 +32,18 @@ lengthTarget = 1000
 unlockFlag = 0
 unlockDuration = 30
 speed2 = 0
+maxPulseInterval = 3
+
 
 relay1 = GPIO.LED(RELAY_CH1, active_high=False)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
 
 def pulseCallback(self):
-   global pulseCount, lastPulse, pulseCount2, speed2
+   global pulseCount, lastPulse, pulseCount2, speed2, maxPulseInterval
    pulseCount = pulseCount + 1
    pulseCount2 = pulseCount2 + 1
 
-   if time.time() > lastPulse + 3:
+   if time.time() > lastPulse + maxPulseInterval:
          speed2 = 0
    else:
       speed2 = 60 / (time.time() - lastPulse) * wheelCircumference
@@ -53,19 +55,18 @@ sensor.when_released = pulseCallback
 if not os.path.isfile(databaseName):
    conn = sqlite3.connect(databaseName)
    curs=conn.cursor()
-   curs.execute("CREATE TABLE data(timestamp DATETIME, speed REAL, length REAL);")
+   curs.execute("CREATE TABLE data(timestamp DATETIME, speed REAL, length REAL, alarmSetting INT);")
    conn.commit()
    curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period REAL, saving_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);")
    conn.commit()
-   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 3, 300, 0.23, 5000, 0, 0, 0, 0);")
+   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 0.5, 300, 0.23, 5000, 0, 0, 0, 0);")
    conn.commit()
    conn.close()
 
-def logData(speed, length):
+def logData(speed, length, alarmSetting):
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
-   print(type(speed))
-   curs.execute("INSERT INTO data values(datetime('now', 'localtime'), (?), (?))", (speed, length))
+   curs.execute("INSERT INTO data values(datetime('now', 'localtime'), (?), (?), (?))", (speed, length, int(alarmSetting)))
    conn.commit()
    conn.close()
 
@@ -148,7 +149,7 @@ def unclockSetting():
 samplePeriod = getSamplingPeriod()
 savePeriod = getSavingPeriod()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
-runningAvgShort = deque(maxlen = 2)
+runningAvgShort = deque(maxlen = 5)
 maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
 
@@ -206,16 +207,16 @@ while True:
    if time.time() > time2 + samplePeriod:
       time2 = time.time() 
 
-      speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
+      #speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
       pulseCount = 0
       length = pulseCount2 * wheelCircumference
       maxLength.append(length)
-      runningAvgLong.append(speed)
-      runningAvgShort.append(speed)
+      runningAvgLong.append(speed2)
+      runningAvgShort.append(speed2)
 
       if time.time() > time3 + savePeriod:
          time3 = time.time()
-         logData(round(mean(runningAvgLong), 2), max(maxLength))
+         logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
          print('Logged')
    
 
@@ -238,11 +239,8 @@ while True:
       Plus1000.config(state = DISABLED)
       Plus10000.config(state = DISABLED)
 
-   SpeedString.set('{0: 06.1f}'.format(speed))
-   LengthString.set('{0: 08.1f}'.format(speed2))
-
-   #SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
-   #LengthString.set('{0: 08.1f}'.format(length))
+   SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
+   LengthString.set('{0: 08.1f}'.format(length))
    Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
    Digit10String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 1)))
    Digit100String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 2)))
