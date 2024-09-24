@@ -29,7 +29,7 @@ timeDiff = 0
 alarmState = 0
 lengthTarget = 1000
 
-relay1 = GPIO.LED(RELAY_CH1)
+relay1 = GPIO.LED(RELAY_CH1, active_high=False)
 relay1.off()
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
 
@@ -196,8 +196,7 @@ try:
       
       if length > lengthTarget:
          if time.time() > alarmTime1 + 1 :
-            relay1.on()
-            time.sleep(0.05)
+            relay1.blink(on_time=0.1, off_time=1)
             alarmTime1 = time.time()
          else:
             relay1.off()
