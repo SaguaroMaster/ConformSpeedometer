@@ -195,7 +195,12 @@ try:
             print('Logged')
       
       if length > lengthTarget:
-         relay1.blink(0.5)
+         if time.time() > alarmTime1 + 1 :
+            relay1.on()
+            time.sleep(0.05)
+            alarmTime1 = time.time()
+         else:
+            relay1.off()
 
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 08.1f}'.format(length))
