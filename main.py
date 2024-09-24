@@ -92,7 +92,12 @@ def setLength(length):
 
    lengthTarget = int(lengthTarget)
 
-   if length == 10:
+   if length == 1:
+      if getDigit(lengthTarget, 0) == 9:
+         lengthTarget = lengthTarget - 9
+      else:
+         lengthTarget = lengthTarget + 10
+   elif length == 10:
       if getDigit(lengthTarget, 1) == 9:
          lengthTarget = lengthTarget - 90
       else:
@@ -164,6 +169,7 @@ MeterText2 = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, p
 
 ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 10), command = resetLength, height = 5, width = 15).grid(row=10,column=8, padx=(10,10))
 
+Plus1 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1), height = 1, width = 2).grid(row=11,column=6, padx=(10,10))
 Plus10 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(10), height = 1, width = 2).grid(row=11,column=5, padx=(10,10))
 Plus100 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(100), height = 1, width = 2).grid(row=11,column=4, padx=(10,10))
 Plus1000 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1000), height = 1, width = 2).grid(row=11,column=3, padx=(10,10))
