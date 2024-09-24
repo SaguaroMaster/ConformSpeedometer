@@ -95,8 +95,8 @@ root.after(50, root.wm_attributes, '-fullscreen', 'true')
 SpeedString = StringVar(value=0.00)
 LengthString = StringVar(value=0.00)
 
-SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 150)).grid(row=1, column=2, padx=(10,0))
-LengthVarString = Label(root, textvariable = LengthString, font=('bold', 150)).grid(row=2, column=2, padx=(10,0))
+SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 150)).grid(row=1, column=2, padx=(10,0)).grid_propagate(False)
+LengthVarString = Label(root, textvariable = LengthString, font=('bold', 150)).grid(row=2, column=2, padx=(10,0)).grid_propagate(False)
 
 
 SpeedText = Label(root, text = 'SPEED: ', font=('bold', 70)).grid(row=1, column=1, pady=(30,30))
