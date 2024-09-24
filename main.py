@@ -39,7 +39,7 @@ relay1 = GPIO.LED(RELAY_CH1, active_high=False)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
 
 def pulseCallback(self):
-   global pulseCount, lastPulse, pulseCount2, speed2, maxPulseInterval
+   global pulseCount, lastPulse, pulseCount2, speed, maxPulseInterval
    pulseCount = pulseCount + 1
    pulseCount2 = pulseCount2 + 1
    speed = 60 / (time.time() - lastPulse) * wheelCircumference
