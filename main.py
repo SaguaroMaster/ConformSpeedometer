@@ -146,6 +146,7 @@ maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 root = Tk()
 root.title('Line Speed and Length Meter')
 root.after(50, root.wm_attributes, '-fullscreen', 'true')
+root.configure(background='white')
 
 SpeedString = StringVar(value=0)
 LengthString = StringVar(value=0)
