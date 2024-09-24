@@ -6,6 +6,7 @@ from collections import deque
 from statistics import mean
 from tkinter import *
 from tkinter import ttk
+import numpad
 
 RELAY_CH1 = 26
 RELAY_CH2 = 20
@@ -113,6 +114,8 @@ SpeedText = Label(root, text = 'SPEED: ', font=('bold', 40)).grid(row=1, column=
 LengthText = Label(root, text = 'LENGTH: ', font=('bold', 40)).grid(row=3, column=1, pady=(15,15))
 MeterMinText = Label(root, text = 'm/min', font=('bold', 80)).grid(row=2, column=3, padx=(10,0))
 MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=3, padx=(10,0))
+
+AlarmSetting = ttk.Entry(root, width=15).grid(row=10, column=1)
 
 
 
