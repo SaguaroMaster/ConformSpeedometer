@@ -88,6 +88,18 @@ runningAvgShort = deque(maxlen = 2)
 maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
 
+root = Tk()
+root.title('FDM 1.75 mm Filament Diameter and Color Meter')
+
+SpeedString = StringVar(value=0)
+LengthString = StringVar(value=0)
+
+SpeedVarString = Label(root, textvariable = SpeedString)
+LengthVarString = Label(root, textvariable = LengthString)
+
+SpeedVarString.grid(row=1, column=1)
+LengthVarString.grid(row=2, column=1)
+
 try:
    while True:
       if time.time() > time2 + samplePeriod:
@@ -100,12 +112,14 @@ try:
          runningAvgShort.append(speed)
          print(mean(runningAvgShort))
          print(length)
+         SpeedString.set('%.2f'%round(mean(runningAvgShort), 2))
 
          if time.time() > time3 + savePeriod:
             time3 = time.time()
             logData(round(mean(runningAvgLong), 2), max(maxLength))
             print('Logged')
 
+      root.update()
       time.sleep(0.01)
 
 
