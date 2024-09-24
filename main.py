@@ -208,14 +208,14 @@ try:
          alarmState = 1
          setAlarm()
 
-      if unlockFlag == 1:
+  '''    if unlockFlag == 1:
          Plus1.config(state = NORMAL)
          Plus10.config(state = NORMAL)
          Plus100.config(state = NORMAL)
          Plus1000.config(state = NORMAL)
          Plus10000.config(state = NORMAL)
          unlockFlag = 0
-
+'''
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 08.1f}'.format(length))
       Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
