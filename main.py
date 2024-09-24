@@ -195,7 +195,7 @@ try:
             print('Logged')
       
       if length > lengthTarget:
-         if time.time() > alarmTime1+.5
+         if time.time() > alarmTime1 + 0.5 :
             relay1.on()
             alarmTime1 = time.time()
          else
