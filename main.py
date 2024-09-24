@@ -121,6 +121,7 @@ MeterMinText = Label(root, text = 'm/min', font=('bold', 80)).grid(row=2, column
 MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=3, padx=(10,0))
 
 AlarmSetting = numpad.NumpadEntry(root, width=15).grid(row=10, column=1)
+AlarmSetting = Entry(root, width=15).grid(row=11, column=1)
 
 ButtonAlarmSetting = Button(root, text = 'SET', command = lambda: setLength(0)).grid(row=10,column=2, padx=(10,10), pady=(10,10))
 
