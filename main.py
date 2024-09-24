@@ -90,7 +90,7 @@ maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
 root = Tk()
 root.title('FDM 1.75 mm Filament Diameter and Color Meter')
-root.after(400, root.wm_attributes, '-fullscreen', 'true')
+root.after(50, root.wm_attributes, '-fullscreen', 'true')
 
 SpeedString = StringVar(value=0.00)
 LengthString = StringVar(value=0.00)
@@ -99,10 +99,10 @@ SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 100)).gri
 LengthVarString = Label(root, textvariable = LengthString, font=('bold', 100)).grid(row=2, column=2, padx=(10,0))
 
 
-SpeedText = Label(root, text = 'SPEED: ', font=('bold', 70)).grid(row=1, column=1, pady=(10,10))
-LengthText = Label(root, text = 'LENGTH: ', font=('bold', 70)).grid(row=2, column=1, pady=(10,10))
-MeterMinText = Label(root, text = 'm/min', font=('bold', 60)).grid(row=1, column=3)
-MeterText = Label(root, text = 'm', font=('bold', 60)).grid(row=2, column=3)
+SpeedText = Label(root, text = 'SPEED: ', font=('bold', 70)).grid(row=1, column=1, pady=(30,30))
+LengthText = Label(root, text = 'LENGTH: ', font=('bold', 70)).grid(row=2, column=1, pady=(30,30))
+MeterMinText = Label(root, text = 'm/min', font=('bold', 60)).grid(row=1, column=3, padx=(10,0))
+MeterText = Label(root, text = 'm', font=('bold', 60)).grid(row=2, column=3, padx=(10,0))
 
 
 
