@@ -118,8 +118,10 @@ try:
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
 
-         SpeedString.set('%03.2r'%round(mean(runningAvgShort), 2))
-         LengthString.set('%04.2r'%length)
+         #SpeedString.set('%03.2f'%round(mean(runningAvgShort), 2))
+         LengthString.set('%04.2f'%length)
+
+         SpeedString.set('{0: 011.3f}'.format(mean(runningAvgShort), 2))
 
          if time.time() > time3 + savePeriod:
             time3 = time.time()
