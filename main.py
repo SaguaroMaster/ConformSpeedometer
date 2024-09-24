@@ -125,5 +125,6 @@ try:
       time.sleep(0.01)
 
 
-except KeyboardInterrupt:
+except:
    print("Terminating program...")
+   break
