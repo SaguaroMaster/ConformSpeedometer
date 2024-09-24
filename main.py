@@ -96,7 +96,7 @@ def setLength(length):
       if getDigit(lengthTarget, 0) == 9:
          lengthTarget = lengthTarget - 9
       else:
-         lengthTarget = lengthTarget + 10
+         lengthTarget = lengthTarget + 1
    elif length == 10:
       if getDigit(lengthTarget, 1) == 9:
          lengthTarget = lengthTarget - 90
@@ -195,7 +195,6 @@ try:
       
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 08.1f}'.format(length))
-      #AlarmLimitString.set('{0: 06.0f}'.format(lengthTarget))
       Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
       Digit10String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 1)))
       Digit100String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 2)))
