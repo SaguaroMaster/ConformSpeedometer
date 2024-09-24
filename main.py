@@ -91,7 +91,6 @@ maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 root = Tk()
 root.title('FDM 1.75 mm Filament Diameter and Color Meter')
 root.after(50, root.wm_attributes, '-fullscreen', 'true')
-root.grid_propagate(False)
 
 SpeedString = StringVar(value=0.00)
 LengthString = StringVar(value=0.00)
@@ -118,8 +117,8 @@ try:
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
 
-         SpeedString.set('%.2f'%round(mean(runningAvgShort), 2))
-         LengthString.set('%.2f'%length)
+         SpeedString.set('%03.2f'%round(mean(runningAvgShort), 2))
+         LengthString.set('%04.2f'%length)
 
          if time.time() > time3 + savePeriod:
             time3 = time.time()
