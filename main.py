@@ -177,7 +177,7 @@ try:
       
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 08.1f}'.format(length))
-      AlarmLimitString.set('{0: 05.0f}'.format(lengthTarget))
+      AlarmLimitString.set('{0: 06.0f}'.format(lengthTarget))
       
       root.state()
       root.update()
