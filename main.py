@@ -84,15 +84,29 @@ def getSavingPeriod():
 	conn.close()
 	return savingPeriod
 
+def getDigit(number, n):
+    return number // 10**n % 10
+
 def setLength(length):
    global lengthTarget
 
+   lengthTarget = int(lengthTarget)
+
    if length == 10:
-      lengthTarget = lengthTarget + 10
+      if getDigit(lengthTarget, 1) > 9:
+         lengthTarget = lengthTarget - 90
+      else:
+         lengthTarget = lengthTarget + 10
    elif length == 100:
-      lengthTarget = lengthTarget + 100
+      if getDigit(lengthTarget, 1) > 9:
+         lengthTarget = lengthTarget - 900
+      else:
+         lengthTarget = lengthTarget + 100
    elif length == 1000:
-      lengthTarget = lengthTarget + 1000
+      if getDigit(lengthTarget, 1) > 9:
+         lengthTarget = lengthTarget - 9000
+      else:
+         lengthTarget = lengthTarget + 1000
 
 def resetLength():
    global length
@@ -131,11 +145,11 @@ LengthText = Label(root, text = 'LENGTH: ', font=('bold', 40)).grid(row=3, colum
 MeterMinText = Label(root, text = 'm/min', font=('bold', 80)).grid(row=2, column=3, padx=(10,0))
 MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=3, padx=(10,0))
 
-ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 10), command = resetLength, height = 8, width = 15).grid(row=10,column=3, padx=(10,10), pady=(10,10))
+ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 10), command = resetLength, height = 5, width = 15).grid(row=10,column=3, padx=(10,10))
 
-Plus10 = Button(root, text = '+1', font=('bold', 10), command = lambda: setLength(10), height = 8, width = 15).grid(row=11,column=3, padx=(10,10), pady=(10,10))
-Plus100 = Button(root, text = '+1', font=('bold', 10), command = lambda: setLength(100), height = 8, width = 15).grid(row=11,column=2, padx=(10,10), pady=(10,10))
-Plus1000 = Button(root, text = '+1', font=('bold', 10), command = lambda: setLength(1000), height = 8, width = 15).grid(row=11,column=1, padx=(10,10), pady=(10,10))
+Plus10 = Button(root, text = '+10', font=('bold', 10), command = lambda: setLength(10), height = 5, width = 15).grid(row=11,column=3, padx=(10,10))
+Plus100 = Button(root, text = '+100', font=('bold', 10), command = lambda: setLength(100), height = 5, width = 15).grid(row=11,column=2, padx=(10,10))
+Plus1000 = Button(root, text = '+1000', font=('bold', 10), command = lambda: setLength(1000), height = 5, width = 15).grid(row=11,column=1, padx=(10,10))
 
 
 
@@ -157,7 +171,7 @@ try:
       
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 07.1f}'.format(length))
-      AlarmLimitString.set('{0: 07.1f}'.format(lengthTarget))
+      AlarmLimitString.set('{0: 06.0d}'.format(lengthTarget))
       
       root.state()
       root.update()
