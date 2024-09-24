@@ -120,7 +120,7 @@ try:
             time3 = time.time()
             logData(round(mean(runningAvgLong), 2), max(maxLength))
             print('Logged')
-
+      root.state()
       root.update()
       time.sleep(0.01)
 
