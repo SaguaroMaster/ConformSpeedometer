@@ -91,12 +91,13 @@ maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 root = Tk()
 root.title('FDM 1.75 mm Filament Diameter and Color Meter')
 root.after(50, root.wm_attributes, '-fullscreen', 'true')
+root.grid_propagate(False)
 
 SpeedString = StringVar(value=0.00)
 LengthString = StringVar(value=0.00)
 
-SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 150)).grid(row=1, column=2, padx=(10,0)).grid_propagate(False)
-LengthVarString = Label(root, textvariable = LengthString, font=('bold', 150)).grid(row=2, column=2, padx=(10,0)).grid_propagate(False)
+SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 150)).grid(row=1, column=2, padx=(10,0))
+LengthVarString = Label(root, textvariable = LengthString, font=('bold', 150)).grid(row=2, column=2, padx=(10,0))
 
 
 SpeedText = Label(root, text = 'SPEED: ', font=('bold', 70)).grid(row=1, column=1, pady=(30,30))
