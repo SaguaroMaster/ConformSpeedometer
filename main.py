@@ -136,26 +136,37 @@ root = Tk()
 root.title('Line Speed and Length Meter')
 root.after(50, root.wm_attributes, '-fullscreen', 'true')
 
-SpeedString = StringVar(value=0.00)
-LengthString = StringVar(value=0.00)
+SpeedString = StringVar(value=0)
+LengthString = StringVar(value=0)
 AlarmLimitString = StringVar(value=0)
+Digit1String = StringVar(value=0)
+Digit10String = StringVar(value=0)
+Digit100String = StringVar(value=0)
+Digit1000String = StringVar(value=0)
+Digit10000String = StringVar(value=0)
 
-SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=1, padx=(10,0), columnspan=2)
-LengthVarString = Label(root, textvariable = LengthString, font=('bold', 130)).grid(row=4, column=1, padx=(10,0), columnspan=2)
-AlarmLimitVarString = Label(root, textvariable = AlarmLimitString, font=('bold', 50)).grid(row=10, column=1, padx=(10,0), columnspan=2)
+SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=1, padx=(10,0), columnspan=6)
+LengthVarString = Label(root, textvariable = LengthString, font=('bold', 130)).grid(row=4, column=1, padx=(10,0), columnspan=6)
+
+#AlarmLimitVarString = Label(root, textvariable = AlarmLimitString, font=('bold', 50)).grid(row=10, column=1, padx=(10,0), columnspan=2)
+Digit10000VarString = Label(root, textvariable = Digit10000String, font=('bold', 50)).grid(row=10, column=2, padx=(0,0))
+Digit1000VarString = Label(root, textvariable = Digit1000String, font=('bold', 50)).grid(row=10, column=3, padx=(0,0))
+Digit100VarString = Label(root, textvariable = Digit100String, font=('bold', 50)).grid(row=10, column=4, padx=(0,0))
+Digit10VarString = Label(root, textvariable = Digit10String, font=('bold', 50)).grid(row=10, column=5, padx=(0,0))
+Digit1VarString = Label(root, textvariable = Digit1String, font=('bold', 50)).grid(row=10, column=6, padx=(0,0))
 
 
-SpeedText = Label(root, text = 'SPEED: ', font=('bold', 40)).grid(row=1, column=1, pady=(15,15))
-LengthText = Label(root, text = 'LENGTH: ', font=('bold', 40)).grid(row=3, column=1, pady=(15,15))
-MeterMinText = Label(root, text = 'm/min', font=('bold', 80)).grid(row=2, column=3, padx=(10,0))
-MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=3, padx=(10,0))
+SpeedText = Label(root, text = 'SPEED: ', font=('bold', 40)).grid(row=1, column=1, pady=(15,15), columnspan = 3)
+LengthText = Label(root, text = 'LENGTH: ', font=('bold', 40)).grid(row=3, column=1, pady=(15,15), columnspan = 3)
+MeterMinText = Label(root, text = 'm/min', font=('bold', 80)).grid(row=2, column=7, padx=(10,0), columnspan = 2)
+MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=7, padx=(10,0), columnspan = 2)
 
 ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 10), command = resetLength, height = 5, width = 15).grid(row=10,column=3, padx=(10,10))
 
-Plus10 = Button(root, text = '+10', font=('bold', 10), command = lambda: setLength(10), height = 5, width = 15).grid(row=11,column=4, padx=(10,10))
-Plus100 = Button(root, text = '+100', font=('bold', 10), command = lambda: setLength(100), height = 5, width = 15).grid(row=11,column=3, padx=(10,10))
-Plus1000 = Button(root, text = '+1000', font=('bold', 10), command = lambda: setLength(1000), height = 5, width = 15).grid(row=11,column=2, padx=(10,10))
-Plus10000 = Button(root, text = '+10000', font=('bold', 10), command = lambda: setLength(10000), height = 5, width = 15).grid(row=11,column=1, padx=(10,10))
+Plus10 = Button(root, text = '+10', font=('bold', 10), command = lambda: setLength(10), height = 5, width = 15).grid(row=11,column=5, padx=(10,10))
+Plus100 = Button(root, text = '+100', font=('bold', 10), command = lambda: setLength(100), height = 5, width = 15).grid(row=11,column=4, padx=(10,10))
+Plus1000 = Button(root, text = '+1000', font=('bold', 10), command = lambda: setLength(1000), height = 5, width = 15).grid(row=11,column=3, padx=(10,10))
+Plus10000 = Button(root, text = '+10000', font=('bold', 10), command = lambda: setLength(10000), height = 5, width = 15).grid(row=11,column=2, padx=(10,10))
 
 
 
@@ -177,7 +188,12 @@ try:
       
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 08.1f}'.format(length))
-      AlarmLimitString.set('{0: 06.0f}'.format(lengthTarget))
+      #AlarmLimitString.set('{0: 06.0f}'.format(lengthTarget))
+      Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
+      Digit10String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 1)))
+      Digit100String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 2)))
+      Digit1000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 3)))
+      Digit10000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 4)))
       
       root.state()
       root.update()
