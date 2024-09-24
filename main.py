@@ -157,9 +157,9 @@ Digit1VarString = Label(root, textvariable = Digit1String, font=('bold', 40)).gr
 
 SpeedText = Label(root, text = 'SPEED: ', font=('bold', 30)).grid(row=2, column=1, pady=(15,15), columnspan = 2)
 LengthText = Label(root, text = 'LENGTH: ', font=('bold', 30)).grid(row=4, column=1, pady=(15,15), columnspan = 2)
-MeterMinText = Label(root, text = 'm/min', font=('bold', 80)).grid(row=2, column=13, padx=(10,0), columnspan = 2)
-MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=13, padx=(10,0), columnspan = 2)
-MeterText = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, padx=(10,0), columnspan = 1)
+MeterMinText = Label(root, text = 'm/min', font=('bold', 80)).grid(row=2, column=16, padx=(10,0), columnspan = 2)
+MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=16, padx=(10,0), columnspan = 2)
+MeterText2 = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, padx=(10,0), columnspan = 1)
 
 ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 10), command = resetLength, height = 5, width = 15).grid(row=10,column=8, padx=(10,10))
 
