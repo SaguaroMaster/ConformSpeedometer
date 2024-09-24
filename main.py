@@ -127,7 +127,7 @@ MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=3, pad
 AlarmSetting = numpad.NumpadEntry(root, width=15).grid(row=10, column=1)
 AlarmSetting3 = Entry(root, width=15).grid(row=11, column=1)
 
-ButtonAlarmSetting = Button(root, text = 'RESET', command = resetLength, height = 100, width = 100).grid(row=10,column=2, padx=(10,10), pady=(10,10))
+ButtonAlarmSetting = Button(root, text = 'RESET', command = resetLength, height = 10, width = 10).grid(row=10,column=2, padx=(10,10), pady=(10,10))
 
 
 
