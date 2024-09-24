@@ -22,6 +22,7 @@ time_old = time.time()-5
 time1 = time_old
 time2 = time1
 time3 = time2
+alarmTime1 = time1
 lastPulse = 0
 databaseName = 'Database.db'
 timeDiff = 0
@@ -193,6 +194,13 @@ try:
             logData(round(mean(runningAvgLong), 2), max(maxLength))
             print('Logged')
       
+      if length > lengthTarget:
+         if time.time() > alarmTime1+.5
+            relay1.on()
+            alarmTime1 = time.time()
+         else
+            relay1.off()
+
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 08.1f}'.format(length))
       Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
