@@ -28,7 +28,6 @@ databaseName = 'Database.db'
 timeDiff = 0
 alarmState = 0
 lengthTarget = 1000
-unlock
 
 relay1 = GPIO.LED(RELAY_CH1, active_high=False)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
