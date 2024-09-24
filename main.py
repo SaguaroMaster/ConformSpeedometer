@@ -27,6 +27,7 @@ lastPulse = 0
 databaseName = 'Database.db'
 timeDiff = 0
 alarmState = 0
+lengthTarget = 1000
 
 relay1 = GPIO.LED(RELAY_CH1)
 relay1.off()
@@ -84,6 +85,10 @@ def getSavingPeriod():
 	conn.close()
 	return savingPeriod
 
+def setLength(length):
+   global lengthTarget
+   lengthTarget = length
+
 def resetLength():
    global length
    length = 0
@@ -100,7 +105,7 @@ maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
 
 root = Tk()
-root.title('FDM 1.75 mm Filament Diameter and Color Meter')
+root.title('Line Speed and Length Meter')
 root.after(50, root.wm_attributes, '-fullscreen', 'true')
 
 SpeedString = StringVar(value=0.00)
@@ -116,6 +121,9 @@ MeterMinText = Label(root, text = 'm/min', font=('bold', 80)).grid(row=2, column
 MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=3, padx=(10,0))
 
 AlarmSetting = numpad.NumpadEntry(root, width=15).grid(row=10, column=1)
+
+ButtonAlarmSetting = ttk.Button(root, text = 'SET', command = lambda: setLength(0)).grid(row=10,column=2, padx=(10,10), pady=(10,10))
+ButtonAlarmSetting.config(width=20)
 
 
 
@@ -137,6 +145,12 @@ try:
             time3 = time.time()
             logData(round(mean(runningAvgLong), 2), max(maxLength))
             print('Logged')
+      
+      try:  # try-except to not cause an exception when there are no/invalid characters in the text input field
+         lengthTarget = int(AlarmSetting.get())
+      except:
+         pass
+      
       root.state()
       root.update()
       time.sleep(0.01)
