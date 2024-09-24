@@ -92,6 +92,7 @@ def setLength(length):
 def resetLength():
    global length
    length = 0
+   pulseCount2 = 0
 
 def resetAlarm():
    global alarmState
