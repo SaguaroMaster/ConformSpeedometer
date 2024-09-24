@@ -190,54 +190,54 @@ Plus1000 = Button(root, text = '+', font=('bold', 40), command = lambda: setLeng
 Plus10000 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(10000), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED).grid(row=11,column=2, padx=(10,10))
 
 
-try:
-   while True:
-      if time.time() > time2 + samplePeriod:
-         time2 = time.time() 
-         speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
-         pulseCount = 0
-         length = pulseCount2 * wheelCircumference
-         maxLength.append(length)
-         runningAvgLong.append(speed)
-         runningAvgShort.append(speed)
+#try:
+while True:
+   if time.time() > time2 + samplePeriod:
+      time2 = time.time() 
+      speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
+      pulseCount = 0
+      length = pulseCount2 * wheelCircumference
+      maxLength.append(length)
+      runningAvgLong.append(speed)
+      runningAvgShort.append(speed)
 
-         if time.time() > time3 + savePeriod:
-            time3 = time.time()
-            logData(round(mean(runningAvgLong), 2), max(maxLength))
-            print('Logged')
-      
+      if time.time() > time3 + savePeriod:
+         time3 = time.time()
+         logData(round(mean(runningAvgLong), 2), max(maxLength))
+         print('Logged')
+   
 
-      if length > lengthTarget and alarmState == 0:
-         alarmState = 1
-         setAlarm()
+   if length > lengthTarget and alarmState == 0:
+      alarmState = 1
+      setAlarm()
 
-      if unlockFlag == 1:
-         Plus1.config(state = NORMAL)
-         Plus10.config(state = NORMAL)
-         Plus100.config(state = NORMAL)
-         Plus1000.config(state = NORMAL)
-         Plus10000.config(state = NORMAL)
-         unlockFlag = 0
-         unlockTime = time.time()
-      elif unlockFlag == 0 and time.time() > unlockTime + unlockDuration:
-         Plus1.config(state = DISABLED)
-         Plus10.config(state = DISABLED)
-         Plus100.config(state = DISABLED)
-         Plus1000.config(state = DISABLED)
-         Plus10000.config(state = DISABLED)
+   if unlockFlag == 1:
+      Plus1.config(state = NORMAL)
+      Plus10.config(state = NORMAL)
+      Plus100.config(state = NORMAL)
+      Plus1000.config(state = NORMAL)
+      Plus10000.config(state = NORMAL)
+      unlockFlag = 0
+      unlockTime = time.time()
+   elif unlockFlag == 0 and time.time() > unlockTime + unlockDuration:
+      Plus1.config(state = DISABLED)
+      Plus10.config(state = DISABLED)
+      Plus100.config(state = DISABLED)
+      Plus1000.config(state = DISABLED)
+      Plus10000.config(state = DISABLED)
 
-      SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
-      LengthString.set('{0: 08.1f}'.format(length))
-      Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
-      Digit10String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 1)))
-      Digit100String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 2)))
-      Digit1000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 3)))
-      Digit10000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 4)))
-      
-      root.state()
-      root.update()
-      time.sleep(0.01)
+   SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
+   LengthString.set('{0: 08.1f}'.format(length))
+   Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
+   Digit10String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 1)))
+   Digit100String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 2)))
+   Digit1000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 3)))
+   Digit10000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 4)))
+   
+   root.state()
+   root.update()
+   time.sleep(0.01)
 
 
-except:
-   print("Terminating program...")
+#except:
+#  print("Terminating program...")
