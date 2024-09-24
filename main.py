@@ -146,7 +146,8 @@ maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 root = Tk()
 root.title('Line Speed and Length Meter')
 root.after(50, root.wm_attributes, '-fullscreen', 'true')
-root.configure(background='white')
+
+ButtonColor = 'white'
 
 SpeedString = StringVar(value=0)
 LengthString = StringVar(value=0)
@@ -174,8 +175,8 @@ MeterMinText = Label(root, text = 'm/min', font=('bold', 50)).grid(row=2, column
 MeterText = Label(root, text = 'm', font=('bold', 50)).grid(row=4, column=16, padx=(10,0), columnspan = 2)
 MeterText2 = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, padx=(10,0), columnspan = 1)
 
-ButtonCounterReset = Button(root, text = 'RESET COUNTER', font=('bold', 25), command = resetLength, height = 2).grid(row=10,column=9, padx=(10,10), columnspan = 9)
-ButtonAlarmReset = Button(root, text = 'RESET ALARM', font=('bold', 25), command = resetAlarm, height = 2).grid(row=12,column=9, padx=(10,10), columnspan = 9)
+ButtonCounterReset = Button(root, text = 'RESET COUNTER', font=('bold', 25), command = resetLength, height = 2, bg = ButtonColor).grid(row=10,column=9, padx=(10,10), columnspan = 9)
+ButtonAlarmReset = Button(root, text = 'RESET ALARM', font=('bold', 25), command = resetAlarm, height = 2, bg = ButtonColor).grid(row=12,column=9, padx=(10,10), columnspan = 9)
 
 Unlock = Button(root, text = 'U N L O C K', font=('bold', 40), command = lambda: unclockSetting, height = 1, width = 2).grid(row=11,column=6, padx=(10,10))
 Plus1 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1), height = 1, width = 2).grid(row=11,column=6, padx=(10,10))
