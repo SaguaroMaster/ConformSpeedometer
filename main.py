@@ -148,7 +148,6 @@ Digit10000String = StringVar(value=0)
 SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=1, padx=(10,0), columnspan=6)
 LengthVarString = Label(root, textvariable = LengthString, font=('bold', 130)).grid(row=4, column=1, padx=(10,0), columnspan=6)
 
-#AlarmLimitVarString = Label(root, textvariable = AlarmLimitString, font=('bold', 50)).grid(row=10, column=1, padx=(10,0), columnspan=2)
 Digit10000VarString = Label(root, textvariable = Digit10000String, font=('bold', 50)).grid(row=10, column=2, padx=(0,0))
 Digit1000VarString = Label(root, textvariable = Digit1000String, font=('bold', 50)).grid(row=10, column=3, padx=(0,0))
 Digit100VarString = Label(root, textvariable = Digit100String, font=('bold', 50)).grid(row=10, column=4, padx=(0,0))
@@ -160,8 +159,9 @@ SpeedText = Label(root, text = 'SPEED: ', font=('bold', 40)).grid(row=1, column=
 LengthText = Label(root, text = 'LENGTH: ', font=('bold', 40)).grid(row=3, column=1, pady=(15,15), columnspan = 3)
 MeterMinText = Label(root, text = 'm/min', font=('bold', 80)).grid(row=2, column=7, padx=(10,0), columnspan = 2)
 MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=7, padx=(10,0), columnspan = 2)
+MeterText = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, padx=(10,0), columnspan = 1)
 
-ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 10), command = resetLength, height = 5, width = 15).grid(row=10,column=7, padx=(10,10))
+ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 10), command = resetLength, height = 5, width = 15).grid(row=10,column=8, padx=(10,10))
 
 Plus10 = Button(root, text = '+10', font=('bold', 10), command = lambda: setLength(10), height = 5, width = 15).grid(row=11,column=5, padx=(10,10))
 Plus100 = Button(root, text = '+100', font=('bold', 10), command = lambda: setLength(100), height = 5, width = 15).grid(row=11,column=4, padx=(10,10))
