@@ -140,14 +140,14 @@ try:
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
 
-         SpeedString.set('{0: 05.1f}'.format(round(mean(runningAvgShort), 1)))
-         LengthString.set('{0: 07.1f}'.format(length))
-
          if time.time() > time3 + savePeriod:
             time3 = time.time()
             logData(round(mean(runningAvgLong), 2), max(maxLength))
             print('Logged')
       
+      SpeedString.set('{0: 05.1f}'.format(round(mean(runningAvgShort), 1)))
+      LengthString.set('{0: 07.1f}'.format(length))
+
       try:  # try-except to not cause an exception when there are no/invalid characters in the text input field
          lengthTarget = int(AlarmSetting.get())
       except:
