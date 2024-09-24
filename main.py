@@ -183,11 +183,16 @@ ButtonCounterReset = Button(root, text = 'RESET COUNTER', font=('bold', 25), com
 ButtonAlarmReset = Button(root, text = 'RESET ALARM', font=('bold', 25), command = resetAlarm, height = 2, bg = ResetButtonColor).grid(row=12,column=9, padx=(10,10), columnspan = 9)
 
 Unlock = Button(root, text = 'U  N  L  O  C  K', font=('bold', 25), command = lambda: unclockSetting, height = 1, width = 27).grid(row=12,column=2, padx=(10,10), columnspan = 5)
-Plus1 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED).grid(row=11,column=6, padx=(10,10))
-Plus10 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(10), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED).grid(row=11,column=5, padx=(10,10))
-Plus100 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(100), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED).grid(row=11,column=4, padx=(10,10))
-Plus1000 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1000), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED).grid(row=11,column=3, padx=(10,10))
-Plus10000 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(10000), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED).grid(row=11,column=2, padx=(10,10))
+Plus1 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
+Plus1.grid(row=11,column=6, padx=(10,10))
+Plus10 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(10), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
+Plus10.grid(row=11,column=5, padx=(10,10))
+Plus100 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(100), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
+Plus100.grid(row=11,column=4, padx=(10,10))
+Plus1000 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1000), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
+Plus1000.grid(row=11,column=3, padx=(10,10))
+Plus10000 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(10000), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
+Plus10000.grid(row=11,column=2, padx=(10,10))
 
 
 #try:
