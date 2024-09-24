@@ -37,9 +37,15 @@ sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_stat
 
 def pulseCallback(self):
    global pulseCount, lastPulse, pulseCount2
-   lastPulse = time.time()
    pulseCount = pulseCount + 1
    pulseCount2 = pulseCount2 + 1
+
+   if time.time() > lastPulse + 3:
+         speed2 = 0
+      else:
+         speed2 = 60 / (time.time() - lastPulse) * wheelCircumference
+
+   lastPulse = time.time()
 
 sensor.when_released = pulseCallback
 
@@ -198,11 +204,6 @@ Plus10000.grid(row=11,column=2, padx=(10,10))
 while True:
    if time.time() > time2 + samplePeriod:
       time2 = time.time() 
-
-      if time.time() > lastPulse + 3:
-         speed2 = 0
-      else:
-         speed2 = 60 / (time.time() - lastPulse) * wheelCircumference
 
       speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
       pulseCount = 0
