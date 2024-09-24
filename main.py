@@ -214,6 +214,7 @@ try:
          Plus100.config(state = NORMAL)
          Plus1000.config(state = NORMAL)
          Plus10000.config(state = NORMAL)
+         unlockFlag = 0
 
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 08.1f}'.format(length))
