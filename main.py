@@ -198,7 +198,7 @@ try:
          if time.time() > alarmTime1 + 0.5 :
             relay1.on()
             alarmTime1 = time.time()
-         else
+         else:
             relay1.off()
 
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
