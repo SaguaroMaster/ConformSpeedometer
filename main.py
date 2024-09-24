@@ -42,12 +42,7 @@ def pulseCallback(self):
    global pulseCount, lastPulse, pulseCount2, speed2, maxPulseInterval
    pulseCount = pulseCount + 1
    pulseCount2 = pulseCount2 + 1
-
-   if time.time() > lastPulse + maxPulseInterval:
-         speed2 = 0
-   else:
-      speed2 = 60 / (time.time() - lastPulse) * wheelCircumference
-
+   speed2 = 60 / (time.time() - lastPulse) * wheelCircumference
    lastPulse = time.time()
 
 sensor.when_released = pulseCallback
