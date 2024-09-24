@@ -203,7 +203,7 @@ try:
             print('Logged')
       
 
-      if length > lengthTarget and alarmState = 0:
+      if length > lengthTarget and alarmState == 0:
          alarmState = 1
          setAlarm()
 
