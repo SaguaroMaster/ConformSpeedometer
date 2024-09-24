@@ -101,10 +101,10 @@ LengthVarString = Label(root, textvariable = LengthString, font=('bold', 100))
 SpeedVarString.grid(row=1, column=2)
 LengthVarString.grid(row=2, column=2)
 
-SpeedText = Label(root, text = 'SPEED: ', font=('bold', 100)).grid(row=1, column=1)
-LengthText = Label(root, text = 'LENGTH: ', font=('bold', 100)).grid(row=2, column=1)
-MeterMinText = Label(root, text = ' m/min', font=('bold', 100)).grid(row=1, column=3)
-MeterText = Label(root, text = ' m', font=('bold', 100)).grid(row=2, column=3)
+SpeedText = Label(root, text = 'SPEED: ', font=('bold', 80)).grid(row=1, column=1)
+LengthText = Label(root, text = 'LENGTH: ', font=('bold', 80)).grid(row=2, column=1)
+MeterMinText = Label(root, text = ' m/min', font=('bold', 60)).grid(row=1, column=3)
+MeterText = Label(root, text = ' m', font=('bold', 60)).grid(row=2, column=3)
 
 
 
