@@ -114,9 +114,11 @@ root.after(50, root.wm_attributes, '-fullscreen', 'true')
 
 SpeedString = StringVar(value=0.00)
 LengthString = StringVar(value=0.00)
+AlarmLimitString = StringVar(value=0)
 
 SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=1, padx=(10,0), columnspan=2)
 LengthVarString = Label(root, textvariable = LengthString, font=('bold', 130)).grid(row=4, column=1, padx=(10,0), columnspan=2)
+AlarmLimitVarString = Label(root, textvariable = AlarmLimitString, font=('bold', 50)).grid(row=10, column=1, padx=(10,0), columnspan=2)
 
 
 SpeedText = Label(root, text = 'SPEED: ', font=('bold', 40)).grid(row=1, column=1, pady=(15,15))
@@ -124,10 +126,7 @@ LengthText = Label(root, text = 'LENGTH: ', font=('bold', 40)).grid(row=3, colum
 MeterMinText = Label(root, text = 'm/min', font=('bold', 80)).grid(row=2, column=3, padx=(10,0))
 MeterText = Label(root, text = 'm', font=('bold', 80)).grid(row=4, column=3, padx=(10,0))
 
-AlarmSetting = numpad.NumpadEntry(root, width=15).grid(row=10, column=1)
-AlarmSetting3 = Entry(root, width=15).grid(row=11, column=1)
-
-ButtonAlarmSetting = Button(root, text = 'RESET', font=('bold', 10), command = resetLength, height = 8, width = 15).grid(row=10,column=2, padx=(10,10), pady=(10,10))
+ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 10), command = resetLength, height = 8, width = 15).grid(row=10,column=3, padx=(10,10), pady=(10,10))
 
 
 
@@ -149,11 +148,7 @@ try:
       
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 07.1f}'.format(length))
-
-      try:  # try-except to not cause an exception when there are no/invalid characters in the text input field
-         lengthTarget = int(AlarmSetting.get())
-      except:
-         pass
+      AlarmLimitString.set('{0: 07.1f}'.format(lengthTarget))
       
       root.state()
       root.update()
