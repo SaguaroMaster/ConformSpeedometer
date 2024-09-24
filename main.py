@@ -28,6 +28,7 @@ databaseName = 'Database.db'
 timeDiff = 0
 alarmState = 0
 lengthTarget = 1000
+unlock
 
 relay1 = GPIO.LED(RELAY_CH1, active_high=False)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, bounce_time = 0.05, active_state = True)
@@ -126,9 +127,15 @@ def resetLength():
    pulseCount2 = 0
    alarmState = 0
 
+def setAlarm():
+   relay1.blink(on_time=0.1, off_time=1)
+
 def resetAlarm():
-   global alarmState
-   alarmState = 0
+   relay1.off()
+
+def unclockSetting():
+   global unlockFlag
+   unlockFlag = 1
 
 samplePeriod = getSamplingPeriod()
 savePeriod = getSavingPeriod()
@@ -167,8 +174,10 @@ MeterMinText = Label(root, text = 'm/min', font=('bold', 50)).grid(row=2, column
 MeterText = Label(root, text = 'm', font=('bold', 50)).grid(row=4, column=16, padx=(10,0), columnspan = 2)
 MeterText2 = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, padx=(10,0), columnspan = 1)
 
-ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 10), command = resetLength, height = 5, width = 15).grid(row=10,column=8, padx=(10,10))
+ButtonCounterReset = Button(root, text = 'RESET COUNTER', font=('bold', 30), command = resetLength, height = 2, width = 5).grid(row=10,column=8, padx=(10,10))
+ButtonAlarmReset = Button(root, text = 'RESET COUNTER', font=('bold', 30), command = resetAlarm, height = 2, width = 5).grid(row=10,column=9, padx=(10,10))
 
+Unlock = Button(root, text = 'U N L O C K', font=('bold', 40), command = lambda: unclockSetting, height = 1, width = 2).grid(row=11,column=6, padx=(10,10))
 Plus1 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1), height = 1, width = 2).grid(row=11,column=6, padx=(10,10))
 Plus10 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(10), height = 1, width = 2).grid(row=11,column=5, padx=(10,10))
 Plus100 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(100), height = 1, width = 2).grid(row=11,column=4, padx=(10,10))
@@ -193,12 +202,10 @@ try:
             logData(round(mean(runningAvgLong), 2), max(maxLength))
             print('Logged')
       
-      if length > lengthTarget:
-         if time.time() > alarmTime1 + 1 :
-            relay1.blink(on_time=0.1, off_time=1)
-            alarmTime1 = time.time()
-         else:
-            relay1.off()
+
+      if length > lengthTarget and alarmState = 0:
+         alarmState = 1
+         setAlarm()
 
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 08.1f}'.format(length))
