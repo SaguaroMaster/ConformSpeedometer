@@ -216,6 +216,7 @@ while True:
       alarmState = 1
       setAlarm()
 
+   print(unlockFlag)
    if unlockFlag == 1:
       Plus1.config(state = NORMAL)
       Plus10.config(state = NORMAL)
