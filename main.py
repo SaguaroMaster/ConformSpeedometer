@@ -107,6 +107,10 @@ MeterText = Label(root, text = 'm', font=('bold', 60)).grid(row=2, column=3, pad
 
 
 try:
+   
+   SpeedString.set('%.2f'%round(mean(runningAvgShort), 2))
+   LengthString.set('%.2f'%length)
+
    while True:
       if time.time() > time2 + samplePeriod:
          time2 = time.time() 
