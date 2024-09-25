@@ -191,6 +191,7 @@ Digit10String = StringVar(value=0)
 Digit100String = StringVar(value=0)
 Digit1000String = StringVar(value=0)
 Digit10000String = StringVar(value=0)
+LastLogString = StringVar(value=0)
 
 SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=3, padx=(0,0), columnspan=12)
 LengthVarString = Label(root, textvariable = LengthString, font=('bold', 130)).grid(row=4, column=3, padx=(0,0), columnspan=12)
@@ -200,6 +201,7 @@ Digit1000VarString = Label(root, textvariable = Digit1000String, font=('bold', 4
 Digit100VarString = Label(root, textvariable = Digit100String, font=('bold', 40)).grid(row=10, column=4, padx=(0,0))
 Digit10VarString = Label(root, textvariable = Digit10String, font=('bold', 40)).grid(row=10, column=5, padx=(0,0))
 Digit1VarString = Label(root, textvariable = Digit1String, font=('bold', 40)).grid(row=10, column=6, padx=(0,0))
+LastLogVarString = Label(root, textvariable = LastLog, font=('bold', 10)).grid(row=12, column=9, padx=(0,0))
 
 
 SpeedText = Label(root, text = 'SPEED: ', font=('bold', 30)).grid(row=2, column=1, columnspan = 2)
@@ -251,10 +253,11 @@ try:
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
 
-         if time.time() > time3 + savePeriod:
-            time3 = time.time()
-            logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
-            print('Logged')
+      if time.time() > time3 + savePeriod:
+         time3 = time.time()
+         logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
+         print('Logged')
+         LastLog.set(time.time())
       
 
       if length > lengthTarget and alarmState == 0:
