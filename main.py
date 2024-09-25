@@ -91,6 +91,14 @@ def getSavingPeriod():
 	conn.close()
 	return savingPeriod
 
+def getCircumference():
+	conn=sqlite3.connect(databaseName)
+	curs=conn.cursor()
+	for row in curs.execute("SELECT circumference FROM settings ORDER BY timestamp DESC LIMIT 1"):
+		circumference = row[0]
+	conn.close()
+	return circumference
+
 def getDigit(number, n):
     return number // 10**n % 10
 
@@ -171,6 +179,7 @@ def unclockSetting():
 
 samplePeriod = getSamplingPeriod()
 savePeriod = getSavingPeriod()
+wheelCircumference = getCircumference()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
 runningAvgShort = deque(maxlen = 5)
 maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
@@ -265,7 +274,7 @@ try:
          time3 = time.time()
          logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
          LastLogString.set(datetime.datetime.now().time())
-         CPUTemperatureString.set(GPIO.CPUTemperature().temperature)
+         CPUTempString.set(GPIO.CPUTemperature().temperature)
       
 
       if length > lengthTarget and alarmState == 0:
