@@ -191,7 +191,8 @@ Digit10String = StringVar(value=0)
 Digit100String = StringVar(value=0)
 Digit1000String = StringVar(value=0)
 Digit10000String = StringVar(value=0)
-LastLogString = StringVar(value=0)
+
+LastLogString = StringVar(value=time.time())
 
 SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=3, padx=(0,0), columnspan=12)
 LengthVarString = Label(root, textvariable = LengthString, font=('bold', 130)).grid(row=4, column=3, padx=(0,0), columnspan=12)
