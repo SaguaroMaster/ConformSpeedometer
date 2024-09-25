@@ -222,7 +222,7 @@ Plus1000.grid(row=9,column=3, padx=(10,10))
 Plus10000 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(10000), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
 Plus10000.grid(row=9,column=2, padx=(10,10))
 
-Minus1 = Button(root, text = '-', font=('bold', 40), command = lambda: setLength(-1), height = 0.8, width = 2, bg = TargetButtonColor, state = DISABLED)
+Minus1 = Button(root, text = '-', font=('bold', 40), command = lambda: setLength(-1), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
 Minus1.grid(row=11,column=6, padx=(10,10))
 Minus10 = Button(root, text = '-', font=('bold', 40), command = lambda: setLength(-10), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
 Minus10.grid(row=11,column=5, padx=(10,10))
