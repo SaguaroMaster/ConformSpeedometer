@@ -257,7 +257,7 @@ try:
          maxLength.append(length)
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
-         LastLogString.set(datetime.datetime.now().time())
+         TimeNowString.set(datetime.datetime.now().time())
 
       if time.time() > time3 + savePeriod:
          time3 = time.time()
