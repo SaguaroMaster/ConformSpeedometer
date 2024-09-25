@@ -262,7 +262,6 @@ try:
       if time.time() > time3 + savePeriod:
          time3 = time.time()
          logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
-         print('Logged')
          LastLogString.set(datetime.datetime.now().time())
       
 
