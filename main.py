@@ -36,7 +36,7 @@ maxPulseInterval = 3
 
 
 relay1 = GPIO.LED(RELAY_CH1, active_high=False)
-sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True)
+sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_time = 0.001)
 #sensor = GPIO.Button(SENSOR_PIN, pull_up = False, bounce_time = 0.05)
 
 def pulseCallback(self):
