@@ -123,6 +123,32 @@ def setLength(length):
       else:
          lengthTarget = lengthTarget + 10000
 
+   if length == -1:
+      if getDigit(lengthTarget, 0) == 0:
+         lengthTarget = lengthTarget + 9
+      else:
+         lengthTarget = lengthTarget - 1
+   elif length == -10:
+      if getDigit(lengthTarget, 1) == 0:
+         lengthTarget = lengthTarget + 90
+      else:
+         lengthTarget = lengthTarget - 10
+   elif length == -100:
+      if getDigit(lengthTarget, 2) == 0:
+         lengthTarget = lengthTarget + 900
+      else:
+         lengthTarget = lengthTarget - 100
+   elif length == -1000:
+      if getDigit(lengthTarget, 3) == 0:
+         lengthTarget = lengthTarget + 9000
+      else:
+         lengthTarget = lengthTarget - 1000
+   elif length == -10000:
+      if getDigit(lengthTarget, 4) == 0:
+         lengthTarget = lengthTarget + 90000
+      else:
+         lengthTarget = lengthTarget - 10000
+
 def resetLength():
    global length
    global pulseCount2
@@ -181,31 +207,31 @@ MeterMinText = Label(root, text = 'm/min', font=('bold', 50)).grid(row=2, column
 MeterText = Label(root, text = 'm', font=('bold', 50)).grid(row=4, column=16, padx=(10,0), columnspan = 2)
 MeterText2 = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, padx=(10,0), columnspan = 1)
 
-ButtonCounterReset = Button(root, text = 'RESET COUNTER', font=('bold', 25), command = resetLength, height = 2, bg = ResetButtonColor).grid(row=10,column=9, padx=(10,10), columnspan = 9)
-ButtonAlarmReset = Button(root, text = 'RESET ALARM', font=('bold', 25), command = resetAlarm, height = 2, bg = ResetButtonColor).grid(row=12,column=9, padx=(10,10), columnspan = 9)
+ButtonCounterReset = Button(root, text = 'RESET COUNTER', font=('bold', 25), command = resetLength, height = 2, bg = ResetButtonColor).grid(row=9,column=9, padx=(10,10), columnspan = 9)
+ButtonAlarmReset = Button(root, text = 'RESET ALARM', font=('bold', 25), command = resetAlarm, height = 2, bg = ResetButtonColor).grid(row=11,column=9, padx=(10,10), columnspan = 9)
 
 Unlock = Button(root, text = 'U  N  L  O  C  K', font=('bold', 25), command = unclockSetting, height = 1, width = 27).grid(row=12,column=2, padx=(10,10), columnspan = 5)
 Plus1 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
-Plus1.grid(row=11,column=6, padx=(10,10))
+Plus1.grid(row=9,column=6, padx=(10,10))
 Plus10 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(10), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
-Plus10.grid(row=11,column=5, padx=(10,10))
+Plus10.grid(row=9,column=5, padx=(10,10))
 Plus100 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(100), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
-Plus100.grid(row=11,column=4, padx=(10,10))
+Plus100.grid(row=9,column=4, padx=(10,10))
 Plus1000 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1000), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
-Plus1000.grid(row=11,column=3, padx=(10,10))
+Plus1000.grid(row=9,column=3, padx=(10,10))
 Plus10000 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(10000), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
-Plus10000.grid(row=11,column=2, padx=(10,10))
+Plus10000.grid(row=9,column=2, padx=(10,10))
 
-Minus1 = Button(root, text = '-', font=('bold', 40), command = lambda: setLength(-1), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
-Minus1.grid(row=9,column=6, padx=(10,10))
+Minus1 = Button(root, text = '-', font=('bold', 40), command = lambda: setLength(-1), height = 0.8, width = 2, bg = TargetButtonColor, state = DISABLED)
+Minus1.grid(row=11,column=6, padx=(10,10))
 Minus10 = Button(root, text = '-', font=('bold', 40), command = lambda: setLength(-10), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
-Minus10.grid(row=9,column=5, padx=(10,10))
+Minus10.grid(row=11,column=5, padx=(10,10))
 Minus100 = Button(root, text = '-', font=('bold', 40), command = lambda: setLength(-100), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
-Minus100.grid(row=9,column=4, padx=(10,10))
+Minus100.grid(row=11,column=4, padx=(10,10))
 Minus1000 = Button(root, text = '-', font=('bold', 40), command = lambda: setLength(-1000), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
-Minus1000.grid(row=9,column=3, padx=(10,10))
+Minus1000.grid(row=11,column=3, padx=(10,10))
 Minus10000 = Button(root, text = '-', font=('bold', 40), command = lambda: setLength(-10000), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
-Minus10000.grid(row=9,column=2, padx=(10,10))
+Minus10000.grid(row=11,column=2, padx=(10,10))
 
 
 try:
@@ -239,6 +265,11 @@ try:
          Plus100.config(state = NORMAL)
          Plus1000.config(state = NORMAL)
          Plus10000.config(state = NORMAL)
+         Minus1.config(state = NORMAL)
+         Minus10.config(state = NORMAL)
+         Minus100.config(state = NORMAL)
+         Minus1000.config(state = NORMAL)
+         Minus10000.config(state = NORMAL)
          unlockFlag = 0
          unlockTime = time.time()
       elif unlockFlag == 0 and time.time() > unlockTime + unlockDuration:
@@ -247,6 +278,11 @@ try:
          Plus100.config(state = DISABLED)
          Plus1000.config(state = DISABLED)
          Plus10000.config(state = DISABLED)
+         Minus1.config(state = DISABLED)
+         Minus10.config(state = DISABLED)
+         Minus100.config(state = DISABLED)
+         Minus1000.config(state = DISABLED)
+         Minus10000.config(state = DISABLED)
 
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 08.1f}'.format(length))
