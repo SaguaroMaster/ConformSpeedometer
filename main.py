@@ -201,7 +201,8 @@ Digit1000VarString = Label(root, textvariable = Digit1000String, font=('bold', 4
 Digit100VarString = Label(root, textvariable = Digit100String, font=('bold', 40)).grid(row=10, column=4, padx=(0,0))
 Digit10VarString = Label(root, textvariable = Digit10String, font=('bold', 40)).grid(row=10, column=5, padx=(0,0))
 Digit1VarString = Label(root, textvariable = Digit1String, font=('bold', 40)).grid(row=10, column=6, padx=(0,0))
-LastLogVarString = Label(root, textvariable = LastLog, font=('bold', 10)).grid(row=12, column=9, padx=(0,0))
+
+LastLogVarString = Label(root, textvariable = LastLogString, font=('bold', 10)).grid(row=12, column=9, padx=(0,0))
 
 
 SpeedText = Label(root, text = 'SPEED: ', font=('bold', 30)).grid(row=2, column=1, columnspan = 2)
