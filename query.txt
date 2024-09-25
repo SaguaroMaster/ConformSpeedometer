@@ -8,3 +8,5 @@ to start thigs on boot do in shell in home directory try this: https://stackover
 service name is speedometer.service
 to enable:  systemctl enable speedometer.service
 to disable: systemctl disable speedometer.service
+
+screen timeout off: https://forums.raspberrypi.com/viewtopic.php?t=129867
