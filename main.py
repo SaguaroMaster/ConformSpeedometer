@@ -195,7 +195,7 @@ Digit10000String = StringVar(value=0)
 
 LastLogString = StringVar(value=datetime.datetime.now().time())
 TimeNowString = StringVar(value=datetime.datetime.now().time())
-CPUTempString = StringVar(value=GPIO.CPUTemperature())
+CPUTempString = StringVar(value=GPIO.CPUTemperature().temperature)
 
 SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=3, padx=(0,0), columnspan=12)
 LengthVarString = Label(root, textvariable = LengthString, font=('bold', 130)).grid(row=4, column=3, padx=(0,0), columnspan=12)
@@ -265,7 +265,7 @@ try:
          time3 = time.time()
          logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
          LastLogString.set(datetime.datetime.now().time())
-         CPUTemperatureString.set(GPIO.CPUTemperature())
+         CPUTemperatureString.set(GPIO.CPUTemperature().temperature)
       
 
       if length > lengthTarget and alarmState == 0:
