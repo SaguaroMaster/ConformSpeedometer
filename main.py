@@ -92,7 +92,7 @@ def getSavingPeriod():
 def getDigit(number, n):
     return number // 10**n % 10
 
-def setLength(length):
+def setLength(length): #if it looks stupid but works it aint stupid
    global lengthTarget
 
    lengthTarget = int(lengthTarget)
@@ -158,7 +158,7 @@ def resetLength():
    alarmState = 0
 
 def setAlarm():
-   relay1.blink(on_time=0.1, off_time=1)
+   relay1.blink(on_time=0.2, off_time=1)
 
 def resetAlarm():
    relay1.off()
