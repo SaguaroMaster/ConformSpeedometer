@@ -260,7 +260,7 @@ try:
          time3 = time.time()
          logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
          print('Logged')
-         LastLogString.set(time.time())
+         LastLogString.set(datetime.datetime.now().time())
       
 
       if length > lengthTarget and alarmState == 0:
