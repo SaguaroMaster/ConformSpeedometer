@@ -1,5 +1,6 @@
 import gpiozero as GPIO
 import time
+import datetime
 import sqlite3
 import os
 from collections import deque
@@ -192,7 +193,7 @@ Digit100String = StringVar(value=0)
 Digit1000String = StringVar(value=0)
 Digit10000String = StringVar(value=0)
 
-LastLogString = StringVar(value=time.time())
+LastLogString = StringVar(value=datetime.datetime.now().time())
 
 SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=3, padx=(0,0), columnspan=12)
 LengthVarString = Label(root, textvariable = LengthString, font=('bold', 130)).grid(row=4, column=3, padx=(0,0), columnspan=12)
@@ -259,7 +260,7 @@ try:
          time3 = time.time()
          logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
          print('Logged')
-         LastLog.set(time.time())
+         LastLogString.set(time.time())
       
 
       if length > lengthTarget and alarmState == 0:
