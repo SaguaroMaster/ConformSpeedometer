@@ -290,6 +290,8 @@ figManager = plt.get_current_fig_manager()
 figManager.full_screen_toggle()
 plt.show()
 
+root.after(50, root.wm_attributes, '-fullscreen', 'true')
+
 
 try:
    while True:
