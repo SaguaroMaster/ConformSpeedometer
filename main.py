@@ -189,6 +189,27 @@ def unclockSetting():
    global unlockFlag
    unlockFlag = 1
 
+def graphWindowCallback():
+
+   graphWindow = Toplevel(root)
+   graphWindow.title(" ")
+   graphWindow.after(50, graphWindow.wm_attributes, '-fullscreen', 'true')
+
+   graphWindow.transient(root)
+   graphWindow.grab_set()
+
+
+   CloseButton = ttk.Button(graphWindow, text = 'Close', command = graphWindow.destroy)
+   CloseButton.grid(row=6,column=5, columnspan=2, padx=(10,10), pady=(10,10))
+   
+   while True:
+      try:
+         graphWindow.state()
+         graphWindow.update()
+
+         time.sleep(0.05)
+      except:
+         break
 
 lastEdit, samplePeriod, savePeriod, wheelCircumference = getSettings()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
@@ -295,27 +316,7 @@ plt.show()'''
 
 
 
-def graphWindowCallback():
 
-   graphWindow = Toplevel(root)
-   graphWindow.title(" ")
-   graphWindow.after(50, graphWindow.wm_attributes, '-fullscreen', 'true')
-
-   graphWindow.transient(root)
-   graphWindow.grab_set()
-
-
-   CloseButton = ttk.Button(graphWindow, text = 'Close', command = graphWindow.destroy)
-   CloseButton.grid(row=6,column=5, columnspan=2, padx=(10,10), pady=(10,10))
-   
-   while True:
-      try:
-         graphWindow.state()
-         graphWindow.update()
-
-         time.sleep(0.05)
-      except:
-         break
 
 
 try:
