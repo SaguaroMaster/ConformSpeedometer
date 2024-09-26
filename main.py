@@ -198,8 +198,8 @@ def graphWindowCallback():
    graphWindow.grab_set()
 
 
-   CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy)
-   CloseButton.pack()
+   '''CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy)
+   CloseButton.pack()'''
    
    Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 
