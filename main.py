@@ -205,7 +205,7 @@ def unclockSetting():
 #wheelCircumference = getCircumference()
 lastEdit, samplePeriod, savePeriod, wheelCircumference = getSettings()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
-runningAvgShort = deque(maxlen = 5)
+runningAvgShort = deque(maxlen = 4)
 maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
 
