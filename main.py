@@ -202,27 +202,17 @@ def graphWindowCallback():
    CloseButton.grid(row=5,column=4, columnspan=10, padx=(10,10), pady=(10,10))
    
    Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
-   
-   '''#plt.rcParams["figure.figsize"] = [7.00, 3.50]
-   #plt.rcParams["figure.autolayout"] = True
-   plt.rcParams["toolbar"] = 'None'
 
-   plt.figure("Speed of last day ")
-   plt.title("Line speed")
-   plt.xlabel("Time")
-   plt.ylabel("Speed [m/min]")
-   plt.ylim([0,150])
-   plt.margins(x=0)
-   plt.plot(Times, Speeds, label="Diameter", linewidth = 1)
-   plt.legend(loc='upper right')
-   plt.xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
-   figManager = plt.get_current_fig_manager()
-   figManager.full_screen_toggle()
-   plt.show()'''
 
    fig = Figure(figsize=(6,6))
    a = fig.add_subplot(111)
+   a.xlabel("Time")
+   a.ylabel("Speed [m/min]")
+   a.ylim([0,150])
+   a.margins(x=0)
    a.plot(Times, Speeds, label="Diameter", linewidth = 1)
+   a.legend(loc='upper right')
+   a.xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 
    canvas = FigureCanvasTkAgg(fig, master=graphWindow)
    canvas.get_tk_widget().grid(row=2, column=2)
