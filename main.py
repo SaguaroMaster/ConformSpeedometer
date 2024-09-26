@@ -88,7 +88,7 @@ def getSettings():
 def getLastData():
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
-   for row in curs.execute("DATETIME('now', 'localtime');"):
+   for row in curs.execute("SELECT datetime('now', 'localtime')"):
       time = row[0]
    return time
 
