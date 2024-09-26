@@ -272,6 +272,7 @@ Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 
 plt.rcParams["figure.figsize"] = [7.00, 3.50]
 plt.rcParams["figure.autolayout"] = True
+plt.rcParams["toolbar"] = 'None'
 
 plt.figure("Speed of last day ")
 plt.title("Line speed")
