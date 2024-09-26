@@ -217,7 +217,7 @@ def graphWindowCallback():
    canvas.get_tk_widget().pack(expand = True)
    canvas.draw()
 
-   CloseButton = Button(graphWindow, text = 'B E Z Á R', command = graphWindow.destroy, width = 50, height = 2, font = ('bold', 20))
+   CloseButton = Button(graphWindow, text = 'B E Z Á R', command = graphWindow.destroy, width = 80, height = 2, font = ('bold', 20))
    CloseButton.pack()
 
 
