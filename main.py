@@ -247,6 +247,8 @@ MeterText2 = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, p
 ButtonCounterReset = Button(root, text = 'RESET COUNTER', font=('bold', 25), command = resetLength, height = 2, bg = ResetButtonColor).grid(row=9,column=9, padx=(10,10), columnspan = 9)
 ButtonAlarmReset = Button(root, text = 'RESET ALARM', font=('bold', 25), command = resetAlarm, height = 2, bg = ResetButtonColor).grid(row=11,column=9, padx=(10,10), columnspan = 9)
 
+ButtonGraph = Button(root, text = 'GRAPH', font=('bold', 15), command = graphWindowCallback, height = 1, bg = UnlockButtonColor).grid(row=12,column=9, columnspan = 9)
+
 Unlock = Button(root, text = 'U  N  L  O  C  K', font=('bold', 25), command = unclockSetting, height = 1, width = 17, bg = UnlockButtonColor).grid(row=12,column=2, padx=(10,10), columnspan = 5)
 Plus1 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
 Plus1.grid(row=9,column=6, padx=(10,10))
@@ -273,7 +275,7 @@ Minus10000.grid(row=11,column=2, padx=(10,10))
 
 Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 
-#plt.rcParams["figure.figsize"] = [7.00, 3.50]
+'''#plt.rcParams["figure.figsize"] = [7.00, 3.50]
 #plt.rcParams["figure.autolayout"] = True
 plt.rcParams["toolbar"] = 'None'
 
@@ -288,9 +290,32 @@ plt.legend(loc='upper right')
 plt.xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 figManager = plt.get_current_fig_manager()
 figManager.full_screen_toggle()
-plt.show()
+plt.show()'''
 
-root.after(50, root.wm_attributes, '-fullscreen', 'true')
+
+
+
+def graphWindowCallback():
+
+   graphWindow = Toplevel(root)
+   graphWindow.title(" ")
+   graphWindow.after(50, graphWindow.wm_attributes, '-fullscreen', 'true')
+
+   graphWindow.transient(root)
+   graphWindow.grab_set()
+
+
+   CloseButton = ttk.Button(graphWindow, text = 'Close', command = graphWindow.destroy)
+   CloseButton.grid(row=6,column=5, columnspan=2, padx=(10,10), pady=(10,10))
+   
+   while True:
+      try:
+         graphWindow.state()
+         graphWindow.update()
+
+         time.sleep(0.05)
+      except:
+         break
 
 
 try:
