@@ -67,38 +67,6 @@ def logData(speed, length, alarmSetting):
    conn.commit()
    conn.close()
 
-def getSamplingPeriod():
-	conn=sqlite3.connect(databaseName)
-	curs=conn.cursor()
-	for row in curs.execute("SELECT sampling_period FROM settings ORDER BY timestamp DESC LIMIT 1"):
-		samplingPeriod = row[0]
-		if samplingPeriod > 900 : 
-			samplingPeriod = 900
-		elif samplingPeriod < 0.01 :
-			samplingPeriod = 0.01
-	conn.close()
-	return samplingPeriod
-
-def getSavingPeriod():
-	conn=sqlite3.connect(databaseName)
-	curs=conn.cursor()
-	for row in curs.execute("SELECT saving_period FROM settings ORDER BY timestamp DESC LIMIT 1"):
-		savingPeriod = row[0]
-		if savingPeriod > 1800 : 
-			savingPeriod = 1800
-		elif savingPeriod < 10 :
-			savingPeriod = 10
-	conn.close()
-	return savingPeriod
-
-def getCircumference():
-	conn=sqlite3.connect(databaseName)
-	curs=conn.cursor()
-	for row in curs.execute("SELECT circumference FROM settings ORDER BY timestamp DESC LIMIT 1"):
-		circumference = row[0]
-	conn.close()
-	return circumference
-
 def getSettings():
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
@@ -108,19 +76,21 @@ def getSettings():
       savingPeriod = row[2]
       Circumference = row[3]
       return lastEdit, samplingPeriod, savingPeriod, Circumference
-      return None, None, None, None
+   return None, None, None, None
 
-def getHistDataToday():
-	entry1 = datetime.datetime.today()
-	entry2 = entry1 + timedelta(days = 1)
-	curs.execute("SELECT SUM(energy) FROM data WHERE timestamp >= '" + str(entry1)[:10] + "' AND timestamp <= '" + str(entry2)[:10] + "'")
-	dataSum = curs.fetchall()
-	if dataSum[0][0] is None:
-		energyToday = 0
-	else:
-		energyToday = dataSum[0][0]/1000
-
-	return energyToday
+def getHistDataSpeed (numSamples1, numSamples2):
+   curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '" + str(numSamples2) + "' ORDER BY timestamp DESC")
+   data = curs.fetchall()
+   dates = []
+   speed = []
+   length = []
+   alarm = []
+   for row in reversed(data):
+      dates.append(row[0])
+      speed.append(row[1])
+      length.append(row[2])
+      alarm.append(row[3])
+   return dates, speed, length, alarm
 
 def getDigit(number, n):
     return number // 10**n % 10
@@ -200,13 +170,16 @@ def unclockSetting():
    global unlockFlag
    unlockFlag = 1
 
-#samplePeriod = getSamplingPeriod()
-#savePeriod = getSavingPeriod()
-#wheelCircumference = getCircumference()
+
 lastEdit, samplePeriod, savePeriod, wheelCircumference = getSettings()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
 runningAvgShort = deque(maxlen = 4)
 maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
+
+numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
+numSamples2 = numSamples1 + timedelta(days=1)
+
+print(getHistDataSpeed (numSamples1, numSamples2))
 
 
 root = Tk()
