@@ -90,7 +90,6 @@ def getLastData():
 def getHistDataSpeed (numSamples1, numSamples2):
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
-   numSamples1 = getLastData()
    curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '" + str(numSamples2) + "' ORDER BY timestamp DESC")
    data = curs.fetchall()
    dates = []
@@ -188,6 +187,7 @@ runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
 runningAvgShort = deque(maxlen = 4)
 maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
+numSamples1 = getLastData()
 numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
 numSamples2 = numSamples1 + timedelta(days=1)
 
