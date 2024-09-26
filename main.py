@@ -203,7 +203,7 @@ def graphWindowCallback():
    
    Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 
-   for i in len(Times):
+   for i in range(len(Times)):
       Times[i] = Times[i][2:len(Times[i])]
 
 
