@@ -35,7 +35,7 @@ unlockDuration = 30
 speed = 0
 maxPulseInterval = 3
 numSamples1 = 0
-numSamples1 = numSamples2
+numSamples2 = numSamples1
 
 
 relay1 = GPIO.LED(RELAY_CH1, active_high=False)
