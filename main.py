@@ -270,8 +270,8 @@ Minus10000.grid(row=11,column=2, padx=(10,10))
 
 Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 
-plt.rcParams["figure.figsize"] = [7.00, 3.50]
-plt.rcParams["figure.autolayout"] = True
+#plt.rcParams["figure.figsize"] = [7.00, 3.50]
+#plt.rcParams["figure.autolayout"] = True
 plt.rcParams["toolbar"] = 'None'
 
 plt.figure("Speed of last day ")
