@@ -206,8 +206,8 @@ def graphWindowCallback():
 
    fig = Figure(figsize=(12.8,7.4))
    a = fig.add_subplot(111)
-   a.set_xlabel("Time [HH:MM]")
-   a.set_ylabel("Speed [m/min]")
+   a.set_xlabel("Idő [HH:MM]")
+   a.set_ylabel("Sebesség [m/min]")
    a.set_title("Sor sebessége ma / Line speed today")
    a.set_ylim([0,150])
    a.plot(Times, Speeds, linewidth = 2)
