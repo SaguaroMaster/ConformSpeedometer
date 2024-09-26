@@ -81,11 +81,15 @@ def getSettings():
    return None, None, None, None
 
 def getLastData():
+   conn=sqlite3.connect(databaseName)
+   curs=conn.cursor()
    for row in curs.execute("SELECT * FROM data ORDER BY timestamp DESC LIMIT 1"):
       time = row[0]
    return time
 
 def getHistDataSpeed (numSamples1, numSamples2):
+   conn=sqlite3.connect(databaseName)
+   curs=conn.cursor()
    numSamples1 = getLastData()
    curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '" + str(numSamples2) + "' ORDER BY timestamp DESC")
    data = curs.fetchall()
