@@ -226,14 +226,14 @@ def graphWindowCallback():
    canvas.get_tk_widget().grid() # Show the widget on the screen
    canvas.draw(row=2,column=1)'''
 
-   while True:
+'''   while True:
       try:
          graphWindow.state()
          graphWindow.update()
 
          time.sleep(0.05)
       except:
-         break
+         break'''
 
 lastEdit, samplePeriod, savePeriod, wheelCircumference = getSettings()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
