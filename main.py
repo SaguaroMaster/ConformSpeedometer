@@ -219,11 +219,11 @@ def graphWindowCallback():
    plt.xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
    figManager = plt.get_current_fig_manager()
    figManager.full_screen_toggle()
-   #plt.show()'''
+   #plt.show()
 
    canvas = FigureCanvasTkAgg(fig, master=graphWindow) # Convert the Figure to a tkinter widget
    canvas.get_tk_widget().grid() # Show the widget on the screen
-   canvas.draw(row=2,column=1)
+   canvas.draw(row=2,column=1)'''
 
    while True:
       try:
