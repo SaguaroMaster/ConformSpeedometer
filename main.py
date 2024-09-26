@@ -213,8 +213,8 @@ def graphWindowCallback():
    a.legend(loc='upper right')
    a.set_xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 
-   canvas = FigureCanvasTkAgg(fig, master=graphWindow)
-   canvas.get_tk_widget().pack()
+   canvas = FigureCanvasTkAgg(fig, master = graphWindow)
+   canvas.get_tk_widget().pack(side = BOTTOM, expand = True1)
    canvas.draw()
 
 
