@@ -282,6 +282,9 @@ plt.margins(x=0)
 plt.plot(Times, Speeds, label="Diameter", linewidth = 1)
 plt.legend(loc='upper right')
 
+plt.ion()
+plt.show()
+
 try:
    while True:
       if time.time() > time2 + samplePeriod:
