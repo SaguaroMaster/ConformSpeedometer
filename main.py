@@ -283,7 +283,7 @@ plt.xlabel("Time")
 plt.ylabel("Speed [m/min]")
 plt.ylim([0,150])
 plt.margins(x=0)
-fig, ax = plt.plot(Times, Speeds, label="Diameter", linewidth = 1)
+fig = plt.plot(Times, Speeds, label="Diameter", linewidth = 1)
 plt.legend(loc='upper right')
 plt.xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 
