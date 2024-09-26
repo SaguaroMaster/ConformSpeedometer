@@ -226,8 +226,8 @@ Digit100String = StringVar(value=0)
 Digit1000String = StringVar(value=0)
 Digit10000String = StringVar(value=0)
 
-LastLogString = StringVar(value=datetime.datetime.now().time())
-TimeNowString = StringVar(value=datetime.datetime.now().time())
+LastLogString = StringVar(value=datetime.now().time())
+TimeNowString = StringVar(value=datetime.now().time())
 CPUTempString = StringVar(value=GPIO.CPUTemperature().temperature)
 
 SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=3, padx=(0,0), columnspan=12)
