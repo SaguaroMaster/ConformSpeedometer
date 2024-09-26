@@ -1,6 +1,6 @@
 import gpiozero as GPIO
 import time
-import datetime
+from datetime import datetime, timedelta
 import sqlite3
 import os
 from collections import deque
@@ -99,6 +99,27 @@ def getCircumference():
 	conn.close()
 	return circumference
 
+def getSettings():
+	for row in curs.execute("SELECT * FROM settings ORDER BY timestamp DESC LIMIT 1"):
+		lastEdit = row[0]
+		samplingPeriod = row[1]
+		savingPeriod = row[2]
+		Circumference = row[3]
+		return lastEdit, samplingPeriod, savingPeriod, Circumference
+	return None, None, None, None
+
+def getHistDataToday():
+	entry1 = datetime.datetime.today()
+	entry2 = entry1 + timedelta(days = 1)
+	curs.execute("SELECT SUM(energy) FROM data WHERE timestamp >= '" + str(entry1)[:10] + "' AND timestamp <= '" + str(entry2)[:10] + "'")
+	dataSum = curs.fetchall()
+	if dataSum[0][0] is None:
+		energyToday = 0
+	else:
+		energyToday = dataSum[0][0]/1000
+
+	return energyToday
+
 def getDigit(number, n):
     return number // 10**n % 10
 
@@ -177,9 +198,10 @@ def unclockSetting():
    global unlockFlag
    unlockFlag = 1
 
-samplePeriod = getSamplingPeriod()
-savePeriod = getSavingPeriod()
-wheelCircumference = getCircumference()
+#samplePeriod = getSamplingPeriod()
+#savePeriod = getSavingPeriod()
+#wheelCircumference = getCircumference()
+lastEdit, samplePeriod, savePeriod, wheelCircumference = getSettings()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
 runningAvgShort = deque(maxlen = 5)
 maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
