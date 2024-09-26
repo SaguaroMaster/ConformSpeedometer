@@ -269,7 +269,7 @@ Minus10000.grid(row=11,column=2, padx=(10,10))
 
 
 Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
-'''
+
 #plt.rcParams["figure.figsize"] = [7.00, 3.50]
 #plt.rcParams["figure.autolayout"] = True
 plt.rcParams["toolbar"] = 'None'
@@ -283,8 +283,10 @@ plt.margins(x=0)
 plt.plot(Times, Speeds, label="Diameter", linewidth = 1)
 plt.legend(loc='upper right')
 plt.xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
-'''
-#plt.show()
+
+manager = plt.get_current_fig_manager()
+manager.full_screen_toggle()
+plt.show()
 
 try:
    while True:
