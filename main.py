@@ -85,10 +85,10 @@ def getSettings():
       return lastEdit, samplingPeriod, savingPeriod, Circumference
    return None, None, None, None
 
-def getDatetime():
+def getLastData():
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
-   for row in curs.execute("SELECT datetime('now', 'localtime')"):
+   for row in curs.execute("SELECT * FROM data ORDER BY timestamp DESC LIMIT 1"):
       time = row[0]
    return time
 
@@ -227,7 +227,7 @@ runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
 runningAvgShort = deque(maxlen = 4)
 maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
-numSamples1 = getDatetime()
+numSamples1 = getLastData()
 numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
 numSamples2 = numSamples1 + timedelta(days=1)
 
