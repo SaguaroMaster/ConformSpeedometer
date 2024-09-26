@@ -201,7 +201,7 @@ print(getHistData (numSamples1, numSamples2))
 
 root = Tk()
 root.title('Line Speed and Length Meter')
-root.after(50, root.wm_attributes, '-fullscreen', 'true')
+root.after(1, root.wm_attributes, '-fullscreen', 'true')
 
 ResetButtonColor = '#ba737e'
 TargetButtonColor = '#82a9d9'
