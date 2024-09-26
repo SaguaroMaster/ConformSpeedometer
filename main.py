@@ -204,7 +204,7 @@ def graphWindowCallback():
    
    Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 
-   #plt.rcParams["figure.figsize"] = [7.00, 3.50]
+   '''#plt.rcParams["figure.figsize"] = [7.00, 3.50]
    #plt.rcParams["figure.autolayout"] = True
    plt.rcParams["toolbar"] = 'None'
 
@@ -219,7 +219,7 @@ def graphWindowCallback():
    plt.xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
    figManager = plt.get_current_fig_manager()
    figManager.full_screen_toggle()
-   #plt.show()
+   #plt.show()'''
 
    canvas = FigureCanvasTkAgg(fig, master=graphWindow) # Convert the Figure to a tkinter widget
    canvas.get_tk_widget().grid() # Show the widget on the screen
