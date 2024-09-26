@@ -100,6 +100,8 @@ def getCircumference():
 	return circumference
 
 def getSettings():
+   conn=sqlite3.connect(databaseName)
+	curs=conn.cursor()
 	for row in curs.execute("SELECT * FROM settings ORDER BY timestamp DESC LIMIT 1"):
 		lastEdit = row[0]
 		samplingPeriod = row[1]
