@@ -199,12 +199,12 @@ def graphWindowCallback():
 
 
    CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy)
-   CloseButton.grid(row=5,column=4, columnspan=10, padx=(10,10), pady=(10,10))
+   CloseButton.grid(row=1, column=2, columnspan=1, padx=(10,10), pady=(10,10))
    
    Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 
 
-   fig = Figure(figsize=(15,10))
+   fig = Figure(figsize=(10,5))
    a = fig.add_subplot(111)
    a.set_xlabel("Time")
    a.set_ylabel("Speed [m/min]")
