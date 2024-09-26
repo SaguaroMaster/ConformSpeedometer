@@ -201,7 +201,7 @@ def graphWindowCallback():
 
 
    CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy)
-   CloseButton.grid(row=1,column=1, columnspan=2, padx=(10,10), pady=(10,10))
+   CloseButton.grid(row=5,column=4, columnspan=10, padx=(10,10), pady=(10,10))
    
    Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 
