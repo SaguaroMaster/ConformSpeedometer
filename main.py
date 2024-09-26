@@ -192,7 +192,8 @@ def graphWindowCallback():
 
    graphWindow = Toplevel(root)
    graphWindow.title(" ")
-   graphWindow.after(50, graphWindow.wm_attributes, '-fullscreen', 'true')
+   graphWindow.wm_attributes(fullscreen = True)
+   #graphWindow.after(50, graphWindow.wm_attributes, '-fullscreen', 'true')
 
    graphWindow.transient(root)
    graphWindow.grab_set()
