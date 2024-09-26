@@ -62,6 +62,8 @@ if not os.path.isfile(databaseName):
    conn.commit()
    curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 0.1, 300, 0.078, 5000, 0, 0, 0, 0);")
    conn.commit()
+   curs.execute("INSERT INTO data values(datetime('now', 'localtime'), 0, 0, 1000);")
+   conn.commit()
    conn.close()
 
 def logData(speed, length, alarmSetting):
