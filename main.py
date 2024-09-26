@@ -204,7 +204,7 @@ def graphWindowCallback():
    Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 
 
-   fig = Figure(figsize=(6,6))
+   fig = Figure(figsize=(15,10))
    a = fig.add_subplot(111)
    a.set_xlabel("Time")
    a.set_ylabel("Speed [m/min]")
@@ -214,7 +214,7 @@ def graphWindowCallback():
    a.set_xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 
    canvas = FigureCanvasTkAgg(fig, master=graphWindow)
-   canvas.get_tk_widget().grid(row=2, column=2)
+   canvas.get_tk_widget().grid(row=10, column=2)
    canvas.draw()
 
 
