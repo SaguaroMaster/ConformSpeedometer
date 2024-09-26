@@ -204,7 +204,7 @@ def graphWindowCallback():
    for i in range(len(Times)):
       Times[i] = Times[i][11:len(Times[i])]
 
-   fig = Figure(figsize=(12,7))
+   fig = Figure(figsize=(12.5,7))
    a = fig.add_subplot(111)
    a.set_xlabel("Time [HH:MM:SS]")
    a.set_ylabel("Speed [m/min]")
