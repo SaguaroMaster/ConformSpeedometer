@@ -211,9 +211,9 @@ def graphWindowCallback():
    a = fig.add_subplot(111)
    a.set_xlabel("Time")
    a.set_ylabel("Speed [m/min]")
-   #a.set_title("Line speed for last 2 days, 5 minutes sampling period")
+   a.set_title("Line speed for last 2 days, 5 minutes sampling period")
    a.set_ylim([0,150])
-   #a.plot(Times, Speeds, label="Diameter", linewidth = 1)
+   a.plot(Times, Speeds, linewidth = 2)
    a.legend(loc='upper right')
    a.set_xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 
@@ -229,9 +229,8 @@ maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
 numSamples1 = getLastData()
 numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
-numSamples2 = numSamples1 + timedelta(days=1)
+numSamples2 = numSamples1 + timedelta(days=2)
 
-#print(getHistData (numSamples1, numSamples2))
 
 
 root = Tk()
