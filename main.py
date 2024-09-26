@@ -202,11 +202,11 @@ def graphWindowCallback():
    Times, Speeds, Lengths, AlarmLengths = getHistData(numSamples1, numSamples2)
 
    for i in range(len(Times)):
-      Times[i] = Times[i][11:len(Times[i])]
+      Times[i] = Times[i][11:16]
 
    fig = Figure(figsize=(12.8,7.4))
    a = fig.add_subplot(111)
-   a.set_xlabel("Time [HH:MM:SS]")
+   a.set_xlabel("Time [HH:MM]")
    a.set_ylabel("Speed [m/min]")
    a.set_title("Line speed for last 2 days, 5 minutes sampling period")
    a.set_ylim([0,150])
