@@ -211,7 +211,7 @@ def graphWindowCallback():
    a = fig.add_subplot(111)
    a.set_xlabel("Time")
    a.set_ylabel("Speed [m/min]")
-   a.set_title("Line speed for last 2 days")
+   a.set_title("Line speed for last 2 days, 5 minutes sampling period")
    a.set_ylim([0,150])
    #a.plot(Times, Speeds, label="Diameter", linewidth = 1)
    a.legend(loc='upper right')
