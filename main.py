@@ -209,7 +209,7 @@ def graphWindowCallback():
 
    fig = Figure(figsize=(11,7))
    a = fig.add_subplot(111)
-   a.set_xlabel("Time")
+   a.set_xlabel("Time [HH:MM:SS]")
    a.set_ylabel("Speed [m/min]")
    a.set_title("Line speed for last 2 days, 5 minutes sampling period")
    a.set_ylim([0,150])
