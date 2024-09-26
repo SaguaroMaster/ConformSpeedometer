@@ -12,6 +12,9 @@ from matplotlib.figure import Figure
 from datetime import datetime, timedelta
 from matplotlib import pyplot as plt
 
+from matplotlib.figure import Figure 
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk) 
+
 
 RELAY_CH1 = 26
 RELAY_CH2 = 20
@@ -280,13 +283,17 @@ plt.xlabel("Time")
 plt.ylabel("Speed [m/min]")
 plt.ylim([0,150])
 plt.margins(x=0)
-plt.plot(Times, Speeds, label="Diameter", linewidth = 1)
+fig, ax = plt.plot(Times, Speeds, label="Diameter", linewidth = 1)
 plt.legend(loc='upper right')
 plt.xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 
-manager = plt.get_current_fig_manager()
-manager.full_screen_toggle()
-plt.show()
+#plt.show()
+
+canvas = FigureCanvasTkAgg(fig, master=root) # Convert the Figure to a tkinter widget
+canvas.get_tk_widget().pack() # Show the widget on the screen
+canvas.draw() # Draw the graph on the canvas?
+
+pause
 
 try:
    while True:
