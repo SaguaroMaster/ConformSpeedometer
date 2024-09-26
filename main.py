@@ -10,7 +10,7 @@ from statistics import mean
 from collections import deque
 from matplotlib.figure import Figure
 from datetime import datetime, timedelta
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib import pyplot as plt
 
 
 RELAY_CH1 = 26
