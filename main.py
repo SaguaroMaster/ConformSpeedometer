@@ -204,7 +204,7 @@ def graphWindowCallback():
    Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 
 
-   fig = Figure(figsize=(10,5))
+   fig = Figure(figsize=(11,7))
    a = fig.add_subplot(111)
    a.set_xlabel("Time")
    a.set_ylabel("Speed [m/min]")
