@@ -190,6 +190,7 @@ def graphWindowCallback():
 
    graphWindow = Toplevel(root)
    graphWindow.resizable(0, 0)
+   graphWindow.overrideredirect(1)
    graphWindow.title(" ")
    #graphWindow.attributes("-fullscreen", True)
    #graphWindow.after(50, graphWindow.attributes, '-fullscreen', 'true')
