@@ -196,6 +196,7 @@ def graphWindowCallback():
 
    graphWindow.transient(root)
    graphWindow.grab_set()
+   graphWindow.resizable(0, 0)
 
 
    CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy)
