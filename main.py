@@ -273,8 +273,6 @@ Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 plt.rcParams["figure.figsize"] = [7.00, 3.50]
 plt.rcParams["figure.autolayout"] = True
 plt.rcParams["toolbar"] = 'None'
-figManager = plt.get_current_fig_manager()
-figManager.window.showMaximized()
 
 plt.figure("Speed of last day ")
 plt.title("Line speed")
@@ -286,7 +284,6 @@ plt.plot(Times, Speeds, label="Diameter", linewidth = 1)
 plt.legend(loc='upper right')
 plt.xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 
-plt.ion()
 plt.show()
 
 try:
