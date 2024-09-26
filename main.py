@@ -204,14 +204,13 @@ def graphWindowCallback():
    for i in range(len(Times)):
       Times[i] = Times[i][11:len(Times[i])]
 
-   fig = Figure(figsize=(12,8))
+   fig = Figure(figsize=(11,7))
    a = fig.add_subplot(111)
    a.set_xlabel("Time [HH:MM:SS]")
    a.set_ylabel("Speed [m/min]")
    a.set_title("Line speed for last 2 days, 5 minutes sampling period")
    a.set_ylim([0,150])
    a.plot(Times, Speeds, linewidth = 2)
-   a.legend(loc='upper right')
    a.set_xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 
    canvas = FigureCanvasTkAgg(fig, master = graphWindow)
