@@ -9,9 +9,7 @@ from statistics import mean
 from collections import deque
 from matplotlib.figure import Figure
 from datetime import datetime, timedelta
-from matplotlib import pyplot as plt
 
-from matplotlib.figure import Figure 
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk) 
 
 
@@ -204,7 +202,7 @@ def graphWindowCallback():
    CloseButton.grid(row=5,column=4, columnspan=10, padx=(10,10), pady=(10,10))
    
    Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
-
+   
    '''#plt.rcParams["figure.figsize"] = [7.00, 3.50]
    #plt.rcParams["figure.autolayout"] = True
    plt.rcParams["toolbar"] = 'None'
@@ -220,20 +218,15 @@ def graphWindowCallback():
    plt.xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
    figManager = plt.get_current_fig_manager()
    figManager.full_screen_toggle()
-   #plt.show()
+   plt.show()'''
 
-   canvas = FigureCanvasTkAgg(fig, master=graphWindow) # Convert the Figure to a tkinter widget
-   canvas.get_tk_widget().grid() # Show the widget on the screen
-   canvas.draw(row=2,column=1)'''
+   fig = Figure(figsize=(6,6))
+   fig.plot(Times, Speeds, label="Diameter", linewidth = 1)
 
-'''   while True:
-      try:
-         graphWindow.state()
-         graphWindow.update()
+   canvas = FigureCanvasTkAgg(fig, master=graphWindow)
+   canvas.get_tk_widget().pack()
+   canvas.draw()
 
-         time.sleep(0.05)
-      except:
-         break'''
 
 lastEdit, samplePeriod, savePeriod, wheelCircumference = getSettings()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
