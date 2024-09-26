@@ -204,7 +204,7 @@ def graphWindowCallback():
    for i in range(len(Times)):
       Times[i] = Times[i][11:len(Times[i])]
 
-   fig = Figure(figsize=(12.7,7.5))
+   fig = Figure(figsize=(12.8,7.4))
    a = fig.add_subplot(111)
    a.set_xlabel("Time [HH:MM:SS]")
    a.set_ylabel("Speed [m/min]")
@@ -217,7 +217,7 @@ def graphWindowCallback():
    canvas.get_tk_widget().pack(expand = True)
    canvas.draw()
 
-   CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy, width = 5, height = 2, font = ('bold', 15))
+   CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy, width = 10, height = 2, font = ('bold', 20))
    CloseButton.pack()
 
 
