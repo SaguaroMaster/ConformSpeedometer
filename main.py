@@ -133,8 +133,8 @@ def setLength(length): #if it looks stupid but works it aint stupid
       else:
          lengthTarget = lengthTarget + 1000
    elif length == 10000:
-      if getDigit(lengthTarget, 4) == 9:
-         lengthTarget = lengthTarget - 90000
+      if getDigit(lengthTarget, 4) == 5:
+         lengthTarget = lengthTarget - 50000
       else:
          lengthTarget = lengthTarget + 10000
 
@@ -160,9 +160,13 @@ def setLength(length): #if it looks stupid but works it aint stupid
          lengthTarget = lengthTarget - 1000
    elif length == -10000:
       if getDigit(lengthTarget, 4) == 0:
-         lengthTarget = lengthTarget + 90000
+         lengthTarget = lengthTarget + 50000
       else:
          lengthTarget = lengthTarget - 10000
+
+   if lengthTarget < 300:
+      lengthTarget = 300
+   
 
 def resetLength():
    global length
