@@ -18,25 +18,20 @@ RELAY_CH2 = 20
 RELAY_CH3 = 21
 SENSOR_PIN = 6
 
-switchTime = 0.1
 pulseCount = 0
 pulseCount2 = 0
-samplePeriod = 3 #seconds
+samplePeriod = 0.1 #seconds
 savePeriod = 300 #seconds
 wheelCircumference = 0.23 #meter
-time_old = time.time()-5
-time1 = time_old
-time2 = time1
+time2 = time.time()-5
 time3 = time2
 unlockTime = time.time()
-alarmTime1 = time1
 lastPulse = 0
 databaseName = 'Database.db'
-timeDiff = 0
 alarmState = 0
 lengthTarget = 1000
 unlockFlag = 0
-unlockDuration = 30
+unlockDuration = 20
 speed = 0
 maxPulseInterval = 3
 numSamples1 = 0
@@ -63,7 +58,7 @@ if not os.path.isfile(databaseName):
    conn.commit()
    curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period REAL, saving_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);")
    conn.commit()
-   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 0.2, 300, 0.078, 5000, 0, 0, 0, 0);")
+   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 0.1, 300, 0.078, 5000, 0, 0, 0, 0);")
    conn.commit()
    conn.close()
 
@@ -366,7 +361,7 @@ try:
       
       root.state()
       root.update()
-      time.sleep(0.01)
+      time.sleep(0.02)
 
 
 except:
