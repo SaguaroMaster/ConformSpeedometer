@@ -208,7 +208,7 @@ def graphWindowCallback():
    a = fig.add_subplot(111)
    a.set_xlabel("Time [HH:MM]")
    a.set_ylabel("Speed [m/min]")
-   a.set_title("Line speed for last 2 days, 5 minutes sampling period")
+   a.set_title("Sor sebessége ma / Line speed today")
    a.set_ylim([0,150])
    a.plot(Times, Speeds, linewidth = 2)
    a.set_xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
