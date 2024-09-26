@@ -39,6 +39,8 @@ numSamples2 = numSamples1
 
 
 relay1 = GPIO.LED(RELAY_CH1, active_high=False)
+relay2 = GPIO.LED(RELAY_CH2, active_high=False) 
+#relay3 = GPIO.LED(RELAY_CH3, active_high=False)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_time = 0.001)
 #sensor = GPIO.Button(SENSOR_PIN, pull_up = False, bounce_time = 0.05)
 
@@ -178,9 +180,11 @@ def resetLength():
 
 def setAlarm():
    relay1.blink(on_time=0.2, off_time=1)
+   relay2.on()
 
 def resetAlarm():
    relay1.off()
+   relay2.off()
 
 def unclockSetting():
    global unlockFlag
