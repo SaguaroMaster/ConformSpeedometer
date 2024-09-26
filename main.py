@@ -229,7 +229,7 @@ maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
 numSamples1 = getLastData()
 numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
-numSamples2 = numSamples1 + timedelta(days=2)
+numSamples2 = numSamples1 + timedelta(days=1)
 
 
 
