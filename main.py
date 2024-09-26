@@ -1,12 +1,17 @@
-import gpiozero as GPIO
-import time
-from datetime import datetime, timedelta
-import sqlite3
 import os
-from collections import deque
-from statistics import mean
+import time
+import sqlite3
+import calendar
+import gpiozero as GPIO
+import dateutil.relativedelta
 from tkinter import *
 from tkinter import ttk
+from statistics import mean
+from collections import deque
+from matplotlib.figure import Figure
+from datetime import datetime, timedelta
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+
 
 RELAY_CH1 = 26
 RELAY_CH2 = 20
@@ -87,7 +92,7 @@ def getLastData():
       time = row[0]
    return time
 
-def getHistDataSpeed (numSamples1, numSamples2):
+def getHistData (numSamples1, numSamples2):
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
    curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '" + str(numSamples2) + "' ORDER BY timestamp DESC")
@@ -191,7 +196,7 @@ numSamples1 = getLastData()
 numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
 numSamples2 = numSamples1 + timedelta(days=1)
 
-print(getHistDataSpeed (numSamples1, numSamples2))
+print(getHistData (numSamples1, numSamples2))
 
 
 root = Tk()
@@ -262,6 +267,20 @@ Minus1000.grid(row=11,column=3, padx=(10,10))
 Minus10000 = Button(root, text = '-', font=('bold', 40), command = lambda: setLength(-10000), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
 Minus10000.grid(row=11,column=2, padx=(10,10))
 
+
+Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
+
+plt.rcParams["figure.figsize"] = [7.00, 3.50]
+plt.rcParams["figure.autolayout"] = True
+
+plt.figure("Speed of last day ")
+plt.title("Line speed")
+plt.xlabel("Time")
+plt.ylabel("Speed [m/min]")
+plt.ylim([0,150])
+plt.margins(x=0)
+plt.plot(Times, Speeds, label="Diameter", linewidth = 1)
+plt.legend(loc='upper right')
 
 try:
    while True:
