@@ -194,7 +194,7 @@ def graphWindowCallback():
    #graphWindow.after(50, graphWindow.attributes, '-fullscreen', 'true')
    #time.sleep(0.051)
 
-   graphWindow.transient(root)
+   graphWindow.transient(1)
    graphWindow.grab_set()
    graphWindow.resizable(0, 0)
 
