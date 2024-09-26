@@ -284,7 +284,7 @@ plt.plot(Times, Speeds, label="Diameter", linewidth = 1)
 plt.legend(loc='upper right')
 plt.xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 
-plt.show()
+#plt.show()
 
 try:
    while True:
