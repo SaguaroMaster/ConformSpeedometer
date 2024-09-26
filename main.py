@@ -206,13 +206,13 @@ def graphWindowCallback():
 
    fig = Figure(figsize=(6,6))
    a = fig.add_subplot(111)
-   a.xlabel("Time")
-   a.ylabel("Speed [m/min]")
-   a.ylim([0,150])
-   a.margins(x=0)
+   a.set_xlabel("Time")
+   a.set_ylabel("Speed [m/min]")
+   a.set_ylim([0,150])
+   a.set_margins(x=0)
    a.plot(Times, Speeds, label="Diameter", linewidth = 1)
    a.legend(loc='upper right')
-   a.xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
+   a.set_xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 
    canvas = FigureCanvasTkAgg(fig, master=graphWindow)
    canvas.get_tk_widget().grid(row=2, column=2)
