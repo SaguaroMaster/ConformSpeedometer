@@ -201,22 +201,23 @@ def graphWindowCallback():
    #CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy)
    #CloseButton.pack=()
    
-   Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
+   Times, Speeds, Lengths, AlarmLengths = getHistData(numSamples1, numSamples2)
 
    for i in range(len(Times)):
       Times[i] = Times[i][11:len(Times[i])]
+
 
    fig = Figure(figsize=(11,7))
    a = fig.add_subplot(111)
    a.set_xlabel("Time")
    a.set_ylabel("Speed [m/min]")
    a.set_ylim([0,150])
-   a.plot(Times, Speeds, label="Diameter", linewidth = 1)
+   #a.plot(Times, Speeds, label="Diameter", linewidth = 1)
    a.legend(loc='upper right')
    a.set_xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 
    canvas = FigureCanvasTkAgg(fig, master = graphWindow)
-   canvas.get_tk_widget().pack(side = BOTTOM, expand = True)
+   canvas.get_tk_widget().pack(expand = True)
    canvas.draw()
 
 
@@ -227,7 +228,7 @@ maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
 numSamples1 = getLastData()
 numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
-numSamples2 = numSamples1 + timedelta(days=1)
+numSamples2 = numSamples1 + timedelta(days=2)
 
 #print(getHistData (numSamples1, numSamples2))
 
