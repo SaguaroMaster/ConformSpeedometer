@@ -292,12 +292,12 @@ try:
          maxLength.append(length)
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
-         TimeNowString.set(datetime.datetime.now().time())
+         TimeNowString.set(datetime.now().time())
 
       if time.time() > time3 + savePeriod:
          time3 = time.time()
          logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
-         LastLogString.set(datetime.datetime.now().time())
+         LastLogString.set(datetime.now().time())
          CPUTempString.set(GPIO.CPUTemperature().temperature)
       
 
