@@ -225,7 +225,7 @@ def graphWindowCallback():
    a.plot(Times, Speeds, label="Diameter", linewidth = 1)
 
    canvas = FigureCanvasTkAgg(fig, master=graphWindow)
-   canvas.get_tk_widget().pack()
+   canvas.get_tk_widget().grid(row=2, column=2)
    canvas.draw()
 
 
