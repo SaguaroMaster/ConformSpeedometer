@@ -189,14 +189,15 @@ def unclockSetting():
 def graphWindowCallback():
 
    graphWindow = Toplevel(root)
+   graphWindow.resizable(0, 0)
    graphWindow.title(" ")
    #graphWindow.attributes("-fullscreen", True)
    #graphWindow.after(50, graphWindow.attributes, '-fullscreen', 'true')
    #time.sleep(0.051)
 
-   graphWindow.transient(1)
+   graphWindow.transient(root)
    graphWindow.grab_set()
-   graphWindow.resizable(0, 0)
+   
 
 
    CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy)
