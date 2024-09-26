@@ -199,7 +199,7 @@ def graphWindowCallback():
 
 
    CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy)
-   CloseButton.grid(row=1, column=2, columnspan=1, padx=(10,10), pady=(10,10))
+   CloseButton.grid(row=3, column=2, columnspan=1, padx=(10,10), pady=(10,10))
    
    Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 
@@ -214,7 +214,7 @@ def graphWindowCallback():
    a.set_xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
 
    canvas = FigureCanvasTkAgg(fig, master=graphWindow)
-   canvas.get_tk_widget().grid(row=10, column=2)
+   canvas.get_tk_widget().grid(row=1, column=1, columnspan = 3)
    canvas.draw()
 
 
