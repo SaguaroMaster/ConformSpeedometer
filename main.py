@@ -191,15 +191,15 @@ def graphWindowCallback():
    graphWindow = Toplevel(root)
    graphWindow.title(" ")
    #graphWindow.attributes("-fullscreen", True)
-   graphWindow.after(50, graphWindow.attributes, '-fullscreen', 'true')
-   time.sleep(0.051)
+   #graphWindow.after(50, graphWindow.attributes, '-fullscreen', 'true')
+   #time.sleep(0.051)
 
    graphWindow.transient(root)
    graphWindow.grab_set()
 
 
-   CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy)
-   CloseButton.pack=()
+   #CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy)
+   #CloseButton.pack=()
    
    Times, Speeds, Lengths, AlarmLengths = getHistData (numSamples1, numSamples2)
 
