@@ -199,16 +199,10 @@ def graphWindowCallback():
    #graphWindow.transient(root)
    #graphWindow.grab_set()
    
-
-
-   CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy)
-   #CloseButton.pack()
-   
    Times, Speeds, Lengths, AlarmLengths = getHistData(numSamples1, numSamples2)
 
    for i in range(len(Times)):
       Times[i] = Times[i][11:len(Times[i])]
-
 
    fig = Figure(figsize=(11,7))
    a = fig.add_subplot(111)
@@ -223,6 +217,9 @@ def graphWindowCallback():
    canvas = FigureCanvasTkAgg(fig, master = graphWindow)
    canvas.get_tk_widget().pack(expand = True)
    canvas.draw()
+
+   CloseButton = Button(graphWindow, text = 'Close', command = graphWindow.destroy)
+   CloseButton.pack()
 
 
 lastEdit, samplePeriod, savePeriod, wheelCircumference = getSettings()
