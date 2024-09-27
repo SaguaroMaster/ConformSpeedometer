@@ -37,7 +37,6 @@ maxPulseInterval = 3
 numSamples1 = 0
 numSamples2 = numSamples1
 
-
 relay1 = GPIO.LED(RELAY_CH1, active_high=False)
 relay2 = GPIO.LED(RELAY_CH2, active_high=False) 
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_time = 0.001)
@@ -186,15 +185,8 @@ def unclockSetting():
 def graphWindowCallback():
 
    graphWindow = Toplevel(root)
-   #graphWindow.resizable(0, 0)
    graphWindow.overrideredirect(1)
    graphWindow.title(" ")
-   #graphWindow.attributes("-fullscreen", True)
-   #graphWindow.after(50, graphWindow.attributes, '-fullscreen', 'true')
-   #time.sleep(0.051)
-
-   #graphWindow.transient(root)
-   #graphWindow.grab_set()
    
    Times, Speeds, Lengths, AlarmLengths = getHistData(numSamples1, numSamples2)
 
@@ -318,16 +310,11 @@ try:
    while True:
       if time.time() > time2 + samplePeriod:
          time2 = time.time()
-
-         if time2 > lastPulse + maxPulseInterval:
-            speed = 0
-
-         #speed = pulseCount * wheelCircumference * (60.0 / samplePeriod) #meters / minute
-         #pulseCount = 0
-         length = pulseCount2 * wheelCircumference
+         
          maxLength.append(length)
          runningAvgLong.append(speed)
          runningAvgShort.append(speed)
+         
          TimeNowString.set(datetime.now().time())
 
       if time.time() > time3 + savePeriod:
@@ -337,6 +324,7 @@ try:
          CPUTempString.set(GPIO.CPUTemperature().temperature)
       
 
+      length = pulseCount2 * wheelCircumference
       if length > lengthTarget and alarmState == 0:
          alarmState = 1
          setAlarm()
@@ -365,6 +353,8 @@ try:
          Minus100.config(state = DISABLED)
          Minus1000.config(state = DISABLED)
          Minus10000.config(state = DISABLED)
+
+      
 
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 08.1f}'.format(length))
