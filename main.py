@@ -44,16 +44,7 @@ relay2 = GPIO.LED(RELAY_CH2, active_high=False)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_time = 0.001)
 #sensor = GPIO.Button(SENSOR_PIN, pull_up = False, bounce_time = 0.05)
 
-def pulseCallback(self):
-   global pulseCount2, speed, maxPulseInterval, wheelCircumference, lastPulse
-   pulseCount2 = pulseCount2 + 1
-   timeDiff = time.time() - lastPulse
-   if timeDiff > 0.005 and timeDiff < 1:
-      speed = 60 / (time.time() - timeDiff) * wheelCircumference
 
-   lastPulse = time.time()
-
-sensor.when_released = pulseCallback
 
 if not os.path.isfile(databaseName):
    conn = sqlite3.connect(databaseName)
@@ -233,6 +224,19 @@ lastEdit, samplePeriod, savePeriod, wheelCircumference = getSettings()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
 runningAvgShort = deque(maxlen = 4)
 maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
+
+
+def pulseCallback(self):
+   global pulseCount2, speed, maxPulseInterval, wheelCircumference, lastPulse
+   pulseCount2 = pulseCount2 + 1
+   timeDiff = time.time() - lastPulse
+   if timeDiff > 0.005 and timeDiff < 1:
+      speed = 60 / (time.time() - timeDiff) * wheelCircumference
+
+   lastPulse = time.time()
+
+sensor.when_released = pulseCallback
+
 
 numSamples1, lengthTarget = getLastData()
 numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
