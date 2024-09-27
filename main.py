@@ -221,7 +221,7 @@ def pulseCallback(self):
    pulseCount2 = pulseCount2 + 1
    timeDiff = time.time() - lastPulse
    if timeDiff > 0.005 and timeDiff < 1:
-      speed = 60 / (time.time() - timeDiff) * wheelCircumference
+      speed = 60 / (timeDiff) * wheelCircumference
 
    lastPulse = time.time()
 
