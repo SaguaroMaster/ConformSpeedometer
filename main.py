@@ -306,68 +306,68 @@ Minus10000.grid(row=11,column=2, padx=(10,10))
 
 
 
-try:
-   while True:
-      if time.time() > time2 + samplePeriod:
-         time2 = time.time()
-         
-         maxLength.append(length)
-         runningAvgLong.append(speed)
-         runningAvgShort.append(speed)
-         
-         TimeNowString.set(datetime.now().time())
-
-      if time.time() > time3 + savePeriod:
-         time3 = time.time()
-         logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
-         LastLogString.set(datetime.now().time())
-         CPUTempString.set(GPIO.CPUTemperature().temperature)
+#try:
+while True:
+   if time.time() > time2 + samplePeriod:
+      time2 = time.time()
       
-
-      length = pulseCount2 * wheelCircumference
-      if length > lengthTarget and alarmState == 0:
-         alarmState = 1
-         setAlarm()
-
-      if unlockFlag == 1:
-         Plus1.config(state = NORMAL)
-         Plus10.config(state = NORMAL)
-         Plus100.config(state = NORMAL)
-         Plus1000.config(state = NORMAL)
-         Plus10000.config(state = NORMAL)
-         Minus1.config(state = NORMAL)
-         Minus10.config(state = NORMAL)
-         Minus100.config(state = NORMAL)
-         Minus1000.config(state = NORMAL)
-         Minus10000.config(state = NORMAL)
-         unlockFlag = 0
-         unlockTime = time.time()
-      elif unlockFlag == 0 and time.time() > unlockTime + unlockDuration:
-         Plus1.config(state = DISABLED)
-         Plus10.config(state = DISABLED)
-         Plus100.config(state = DISABLED)
-         Plus1000.config(state = DISABLED)
-         Plus10000.config(state = DISABLED)
-         Minus1.config(state = DISABLED)
-         Minus10.config(state = DISABLED)
-         Minus100.config(state = DISABLED)
-         Minus1000.config(state = DISABLED)
-         Minus10000.config(state = DISABLED)
-
+      maxLength.append(length)
+      runningAvgLong.append(speed)
+      runningAvgShort.append(speed)
       
+      TimeNowString.set(datetime.now().time())
 
-      SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
-      LengthString.set('{0: 08.1f}'.format(length))
-      Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
-      Digit10String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 1)))
-      Digit100String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 2)))
-      Digit1000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 3)))
-      Digit10000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 4)))
-      
-      root.state()
-      root.update()
-      time.sleep(0.02)
+   if time.time() > time3 + savePeriod:
+      time3 = time.time()
+      logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
+      LastLogString.set(datetime.now().time())
+      CPUTempString.set(GPIO.CPUTemperature().temperature)
+   
+
+   length = pulseCount2 * wheelCircumference
+   if length > lengthTarget and alarmState == 0:
+      alarmState = 1
+      setAlarm()
+
+   if unlockFlag == 1:
+      Plus1.config(state = NORMAL)
+      Plus10.config(state = NORMAL)
+      Plus100.config(state = NORMAL)
+      Plus1000.config(state = NORMAL)
+      Plus10000.config(state = NORMAL)
+      Minus1.config(state = NORMAL)
+      Minus10.config(state = NORMAL)
+      Minus100.config(state = NORMAL)
+      Minus1000.config(state = NORMAL)
+      Minus10000.config(state = NORMAL)
+      unlockFlag = 0
+      unlockTime = time.time()
+   elif unlockFlag == 0 and time.time() > unlockTime + unlockDuration:
+      Plus1.config(state = DISABLED)
+      Plus10.config(state = DISABLED)
+      Plus100.config(state = DISABLED)
+      Plus1000.config(state = DISABLED)
+      Plus10000.config(state = DISABLED)
+      Minus1.config(state = DISABLED)
+      Minus10.config(state = DISABLED)
+      Minus100.config(state = DISABLED)
+      Minus1000.config(state = DISABLED)
+      Minus10000.config(state = DISABLED)
+
+   
+
+   SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
+   LengthString.set('{0: 08.1f}'.format(length))
+   Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
+   Digit10String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 1)))
+   Digit100String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 2)))
+   Digit1000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 3)))
+   Digit10000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 4)))
+   
+   root.state()
+   root.update()
+   time.sleep(0.02)
 
 
-except:
-  print("Terminating program...")
+#except:
+  #print("Terminating program...")
