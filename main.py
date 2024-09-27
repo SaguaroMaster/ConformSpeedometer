@@ -308,6 +308,9 @@ Minus10000.grid(row=11,column=2, padx=(10,10))
 
 #try:
 while True:
+
+   length = pulseCount2 * wheelCircumference
+   
    if time.time() > time2 + samplePeriod:
       time2 = time.time()
       
@@ -324,7 +327,6 @@ while True:
       CPUTempString.set(GPIO.CPUTemperature().temperature)
    
 
-   length = pulseCount2 * wheelCircumference
    if length > lengthTarget and alarmState == 0:
       alarmState = 1
       setAlarm()
