@@ -45,7 +45,7 @@ sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_tim
 #sensor = GPIO.Button(SENSOR_PIN, pull_up = False, bounce_time = 0.05)
 
 def pulseCallback(self):
-   global pulseCount2, speed, maxPulseInterval, wheelCircumference
+   global pulseCount2, speed, maxPulseInterval, wheelCircumference, lastPulse
    pulseCount2 = pulseCount2 + 1
    timeDiff = time.time() - lastPulse
    if timeDiff > 0.005 and timeDiff < 1:
