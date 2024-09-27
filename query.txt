@@ -12,3 +12,5 @@ to disable: systemctl disable speedometer.service
 If it doesnt want to work then disable, daemon-reload, enable, daemon-reload
 
 screen timeout off: https://forums.raspberrypi.com/viewtopic.php?t=129867
+
+database that is used on autostart will be saved in root directory.
