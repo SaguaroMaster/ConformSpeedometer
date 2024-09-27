@@ -33,7 +33,7 @@ lengthTarget = 1000
 unlockFlag = 0
 unlockDuration = 20
 speed = 0
-maxPulseInterval = 3
+maxPulseInterval = 1.5
 numSamples1 = 0
 numSamples2 = numSamples1
 
@@ -222,8 +222,6 @@ def pulseCallback(self):
    timeDiff = time.time() - lastPulse
    if timeDiff > 0.005 and timeDiff < 1:
       speed = 60 / timeDiff * wheelCircumference
-   else:
-      speed = 0
 
    lastPulse = time.time()
 
@@ -315,6 +313,9 @@ try:
 
       if time.time() > time2 + samplePeriod:
          time2 = time.time()
+
+         if time2 > lastPulse + maxPulseInterval:
+            speed = 0
          
          maxLength.append(length)
          runningAvgLong.append(speed)
