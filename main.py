@@ -40,9 +40,7 @@ numSamples2 = numSamples1
 
 relay1 = GPIO.LED(RELAY_CH1, active_high=False)
 relay2 = GPIO.LED(RELAY_CH2, active_high=False) 
-#relay3 = GPIO.LED(RELAY_CH3, active_high=False)
 sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_time = 0.001)
-#sensor = GPIO.Button(SENSOR_PIN, pull_up = False, bounce_time = 0.05)
 
 
 
@@ -230,8 +228,8 @@ def pulseCallback(self):
    global pulseCount2, speed, maxPulseInterval, wheelCircumference, lastPulse
    pulseCount2 = pulseCount2 + 1
    timeDiff = time.time() - lastPulse
-   if timeDiff > 0.005 and timeDiff < 1:
-      speed = 60 / (time.time() - timeDiff) * wheelCircumference
+   #if timeDiff > 0.005 and timeDiff < 1:
+   speed = 60 / (time.time() - timeDiff) * wheelCircumference
 
    lastPulse = time.time()
 
