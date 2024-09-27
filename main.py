@@ -279,7 +279,7 @@ MeterText2 = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, p
 ButtonCounterReset = Button(root, text = 'SZÁML. RESET', font=('bold', 25), command = resetLength, height = 2, bg = ResetButtonColor).grid(row=9,column=9, padx=(10,10), columnspan = 9)
 ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 25), command = resetAlarm, height = 2, bg = ResetButtonColor).grid(row=11,column=9, padx=(10,10), columnspan = 9)
 
-ButtonGraph = Button(root, text = 'GRAFIKON', font=('bold', 15), command = graphWindowCallback, height = 1, bg = UnlockButtonColor).grid(row=12,column=17, columnspan = 9)
+ButtonGraph = Button(root, text = 'GRAFIKON', font=('bold', 15), command = graphWindowCallback, height = 1, bg = UnlockButtonColor).grid(row=12,column=17, columnspan = 9, padx=(0,20))
 
 Unlock = Button(root, text = 'F E L N Y I T', font=('bold', 25), command = unclockSetting, height = 1, width = 17, bg = UnlockButtonColor).grid(row=12,column=2, padx=(10,10), columnspan = 5)
 Plus1 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
