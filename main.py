@@ -331,6 +331,8 @@ Minus1000.grid(row=11,column=3, padx=(10,10))
 Minus10000 = Button(root, text = '-', font=('bold', 40), command = lambda: setLength(-10000), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
 Minus10000.grid(row=11,column=2, padx=(10,10))
 
+LengthString.set('{0: 08.1f}'.format(0))
+SpeedString.set('{0: 06.1f}'.format(0))
 
 
 try:
@@ -375,9 +377,9 @@ try:
          Minus10000.config(state = DISABLED)
          unlockFlag = 0
       
-      if speed != oldSpeed:
+      if runningAvgShort[len(runningAvgShort)] != oldSpeed:
          SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
-         oldSpeed = speed
+         oldSpeed = runningAvgShort[len(runningAvgShort)]
       
       if length != oldLength:
          LengthString.set('{0: 08.1f}'.format(length))
