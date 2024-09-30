@@ -178,8 +178,22 @@ def resetAlarm():
    relay2.off()
 
 def unclockSetting():
-   global unlockFlag
+   global unlockFlag, unlockTime
    unlockFlag = 1
+
+   Plus1.config(state = NORMAL)
+   Plus10.config(state = NORMAL)
+   Plus100.config(state = NORMAL)
+   Plus1000.config(state = NORMAL)
+   Plus10000.config(state = NORMAL)
+   Minus1.config(state = NORMAL)
+   Minus10.config(state = NORMAL)
+   Minus100.config(state = NORMAL)
+   Minus1000.config(state = NORMAL)
+   Minus10000.config(state = NORMAL)
+
+   unlockTime = time.time()
+
 
 def graphWindowCallback():
 
@@ -333,20 +347,8 @@ try:
          alarmState = 1
          setAlarm()
 
-      if unlockFlag == 1:
-         Plus1.config(state = NORMAL)
-         Plus10.config(state = NORMAL)
-         Plus100.config(state = NORMAL)
-         Plus1000.config(state = NORMAL)
-         Plus10000.config(state = NORMAL)
-         Minus1.config(state = NORMAL)
-         Minus10.config(state = NORMAL)
-         Minus100.config(state = NORMAL)
-         Minus1000.config(state = NORMAL)
-         Minus10000.config(state = NORMAL)
-         unlockFlag = 0
-         unlockTime = time.time()
-      elif unlockFlag == 0 and time.time() > unlockTime + unlockDuration:
+
+      if unlockFlag == 1 and time.time() > unlockTime + unlockDuration:
          Plus1.config(state = DISABLED)
          Plus10.config(state = DISABLED)
          Plus100.config(state = DISABLED)
@@ -357,6 +359,7 @@ try:
          Minus100.config(state = DISABLED)
          Minus1000.config(state = DISABLED)
          Minus10000.config(state = DISABLED)
+         unlockFlag = 1
 
       
 
