@@ -100,6 +100,15 @@ def getHistData (numSamples1, numSamples2):
 def getDigit(number, n):
     return number // 10**n % 10
 
+def setLengthTarget():
+   global lengthTarget
+
+   Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
+   Digit10String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 1)))
+   Digit100String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 2)))
+   Digit1000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 3)))
+   Digit10000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 4)))
+
 def setLength(length): #if it looks stupid but works it aint stupid
    global lengthTarget
 
@@ -136,6 +145,7 @@ def setLength(length): #if it looks stupid but works it aint stupid
          lengthTarget = lengthTarget + 9
       else:
          lengthTarget = lengthTarget - 1
+      
    elif length == -10:
       if getDigit(lengthTarget, 1) == 0:
          lengthTarget = lengthTarget + 90
@@ -159,6 +169,8 @@ def setLength(length): #if it looks stupid but works it aint stupid
 
    if lengthTarget < 300:
       lengthTarget = 300
+
+   setLengthTarget()
    
 
 def resetLength():
@@ -365,11 +377,7 @@ try:
 
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
       LengthString.set('{0: 08.1f}'.format(length))
-      Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
-      Digit10String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 1)))
-      Digit100String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 2)))
-      Digit1000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 3)))
-      Digit10000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 4)))
+
       
       root.state()
       root.update()
