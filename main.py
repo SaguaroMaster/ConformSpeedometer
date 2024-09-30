@@ -334,7 +334,7 @@ LengthString.set('{0: 08.1f}'.format(0))
 SpeedString.set('{0: 06.1f}'.format(0))
 
 
-#try:
+
 while True:
 
    length = pulseCount2 * wheelCircumference
@@ -387,7 +387,3 @@ while True:
    root.state()
    root.update()
    time.sleep(0.02)
-
-
-#except:
-#   print("Terminating program...")
