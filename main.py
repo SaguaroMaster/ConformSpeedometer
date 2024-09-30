@@ -10,7 +10,9 @@ from collections import deque
 from matplotlib.figure import Figure
 from datetime import datetime, timedelta
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk) 
+from gpiozero.pins.native import NativeFactory
 
+Device.pin_factory = NativeFactory()
 
 RELAY_CH1 = 26
 RELAY_CH2 = 20
