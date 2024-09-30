@@ -9,7 +9,6 @@ from statistics import mean
 from collections import deque
 from matplotlib.figure import Figure
 from datetime import datetime, timedelta
-
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk) 
 
 

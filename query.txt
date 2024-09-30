@@ -3,6 +3,17 @@ CREATE TABLE data(timestamp DATETIME, speed REAL, length REAL, alarmSetting INT)
 CREATE TABLE settings(timestamp DATETIME, sampling_period REAL, saving_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);
 INSERT INTO settings values(datetime('now', 'localtime'), 0.5, 300, 0.23, 5000, 0, 0, 0, 0);
 
+
+To make Waveshare HMI display work put in config.txt after flashing sd card:
+(source: https://www.waveshare.com/wiki/10.1inch_DSI_LCD_(C)) 
+
+dtoverlay=vc4-kms-v3d
+#DSI1 Use
+dtoverlay=vc4-kms-dsi-waveshare-panel,10_1_inch
+#DSI0 Use
+#dtoverlay=vc4-kms-dsi-waveshare-panel,10_1_inch,dsi0
+
+
 Do this to autostart and disable screen blanking:
 
 mkdir /home/pi/.config/autostart/
