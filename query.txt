@@ -3,19 +3,6 @@ CREATE TABLE data(timestamp DATETIME, speed REAL, length REAL, alarmSetting INT)
 CREATE TABLE settings(timestamp DATETIME, sampling_period REAL, saving_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);
 INSERT INTO settings values(datetime('now', 'localtime'), 0.5, 300, 0.23, 5000, 0, 0, 0, 0);
 
-to start thigs on boot do in shell in home directory try this (using systemd): https://stackoverflow.com/questions/64449960/tkinter-python-auto-start-on-raspberry-pi4
-
-service name is speedometer.service
-to enable:  systemctl enable speedometer.service
-to disable: systemctl disable speedometer.service
-
-If it doesnt want to work then disable, daemon-reload, enable, daemon-reload
-
-screen timeout off: https://forums.raspberrypi.com/viewtopic.php?t=129867
-
-database that is used on autostart will be saved in root directory.
-
-
 Do this to autostart and disable screen blanking:
 
 mkdir /home/pi/.config/autostart/
@@ -37,3 +24,5 @@ insert at the end:
 @xset s noblank
 @xset s off
 @xset -dpms
+
+database that is used on autostart will be saved in home directory of user.
