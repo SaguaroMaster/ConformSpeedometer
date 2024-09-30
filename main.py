@@ -335,61 +335,60 @@ LengthString.set('{0: 08.1f}'.format(0))
 SpeedString.set('{0: 06.1f}'.format(0))
 
 
-try:
-   while True:
+#try:
+while True:
 
-      length = pulseCount2 * wheelCircumference
+   length = pulseCount2 * wheelCircumference
 
-      if time.time() > time2 + samplePeriod:
-         time2 = time.time()
+   if time.time() > time2 + samplePeriod:
+      time2 = time.time()
 
-         if time2 > lastPulse + maxPulseInterval:
-            speed = 0
-         
-         maxLength.append(length)
-         runningAvgLong.append(speed)
-         runningAvgShort.append(speed)
-         
-         TimeNowString.set(datetime.now().time())
-
-      if time.time() > time3 + savePeriod:
-         time3 = time.time()
-         logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
-         LastLogString.set(datetime.now().time())
-         CPUTempString.set(GPIO.CPUTemperature().temperature)
+      if time2 > lastPulse + maxPulseInterval:
+         speed = 0
       
+      maxLength.append(length)
+      runningAvgLong.append(speed)
+      runningAvgShort.append(speed)
+      TimeNowString.set(datetime.now().time())
 
-      if length > lengthTarget and alarmState == 0:
-         alarmState = 1
-         setAlarm()
+   if time.time() > time3 + savePeriod:
+      time3 = time.time()
+      logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
+      LastLogString.set(datetime.now().time())
+      CPUTempString.set(GPIO.CPUTemperature().temperature)
+   
 
-
-      if unlockFlag == 1 and time.time() > unlockTime + unlockDuration:
-         Plus1.config(state = DISABLED)
-         Plus10.config(state = DISABLED)
-         Plus100.config(state = DISABLED)
-         Plus1000.config(state = DISABLED)
-         Plus10000.config(state = DISABLED)
-         Minus1.config(state = DISABLED)
-         Minus10.config(state = DISABLED)
-         Minus100.config(state = DISABLED)
-         Minus1000.config(state = DISABLED)
-         Minus10000.config(state = DISABLED)
-         unlockFlag = 0
-      
-      if runningAvgShort[0] != oldSpeed:
-         SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
-         oldSpeed = runningAvgShort[0]
-      
-      if length != oldLength:
-         LengthString.set('{0: 08.1f}'.format(length))
-         oldLength = length
-
-      
-      root.state()
-      root.update()
-      time.sleep(0.02)
+   if length > lengthTarget and alarmState == 0:
+      alarmState = 1
+      setAlarm()
 
 
-except:
-   print("Terminating program...")
+   if unlockFlag == 1 and time.time() > unlockTime + unlockDuration:
+      Plus1.config(state = DISABLED)
+      Plus10.config(state = DISABLED)
+      Plus100.config(state = DISABLED)
+      Plus1000.config(state = DISABLED)
+      Plus10000.config(state = DISABLED)
+      Minus1.config(state = DISABLED)
+      Minus10.config(state = DISABLED)
+      Minus100.config(state = DISABLED)
+      Minus1000.config(state = DISABLED)
+      Minus10000.config(state = DISABLED)
+      unlockFlag = 0
+   
+   if runningAvgShort[0] != oldSpeed:
+      SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
+      oldSpeed = runningAvgShort[0]
+   
+   if length != oldLength:
+      LengthString.set('{0: 08.1f}'.format(length))
+      oldLength = length
+
+   
+   root.state()
+   root.update()
+   time.sleep(0.02)
+
+
+#except:
+#   print("Terminating program...")
