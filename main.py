@@ -377,9 +377,9 @@ try:
          Minus10000.config(state = DISABLED)
          unlockFlag = 0
       
-      if runningAvgShort[len(runningAvgShort)] != oldSpeed:
+      if runningAvgShort[0] != oldSpeed:
          SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
-         oldSpeed = runningAvgShort[len(runningAvgShort)]
+         oldSpeed = runningAvgShort[0]
       
       if length != oldLength:
          LengthString.set('{0: 08.1f}'.format(length))
