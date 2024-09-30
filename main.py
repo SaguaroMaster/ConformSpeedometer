@@ -21,7 +21,7 @@ pulseCount = 0
 pulseCount2 = 0
 samplePeriod = 0.1 #seconds
 savePeriod = 300 #seconds
-wheelCircumference = 0.23 #meter
+wheelCircumference = 0.01005 #meter
 time2 = time.time()-5
 time3 = time2
 unlockTime = time.time()
@@ -49,7 +49,7 @@ if not os.path.isfile(databaseName):
    conn.commit()
    curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period REAL, saving_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);")
    conn.commit()
-   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 0.1, 300, 0.078, 5000, 0, 0, 0, 0);")
+   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 0.1, 300, 0.01005, 5000, 0, 0, 0, 0);")
    conn.commit()
    curs.execute("INSERT INTO data values(datetime('now', 'localtime'), 0, 0, 1000);")
    conn.commit()
@@ -372,7 +372,6 @@ try:
          Minus1000.config(state = DISABLED)
          Minus10000.config(state = DISABLED)
          unlockFlag = 0
-
       
 
       SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
