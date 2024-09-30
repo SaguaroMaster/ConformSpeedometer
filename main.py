@@ -332,6 +332,7 @@ Minus10000.grid(row=11,column=2, padx=(10,10))
 
 LengthString.set('{0: 08.1f}'.format(0))
 SpeedString.set('{0: 06.1f}'.format(0))
+setLengthTarget()
 
 
 
