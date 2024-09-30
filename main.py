@@ -359,7 +359,7 @@ try:
          Minus100.config(state = DISABLED)
          Minus1000.config(state = DISABLED)
          Minus10000.config(state = DISABLED)
-         unlockFlag = 1
+         unlockFlag = 0
 
       
 
