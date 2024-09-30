@@ -37,3 +37,5 @@ insert at the end:
 @xset -dpms
 
 database that is used on autostart will be saved in root directory of filesystem.
+
+note: run app as sudo
