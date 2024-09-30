@@ -14,3 +14,26 @@ If it doesnt want to work then disable, daemon-reload, enable, daemon-reload
 screen timeout off: https://forums.raspberrypi.com/viewtopic.php?t=129867
 
 database that is used on autostart will be saved in root directory.
+
+
+Do this to autostart and disable screen blanking:
+
+mkdir /home/pi/.config/autostart/
+cd /home/pi/.config/autostart/
+
+Make file MyApp.desktop with content:
+
+[Desktop Entry]
+Name=Your Application Name
+Type=Application
+Comment=Some Comments about your program
+Exec=/usr/bin/python {replace with file path}.py
+
+chmod +x /home/pi/.config/autostart/MyApp.desktop
+
+sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
+
+insert at the end:
+@xset s noblank
+@xset s off
+@xset -dpms
