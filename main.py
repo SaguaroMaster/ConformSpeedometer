@@ -35,6 +35,8 @@ speed = 0
 maxPulseInterval = 1.5
 numSamples1 = 0
 numSamples2 = numSamples1
+oldLength = 0
+oldSpeed = 0
 
 relay1 = GPIO.LED(RELAY_CH1, active_high=False)
 relay2 = GPIO.LED(RELAY_CH2, active_high=False) 
@@ -373,9 +375,13 @@ try:
          Minus10000.config(state = DISABLED)
          unlockFlag = 0
       
-
-      #SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
-      #LengthString.set('{0: 08.1f}'.format(length))
+      if speed != oldSpeed:
+         SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
+         oldSpeed = speed
+      
+      if length != oldLength:
+         LengthString.set('{0: 08.1f}'.format(length))
+         oldLength = length
 
       
       root.state()
