@@ -24,6 +24,8 @@ savePeriod = 300 #seconds
 wheelCircumference = 0.1005 #meter
 time2 = time.time()-5
 time3 = time2
+time4 = time3
+lengthSavePeriod = 2
 unlockTime = time.time()
 lastPulse = 0
 databaseName = 'Database.db'
@@ -257,7 +259,7 @@ def pulseCallback(self):
 
    lastPulse = time.time()
 
-if sys() != 'Windows': 
+if OS != 'Windows': 
    sensor.when_released = pulseCallback
 
 
@@ -350,6 +352,15 @@ SpeedString.set('{0: 04.0f}'.format(0))
 setLengthTarget()
 
 
+f1 = open("lengthBackup.txt", "r")
+try:
+   length = float(f1.read())
+   pulseCount2 = length / wheelCircumference
+except:
+   length = 0
+   pulseCount2 = 0
+f1.close()
+
 
 while True:
 
@@ -378,11 +389,16 @@ while True:
       if OS != 'Windows':
          CPUTempString.set(GPIO.CPUTemperature().temperature)
    
+   if time.time() > time4 + lengthSavePeriod:
+      
+      f = open("lengthBackup.txt", "w")
+      f.write(str(length))
+      f.close()
+      time4 = time.time()
 
    if length > lengthTarget and alarmState == 0:
       alarmState = 1
       setAlarm()
-
 
    if unlockFlag == 1 and time.time() > unlockTime + unlockDuration:
       Plus1.config(state = DISABLED)
@@ -404,7 +420,6 @@ while True:
    if length != oldLength:
       LengthString.set('{0: 08.1f}'.format(length))
       oldLength = length
-
    
    root.state()
    root.update()
