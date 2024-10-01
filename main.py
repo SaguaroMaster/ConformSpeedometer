@@ -227,9 +227,9 @@ def graphWindowCallback():
 
    fig = Figure(figsize=(12.8,7.4))
    a = fig.add_subplot(111)
-   a.set_xlabel("Idő [HH:MM]")
-   a.set_ylabel("Sebesség [m/min]")
-   a.set_title("Sor sebessége ma / Line speed today")
+   a.set_xlabel("Idő / Time [HH:MM]")
+   a.set_ylabel("Sebesség / speed [m/min]")
+   a.set_title("Sor sebessége az utóbbi 24 órában / Line speed in the past 24 hours")
    a.set_ylim([0,150])
    a.plot(Times, Speeds, linewidth = 2)
    a.set_xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
@@ -238,7 +238,7 @@ def graphWindowCallback():
    canvas.get_tk_widget().pack(expand = True)
    canvas.draw()
 
-   CloseButton = Button(graphWindow, text = 'B E Z Á R', command = graphWindow.destroy, width = 70, height = 2, font = ('bold', 20))
+   CloseButton = Button(graphWindow, text = 'B E Z Á R    /    C L O S E', command = graphWindow.destroy, width = 70, height = 2, font = ('bold', 20))
    CloseButton.pack()
 
 
@@ -252,7 +252,7 @@ def pulseCallback(self):
    global pulseCount2, speed, maxPulseInterval, wheelCircumference, lastPulse
    pulseCount2 = pulseCount2 + 1
    timeDiff = time.time() - lastPulse
-   if timeDiff > 0.005 and timeDiff < 1:
+   if timeDiff > 0.005 and timeDiff < maxPulseInterval:
       speed = 60 / timeDiff * wheelCircumference
 
    lastPulse = time.time()
@@ -341,7 +341,7 @@ Minus10000 = Button(root, text = '-', font=('bold', 40), command = lambda: setLe
 Minus10000.grid(row=11,column=2, padx=(10,10))
 
 LengthString.set('{0: 08.1f}'.format(0))
-SpeedString.set('{0: 06.1f}'.format(0))
+SpeedString.set('{0: 04.0f}'.format(0))
 setLengthTarget()
 
 
@@ -393,7 +393,7 @@ while True:
       unlockFlag = 0
    
    if runningAvgShort[0] != oldSpeed:
-      SpeedString.set('{0: 06.1f}'.format(round(mean(runningAvgShort), 1)))
+      SpeedString.set('{0: 04.0f}'.format(round(mean(runningAvgShort), 0)))
       oldSpeed = runningAvgShort[0]
    
    if length != oldLength:
