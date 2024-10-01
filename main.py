@@ -2,11 +2,11 @@ import os
 import time
 import sqlite3
 import calendar
-import gpiozero as GPIO
 import dateutil.relativedelta
 from tkinter import *
 from statistics import mean
 from collections import deque
+from platform import system as sys
 from matplotlib.figure import Figure
 from datetime import datetime, timedelta
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk) 
@@ -26,21 +26,29 @@ time2 = time.time()-5
 time3 = time2
 unlockTime = time.time()
 lastPulse = 0
-databaseName = '/Database.db'
+databaseName = 'Database.db'
 alarmState = 0
 lengthTarget = 1000
 unlockFlag = 0
 unlockDuration = 20
 speed = 0
-maxPulseInterval = 1.5
+maxPulseInterval = 3
 numSamples1 = 0
 numSamples2 = numSamples1
 oldLength = 0
 oldSpeed = 0
+OS = sys()
 
-relay1 = GPIO.LED(RELAY_CH1, active_high=False)
-relay2 = GPIO.LED(RELAY_CH2, active_high=False) 
-sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_time = 0.001)
+
+if OS == 'Windows':
+	print('Windows detected, no GPIO Functionality')
+else:
+
+   import gpiozero as GPIO
+
+   relay1 = GPIO.LED(RELAY_CH1, active_high=False)
+   relay2 = GPIO.LED(RELAY_CH2, active_high=False) 
+   sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_time = 0.001)
 
 
 if not os.path.isfile(databaseName):
@@ -173,7 +181,6 @@ def setLength(length): #if it looks stupid but works it aint stupid
 
    setLengthTarget()
    
-
 def resetLength():
    global length
    global pulseCount2
@@ -206,7 +213,6 @@ def unclockSetting():
    Minus10000.config(state = NORMAL)
 
    unlockTime = time.time()
-
 
 def graphWindowCallback():
 
@@ -251,7 +257,8 @@ def pulseCallback(self):
 
    lastPulse = time.time()
 
-sensor.when_released = pulseCallback
+if sys() != 'Windows': 
+   sensor.when_released = pulseCallback
 
 
 numSamples1, lengthTarget = getLastData()
@@ -279,7 +286,10 @@ Digit10000String = StringVar(value=0)
 
 LastLogString = StringVar(value=datetime.now().time())
 TimeNowString = StringVar(value=datetime.now().time())
-CPUTempString = StringVar(value=GPIO.CPUTemperature().temperature)
+if sys() != 'Windows':
+   CPUTempString = StringVar(value=GPIO.CPUTemperature().temperature)
+else:
+   CPUTempString = StringVar(value=69.69)
 
 SpeedVarString = Label(root, textvariable = SpeedString, font=('bold', 130)).grid(row=2, column=3, padx=(0,0), columnspan=12)
 LengthVarString = Label(root, textvariable = LengthString, font=('bold', 130)).grid(row=4, column=3, padx=(0,0), columnspan=12)
@@ -355,7 +365,13 @@ while True:
       time3 = time.time()
       logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
       LastLogString.set(datetime.now().time())
-      CPUTempString.set(GPIO.CPUTemperature().temperature)
+
+      numSamples1, nada1 = getLastData()
+      numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
+      numSamples2 = numSamples1 + timedelta(days=1)
+
+      if OS != 'Windows':
+         CPUTempString.set(GPIO.CPUTemperature().temperature)
    
 
    if length > lengthTarget and alarmState == 0:

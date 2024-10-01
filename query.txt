@@ -22,10 +22,10 @@ cd /home/pi/.config/autostart/
 Make file MyApp.desktop with content:
 
 [Desktop Entry]
-Name=Your Application Name
+Name=Conform Speedometer
 Type=Application
-Comment=Some Comments about your program
-Exec=/usr/bin/python {replace with file path}.py
+Comment=Conform speedometer
+Exec=sudo /usr/bin/python /home/pi/ConformSpeedometer.py
 
 chmod +x /home/pi/.config/autostart/MyApp.desktop
 
@@ -38,4 +38,4 @@ insert at the end:
 
 database that is used on autostart will be saved in root directory of filesystem.
 
-note: run app as sudo
+note: run app as sudoroot
