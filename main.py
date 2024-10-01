@@ -272,9 +272,8 @@ root.title('Line Speed and Length Meter')
 root.after(50, root.wm_attributes, '-fullscreen', 'true')
 
 bg = PhotoImage( file = "./logo.png") 
-
 label1 = Label(root, image = bg) 
-label1.place(x = 900,y = 140) 
+label1.place(x = 1050,y = 2) 
 
 ResetButtonColor = '#ba737e'
 TargetButtonColor = '#82a9d9'
@@ -291,7 +290,7 @@ Digit10000String = StringVar(value=0)
 
 LastLogString = StringVar(value=datetime.now().time())
 TimeNowString = StringVar(value=datetime.now().time())
-if sys() != 'Windows':
+if OS != 'Windows':
    CPUTempString = StringVar(value=GPIO.CPUTemperature().temperature)
 else:
    CPUTempString = StringVar(value=69.69)
@@ -305,9 +304,9 @@ Digit100VarString = Label(root, textvariable = Digit100String, font=('bold', 40)
 Digit10VarString = Label(root, textvariable = Digit10String, font=('bold', 40)).grid(row=10, column=5, padx=(0,0))
 Digit1VarString = Label(root, textvariable = Digit1String, font=('bold', 40)).grid(row=10, column=6, padx=(0,0))
 
-LastLogVarString = Label(root, textvariable = LastLogString, font=('bold', 10)).place(x = 0, y = 745)
-LastLogVarString = Label(root, textvariable = TimeNowString, font=('bold', 10)).place(x = 0, y = 765)
-CPUTempVarString = Label(root, textvariable = CPUTempString, font=('bold', 10)).place(x = 0, y = 785)
+LastLogVarString = Label(root, textvariable = LastLogString, font=('bold', 10)).place(x = 0, y = 740)
+LastLogVarString = Label(root, textvariable = TimeNowString, font=('bold', 10)).place(x = 0, y = 760)
+CPUTempVarString = Label(root, textvariable = CPUTempString, font=('bold', 10)).place(x = 0, y = 780)
 
 
 SpeedText = Label(root, text = 'SEBESSÉG: ', font=('bold', 30)).grid(row=2, column=1, columnspan = 3)
@@ -321,7 +320,7 @@ MadeByText = Label(root, text = 'Tech. dept., BK', font=('bold', 10)).place(x = 
 ButtonCounterReset = Button(root, text = 'SZÁMLÁLÓ RESET', font=('bold', 25), command = resetLength, height = 2, bg = ResetButtonColor, wraplength=190).grid(row=9,column=9, padx=(10,10), columnspan = 9)
 ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 25), command = resetAlarm, height = 2, bg = ResetButtonColor).grid(row=11,column=9, padx=(10,10), columnspan = 9)
 
-ButtonGraph = Button(root, text = 'GRAFIKON', font=('bold', 15), command = graphWindowCallback, height = 1, bg = UnlockButtonColor).grid(row=12,column=9, padx=(10,10), columnspan = 9)
+ButtonGraph = Button(root, text = 'GRAFIKON', font=('bold', 15), command = graphWindowCallback, height = 1, bg = UnlockButtonColor).grid(row=12,column=9, padx=(10,10), pady=(15,0), columnspan = 9)
 
 Unlock = Button(root, text = 'F E L N Y I T', font=('bold', 25), command = unclockSetting, height = 1, width = 17, bg = UnlockButtonColor).grid(row=12,column=2, padx=(10,10), columnspan = 5)
 Plus1 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
