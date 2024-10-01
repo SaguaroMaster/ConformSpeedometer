@@ -1,0 +1,2 @@
+Run in elevated terminal
+python .\sqlite_dump.py --db Db1.db --output C:\Users\krisi\Desktop\ConformSpeedometer\DB_To_Excel
