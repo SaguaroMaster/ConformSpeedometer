@@ -26,6 +26,7 @@ Name=Conform Speedometer
 Type=Application
 Comment=Conform speedometer
 Exec=sudo /usr/bin/python /home/pi/ConformSpeedometer.py
+Terminal=true
 
 chmod +x /home/pi/.config/autostart/MyApp.desktop
 
