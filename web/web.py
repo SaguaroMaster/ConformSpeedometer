@@ -120,7 +120,7 @@ setGlobalVars()
 def getHistDataLengthMonthly (numSamples2):
 	datesSum = []
 	lengthSum = []
-	timeInterval = pandas.date_range(str(numSamples2 - timedelta(days=365))[:10],str(numSamples2)[:10],freq='ME').tolist()
+	timeInterval = pandas.date_range(str(numSamples2 - timedelta(days=365))[:10],str(numSamples2)[:10],freq='M').tolist()
 	for entry1 in timeInterval[:len(timeInterval)]:
 		entry2 = entry1 + dateutil.relativedelta.relativedelta(months=1)
 		curs.execute("SELECT SUM(speed) FROM data WHERE timestamp >= '" + str(entry1) + "' AND timestamp <= '" + str(entry2) + "'")
