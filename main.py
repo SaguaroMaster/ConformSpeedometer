@@ -218,8 +218,8 @@ def setLength(length): #if it looks stupid but works it aint stupid
       else:
          lengthTarget = lengthTarget - 10000
 
-   if lengthTarget < 300:
-      lengthTarget = 300
+   if lengthTarget < 100:
+      lengthTarget = 100
 
    setLengthTarget()
    
