@@ -434,7 +434,7 @@ while True:
    
    if time.time() > time4 + lengthSavePeriod:
       
-      f = open("lengthBackup.txt", "w")
+      f = open(saveFilePath, "w")
       f.write(str(length))
       f.close()
       time4 = time.time()
