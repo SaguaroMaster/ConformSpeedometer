@@ -235,8 +235,10 @@ def setAlarm():
    relay2.on()
 
 def resetAlarm():
+   global alarmState
    relay1.off()
    relay2.off()
+
 
 def unclockSetting():
    global unlockFlag, unlockTime
@@ -315,7 +317,7 @@ root.after(50, root.wm_attributes, '-fullscreen', 'true')
 
 bg = PhotoImage( file = logoPath) 
 label1 = Label(root, image = bg) 
-label1.place(x = 1050,y = 2) 
+label1.place(x = 1185,y = 2) 
 
 ResetButtonColor = '#ba737e'
 TargetButtonColor = '#82a9d9'
@@ -442,7 +444,7 @@ while True:
    if length > lengthTarget and alarmState == 0:
       alarmState = 1
       setAlarm()
-   elif length < lengthTarget + 50 and alarmState == 1:
+   elif length + 50 < lengthTarget and alarmState != 0:
       alarmState = 0
 
 
