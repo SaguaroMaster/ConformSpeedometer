@@ -57,12 +57,12 @@ OS = sys()
 if OS == 'Windows':
    print('Windows detected, no GPIO Functionality')
    databaseName = './Database.db'
-   logoPath = "./logo.png"
-   saveFilePath = "./lengthBackup.txt"
+   logoPath = './logo.png'
+   saveFilePath = './lengthBackup.txt'
 else:
    databaseName = '/home/pi/Database.db'
-   logoPath = "/home/pi/ConformSpeedometer/logo.png"
-   saveFilePath = "/home/pi/lengthBackup.txt"
+   logoPath = '/home/pi/ConformSpeedometer/logo.png'
+   saveFilePath = '/home/pi/lengthBackup.txt'
 
    import gpiozero as GPIO
 
