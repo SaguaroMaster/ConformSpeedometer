@@ -439,7 +439,6 @@ while True:
       f.close()
       time4 = time.time()
 
-
    if length > lengthTarget and alarmState == 0:
       alarmState = 1
       setAlarm()
