@@ -24,7 +24,7 @@ if sys() == 'Windows':
     databaseName = './Database.db'
 else:
     conn=sqlite3.connect('/home/pi/Database.db', check_same_thread=False)
-    from gpiozero import CPUTemperature
+    #from gpiozero import CPUTemperature
     databaseName = '/home/pi/Database.db'
 curs=conn.cursor()
 
@@ -54,7 +54,8 @@ def getCPUTemp():
     if sys() == 'Windows':
         temp = 69.69
     else:
-        temp = round(CPUTemperature().temperature, 1)
+        #temp = round(CPUTemperature().temperature, 1)
+        temp = 69
     return temp
 
 def basicTemplate():
