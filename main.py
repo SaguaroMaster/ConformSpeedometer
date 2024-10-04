@@ -229,7 +229,6 @@ def resetLength():
    global alarmState
    length = 0
    pulseCount2 = 0
-   alarmState = 0
 
 def setAlarm():
    relay1.blink(on_time=0.2, off_time=1)
@@ -440,11 +439,13 @@ while True:
       f.close()
       time4 = time.time()
 
+
    if length > lengthTarget and alarmState == 0:
       alarmState = 1
       setAlarm()
-   elif length < lengthTarget + 10 and alarmState == 1:
+   elif length < lengthTarget + 50 and alarmState == 1:
       alarmState = 0
+
 
    if unlockFlag == 1 and time.time() > unlockTime + unlockDuration:
       Plus1.config(state = DISABLED)

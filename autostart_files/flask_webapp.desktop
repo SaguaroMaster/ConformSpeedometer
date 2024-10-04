@@ -2,5 +2,5 @@
 Name=Stats Webapp
 Type=Application
 Comment=Conform speedometer webapp
-Exec=/usr/bin/python -m flask --app /home/pi/ConformSpeedometer/web/web.py run
+Exec=/usr/bin/python -m flask --app /home/pi/ConformSpeedometer/web/web.py run --host=0.0.0.0
 Terminal=true
