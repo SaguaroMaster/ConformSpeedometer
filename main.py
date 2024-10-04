@@ -1,50 +1,68 @@
+#!/usr/bin/env python
+###########################################
+#                                         #
+# Line speed, length, downtime, uptime,   #
+# etc.. meter and logger.                 #
+# Kristof Berta - Technology              #
+# Vicente Torns Slovakia, 2024            #
+#                                         #
+###########################################
+
 import os
 import time
 import sqlite3
-import calendar
-import dateutil.relativedelta
 from tkinter import *
 from statistics import mean
 from collections import deque
 from platform import system as sys
 from matplotlib.figure import Figure
 from datetime import datetime, timedelta
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk) 
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-
+## GPIO PINS TO USE FOR RELAYS AND SENSOR
 RELAY_CH1 = 26
 RELAY_CH2 = 20
 RELAY_CH3 = 21
 SENSOR_PIN = 6
 
+lengthSavePeriod = 5    ## period in seconds in which the current length is saved for backup in case of power outage, crash, etc..
+unlockDuration = 20     ## time in seconds until the alarm setting adjustment buttons stay unlocked for after pressing the unlock button
+maxPulseInterval = 3    ## max time in seconds between impulses for sensor
+wheelCircumference = 0.1005 ## length per impulse in meters
+daysToGraph = 2         ## time in days for which the line speed will be graphed on the deviced under the graph button
+
+## INITIALIZE VARIABLES ||DON'T EDIT||
 pulseCount = 0
 pulseCount2 = 0
 samplePeriod = 0.1 #seconds
 savePeriod = 300 #seconds
-wheelCircumference = 0.1005 #meter
 time2 = time.time()-5
 time3 = time2
 time4 = time3
-lengthSavePeriod = 2
 unlockTime = time.time()
 lastPulse = 0
-databaseName = 'Database.db'
 alarmState = 0
-lengthTarget = 1000
+lengthTarget = 10000
 unlockFlag = 0
-unlockDuration = 20
 speed = 0
-maxPulseInterval = 3
 numSamples1 = 0
 numSamples2 = numSamples1
 oldLength = 0
 oldSpeed = 0
+machineState = 0
+machineStateLogged = 0
 OS = sys()
 
 
 if OS == 'Windows':
-	print('Windows detected, no GPIO Functionality')
+   print('Windows detected, no GPIO Functionality')
+   databaseName = './Database.db'
+   logoPath = "./logo.png"
+   saveFilePath = "./lengthBackup.txt"
 else:
+   databaseName = '/home/pi/Database.db'
+   logoPath = "/home/pi/ConformSpeedometer/logo.png"
+   saveFilePath = "/home/pi/lengthBackup.txt"
 
    import gpiozero as GPIO
 
@@ -58,11 +76,15 @@ if not os.path.isfile(databaseName):
    curs=conn.cursor()
    curs.execute("CREATE TABLE data(timestamp DATETIME, speed REAL, length REAL, alarmSetting INT);")
    conn.commit()
+   curs.execute("CREATE TABLE stops(timestamp DATETIME, start BOOL, stop BOOL);")
+   conn.commit()
    curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period REAL, saving_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);")
    conn.commit()
-   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 0.1, 300, 0.1005, 5000, 0, 0, 0, 0);")
+   curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 0.1, 300, (?), 5000, 0, 0, 0, 0);", (wheelCircumference,))
    conn.commit()
-   curs.execute("INSERT INTO data values(datetime('now', 'localtime'), 0, 0, 1000);")
+   curs.execute("INSERT INTO data values(datetime('now', 'localtime'), 0, 0, 10000);")
+   conn.commit()
+   curs.execute("INSERT INTO stops values(datetime('now', 'localtime'), False, False);")
    conn.commit()
    conn.close()
 
@@ -70,6 +92,23 @@ def logData(speed, length, alarmSetting):
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
    curs.execute("INSERT INTO data values(datetime('now', 'localtime'), (?), (?), (?))", (speed, length, int(alarmSetting)))
+   conn.commit()
+   conn.close()
+
+def logStops(state):
+
+   startState = 0
+   stopState = 0
+
+   if state == 0:
+      startState = 0
+      stopState = 1
+   elif state == 1:
+      startState = 1
+      stopState = 0
+   conn=sqlite3.connect(databaseName)
+   curs=conn.cursor()
+   curs.execute("INSERT INTO stops values(datetime('now', 'localtime'), (?), (?))", (startState, stopState))
    conn.commit()
    conn.close()
 
@@ -92,10 +131,11 @@ def getLastData():
       alarmSetting = row[3]
    return time, alarmSetting
 
-def getHistData (numSamples1, numSamples2):
+def getHistData (numSamples2):
+   global daysToGraph
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
-   curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '" + str(numSamples2) + "' ORDER BY timestamp DESC")
+   curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=daysToGraph)) + "' ORDER BY timestamp DESC")
    data = curs.fetchall()
    dates = []
    speed = []
@@ -222,16 +262,23 @@ def graphWindowCallback():
    graphWindow.overrideredirect(1)
    graphWindow.title(" ")
    
-   Times, Speeds, Lengths, AlarmLengths = getHistData(numSamples1, numSamples2)
+   numSamples1, lengthTarget = getLastData()
+   numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
+   numSamples2 = numSamples1 + timedelta(days=1)
+
+   Times, Speeds, Lengths, AlarmLengths = getHistData(numSamples2)
 
    for i in range(len(Times)):
-      Times[i] = Times[i][11:16]
+      Times[i] = Times[i][5:16]
+
+   print(Times)
+   print(Speeds)
 
    fig = Figure(figsize=(12.8,7.4))
    a = fig.add_subplot(111)
    a.set_xlabel("Idő / Time [HH:MM]")
    a.set_ylabel("Sebesség / speed [m/min]")
-   a.set_title("Sor sebessége az utóbbi 24 órában / Line speed in the past 24 hours")
+   a.set_title("Sor sebessége az utóbbi 48 órában / Line speed in the past 48 hours")
    a.set_ylim([0,150])
    a.plot(Times, Speeds, linewidth = 2)
    a.set_xticks([0, int(len(Times)/6), int(len(Times)/3), int(len(Times)/2), int(len(Times)/1.5), int(len(Times)/1.2), int(len(Times)/1.01)])
@@ -263,17 +310,11 @@ if OS != 'Windows':
    sensor.when_released = pulseCallback
 
 
-numSamples1, lengthTarget = getLastData()
-numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
-numSamples2 = numSamples1 + timedelta(days=1)
-
-
-
 root = Tk()
 root.title('Line Speed and Length Meter')
 root.after(50, root.wm_attributes, '-fullscreen', 'true')
 
-bg = PhotoImage( file = "./logo.png") 
+bg = PhotoImage( file = logoPath) 
 label1 = Label(root, image = bg) 
 label1.place(x = 1050,y = 2) 
 
@@ -352,14 +393,21 @@ SpeedString.set('{0: 04.0f}'.format(0))
 setLengthTarget()
 
 
-f1 = open("lengthBackup.txt", "r")
 try:
-   length = float(f1.read())
-   pulseCount2 = length / wheelCircumference
+   if os.path.isfile(saveFilePath):
+      f1 = open(saveFilePath, "r")
+      length = float(f1.read())
+      pulseCount2 = length / wheelCircumference
+      f1.close()
+   else:
+      f1 = open(saveFilePath, "w")
+      f1.write(str(length))
+      f1.close()
+      length = 0
+      pulseCount2 = 0
 except:
    length = 0
    pulseCount2 = 0
-f1.close()
 
 
 while True:
@@ -382,10 +430,6 @@ while True:
       logData(round(mean(runningAvgLong), 2), max(maxLength), lengthTarget)
       LastLogString.set(datetime.now().time())
 
-      numSamples1, nada1 = getLastData()
-      numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
-      numSamples2 = numSamples1 + timedelta(days=1)
-
       if OS != 'Windows':
          CPUTempString.set(GPIO.CPUTemperature().temperature)
    
@@ -399,6 +443,8 @@ while True:
    if length > lengthTarget and alarmState == 0:
       alarmState = 1
       setAlarm()
+   elif length < lengthTarget + 10 and alarmState == 1:
+      alarmState = 0
 
    if unlockFlag == 1 and time.time() > unlockTime + unlockDuration:
       Plus1.config(state = DISABLED)
@@ -420,6 +466,13 @@ while True:
    if length != oldLength:
       LengthString.set('{0: 08.1f}'.format(length))
       oldLength = length
+
+   if speed == 0 and machineState == 1:
+      machineState = 0
+      logStops(machineState)
+   elif speed != 0 and machineState == 0:
+      machineState = 1
+      logStops(machineState)
    
    root.state()
    root.update()

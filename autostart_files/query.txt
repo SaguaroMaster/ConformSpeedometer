@@ -37,6 +37,6 @@ insert at the end:
 @xset s off
 @xset -dpms
 
-database that is used on autostart will be saved in root directory of filesystem.
+database that is used on autostart will be saved in home directory of user.
 
-note: run app as sudoroot
+note: run app as root
