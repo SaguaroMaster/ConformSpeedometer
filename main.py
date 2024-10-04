@@ -317,7 +317,7 @@ root.after(50, root.wm_attributes, '-fullscreen', 'true')
 
 bg = PhotoImage( file = logoPath) 
 label1 = Label(root, image = bg) 
-label1.place(x = 1185,y = 2) 
+label1.place(x = 1165,y = 2) 
 
 ResetButtonColor = '#ba737e'
 TargetButtonColor = '#82a9d9'
@@ -359,7 +359,7 @@ LengthTargetText = Label(root, text = 'ALARM BEÁLLITÁS: ', font=('bold', 30)).
 MeterMinText = Label(root, text = 'm/min', font=('bold', 50)).grid(row=2, column=16, padx=(10,0), columnspan = 2)
 MeterText = Label(root, text = 'm', font=('bold', 50)).grid(row=4, column=16, padx=(10,0), columnspan = 2)
 MeterText2 = Label(root, text = 'm', font=('bold', 40)).grid(row=10, column=7, padx=(10,0), columnspan = 1)
-MadeByText = Label(root, text = 'Tech. dept., BK', font=('bold', 10)).place(x = 50, y = 785)
+MadeByText = Label(root, text = 'Tech. dept., BK', font=('bold', 10)).place(x = 50, y = 780)
 
 ButtonCounterReset = Button(root, text = 'SZÁMLÁLÓ RESET', font=('bold', 25), command = resetLength, height = 2, bg = ResetButtonColor, wraplength=190).grid(row=9,column=9, padx=(10,10), columnspan = 9)
 ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 25), command = resetAlarm, height = 2, bg = ResetButtonColor).grid(row=11,column=9, padx=(10,10), columnspan = 9)
@@ -391,8 +391,9 @@ Minus10000.grid(row=11,column=2, padx=(10,10))
 
 LengthString.set('{0: 08.1f}'.format(0))
 SpeedString.set('{0: 04.0f}'.format(0))
-setLengthTarget()
 
+nada9, lengthTarget = getLastData()
+setLengthTarget()
 
 try:
    if os.path.isfile(saveFilePath):

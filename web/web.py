@@ -210,7 +210,7 @@ def index():
     lastEdit, samplingPeriod, language, theme = getSettings()
 
 
-    numSamples2_1 = numSamples2 + timedelta(days=1)
+    numSamples2_1 = numSamples2 + timedelta(days=1, hours = 6)
     
     numSamples1_disp = str(numSamples1)[:10]
     numSamples2_disp = str(numSamples2_1)[:10]
@@ -268,7 +268,7 @@ def my_form_post():
 
     numSamples1_disp = str(numSamples1)[:10]
     numSamples2_disp = str(numSamples2)[:10]
-    numSamples2 = numSamples2 + timedelta(days=1)
+    numSamples2 = numSamples2 + timedelta(days=1, hours=6)
     lastDate, power, length,xxxxx = getLastData()
     firstDate = getFirstData()
     power = round(power, 2)
