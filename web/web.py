@@ -13,15 +13,12 @@ import sqlite3
 
 app = Flask(__name__)
 
-minSpeed = 5 # minimum line speed below which production is considered stopped (m/min)
-
 
 if sys() == 'Windows':
     conn=sqlite3.connect('./Database.db', check_same_thread=False)
     databaseName = './Database.db'
 else:
     conn=sqlite3.connect('/home/pi/Database.db', check_same_thread=False)
-    #from gpiozero import CPUTemperature
     databaseName = '/home/pi/Database.db'
 curs=conn.cursor()
 
@@ -46,40 +43,6 @@ def setGlobalVars():
     numSamples1, nada2, nada3, nada4 = getLastData()
     numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
     numSamples2 = numSamples1 + timedelta(days=1, hours=6)
-
-def getCPUTemp():
-    if sys() == 'Windows':
-        temp = 69.69
-    else:
-        #temp = round(CPUTemperature().temperature, 1)
-        temp = 69
-    return temp
-
-def basicTemplate():
-    global  numSamples1, numSamples2
-    setGlobalVars()
-
-    numSamples2_1 = numSamples2 - timedelta(days=1)
-    
-    numSamples1_disp = str(numSamples1)[:10]
-    numSamples2_disp = str(numSamples2_1)[:10]
-    
-    lastDate, power, energyToday, xxx = getLastData()
-    firstDate = getFirstData()
-    power = round(power, 2)
-
-    templateData = {
-        'power'						: power,
-        'energytoday'				: energyToday,
-        'minDateSel'				: numSamples1_disp,
-        'maxDateSel'				: numSamples2_disp,
-        'minDate'					: firstDate[:10],
-        'maxDate'					: lastDate[:10],
-        'maxDateFull'				: lastDate[11:],
-        'sysTemp'					: getCPUTemp()
-    }
-
-    return templateData
 
 def saveSettings(samplingPeriod, language, theme):
     curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), (?), (?), (?))", (samplingPeriod, language, theme))
@@ -353,10 +316,8 @@ def my_form_post():
 
 @app.route('/download', methods=['GET', 'POST'])
 def download():
-    if sys() == 'Windows':
-        return send_from_directory("./", "Database.db")
-    else:
-        return send_from_directory("/home/pi", "Database.db")
+
+    return send_from_directory("/home/pi", "Database.db")
 
 
 @app.route("/downtime24h")
