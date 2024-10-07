@@ -177,13 +177,13 @@
                 <div class="row">
                   <div class="col-5 col-md-4">
                     <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-atom text-info"></i>
+                      <i class="nc-icon nc-app text-info"></i>
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">System Temperature</p>
-                      <p class="card-title">{{sysTemp}} C<p>
+                      <p class="card-category">Average speed</p>
+                      <p class="card-title">{{avgSpeed}} m/min<p>
                     </div>
                   </div>
                 </div>
@@ -192,7 +192,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-clock-o"></i>
-                  RPi 5 CPU Temperature
+                  On the selected day
                 </div>
               </div>
             </div>
@@ -216,8 +216,8 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Uptime Today</p>
-                      <p class="card-title">{{uptimeDay}} %<p>
+                      <p class="card-category">Downtime 24h</p>
+                      <p class="card-title">{{downTime24h}}<p>
                     </div>
                   </div>
                 </div>
@@ -226,7 +226,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-calendar-o"></i>
-                  Productivity on the selected day
+                  Downtime on the selected day from 06:00 to 06:00 the next day. [HH:MM:SS]
                 </div>
               </div>
             </div>
@@ -242,8 +242,8 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Uptime this month</p>
-                      <p class="card-title">{{uptimeMonth}} %<p>
+                      <p class="card-category">Times stopped 24h</p>
+                      <a href="./downtime24h"><p class="card-title">{{timesStopped24h}}<p></p></a>
                     </div>
                   </div>
                 </div>
@@ -252,7 +252,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-calendar-o"></i>
-                  Productivity in the selected month
+                  Line stopped for >10s this many times on the selected day
                 </div>
               </div>
             </div>
@@ -269,8 +269,8 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Uptime all-time</p>
-                      <p class="card-title">{{uptimeAll}} %<p>
+                      <p class="card-category">Downtime 30d</p>
+                      <p class="card-title">{{downTime30d}}<p>
                     </div>
                   </div>
                 </div>
@@ -279,7 +279,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-clock-o"></i>
-                  Since the start of data collection
+                  Downtime in the past 30 days starting from the selected day. [HH:MM:SS]
                 </div>
               </div>
             </div>
@@ -290,13 +290,13 @@
                 <div class="row">
                   <div class="col-5 col-md-4">
                     <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-app text-info"></i>
+                      <i class="nc-icon nc-watch-time text-info"></i>
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Average speed</p>
-                      <p class="card-title">{{avgSpeed}} m/min<p>
+                      <p class="card-category">Times stopped 30d</p>
+                      <a href="./downtime30d"><p class="card-title">{{timesStopped30d}}<p></a>
                     </div>
                   </div>
                 </div>
@@ -305,7 +305,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-clock-o"></i>
-                  On the selected day
+                  Line was stopped for >10s in the past 30 days starting from the selected day.
                 </div>
               </div>
             </div>

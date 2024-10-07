@@ -2,12 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, timedelta
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
 from platform import system as sys
-from flask import Flask, render_template, send_from_directory, make_response, request
+from flask import Flask, render_template, send_from_directory, request
 
-import io
 import threading
 import pandas
 import dateutil.relativedelta
@@ -48,7 +45,7 @@ def setGlobalVars():
     global numSamples1, numSamples2
     numSamples1, nada2, nada3, nada4 = getLastData()
     numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
-    numSamples2 = numSamples1 + timedelta(days=1)
+    numSamples2 = numSamples1 + timedelta(days=1, hours=6)
 
 def getCPUTemp():
     if sys() == 'Windows':
@@ -132,64 +129,104 @@ def getHistDataLengthMonthly (numSamples2):
 
 	return datesSum, lengthSum
 
+
 def getProductivityToday(numSamples2):
-    global minSpeed
 
-    curs.execute("SELECT COUNT(speed) FROM data WHERE speed < (?) AND timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '"+ str(numSamples2) +"';", (minSpeed,))
-    dataSum = curs.fetchall()
-    dataSum = dataSum[0][0]
-    curs.execute("SELECT COUNT(speed) FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '"+ str(numSamples2) +"';")
-    totalEntries = curs.fetchall()
-    totalEntries = totalEntries[0][0]
+    curs.execute("SELECT * FROM stops WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '"+ str(numSamples2) +"';")
+    data = curs.fetchall()
+    
+    StoppedDates = []
+    StoppedIntervals = []
 
+    if len(data) != 0:
+        oldDate = datetime(*datetime.strptime(data[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
+        for i in data:
 
-    if dataSum != 0:
-        productivity = (1 - (dataSum) / (totalEntries)) * 100
-    elif dataSum == 0:
-        productivity = 100
+            Date = datetime(*datetime.strptime(i[0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
+
+            if i[1] == 1 and i[2] == 0:
+                # its a start
+                StoppedDates.append([oldDate, Date])
+
+            oldDate = Date
+        
+        for i in StoppedDates:
+            timeDelta = i[1] - i[0]
+            if timeDelta > timedelta(seconds = 30):
+                StoppedIntervals.append(timeDelta)
+        
+        timesStopped = len(StoppedIntervals)
+        totalStoppedTime = sum(StoppedIntervals, timedelta())
+
+        return totalStoppedTime, timesStopped, StoppedDates
+    
     else:
-        productivity = -1
-
-    return round(productivity, 2)
+        return timedelta(seconds=0), 0, StoppedDates
 
 def getProductivityMonth(numSamples2):
-    global minSpeed
 
-    curs.execute("SELECT COUNT(speed) FROM data WHERE speed < (?) AND timestamp >= '" + str(numSamples2 - timedelta(days=30)) + "';", (minSpeed,))
-    dataSum = curs.fetchall()
-    dataSum = dataSum[0][0]
+    curs.execute("SELECT * FROM stops WHERE timestamp >= '" + str(numSamples2 - timedelta(days=30)) + "' AND timestamp <= '"+ str(numSamples2) +"';")
+    data = curs.fetchall()
+    
+    StoppedDates = []
+    StoppedIntervals = []
 
-    curs.execute("SELECT COUNT(speed) FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=30)) + "' AND timestamp <= '"+ str(numSamples2) +"';")
-    totalEntries = curs.fetchall()
-    totalEntries = totalEntries[0][0]
+    if len(data) != 0:
+        oldDate = datetime(*datetime.strptime(data[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
+        for i in data:
 
-    if dataSum != 0:
-        productivity = (1 - (dataSum) / (totalEntries)) * 100
-    elif dataSum == 0:
-        productivity = 100
+            Date = datetime(*datetime.strptime(i[0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
+
+            if i[1] == 1 and i[2] == 0:
+                # its a start
+                StoppedDates.append([oldDate, Date])
+
+            oldDate = Date
+        
+        for i in StoppedDates:
+            timeDelta = i[1] - i[0]
+            if timeDelta > timedelta(seconds = 30):
+                StoppedIntervals.append(timeDelta)
+        
+        timesStopped = len(StoppedIntervals)
+        totalStoppedTime = sum(StoppedIntervals, timedelta())
+
+        return totalStoppedTime, timesStopped, StoppedDates
+    
     else:
-        productivity = -1
+        return timedelta(seconds=0), 0, StoppedDates
 
-    return round(productivity, 2)
+def getProductivityAlltime():
+    curs.execute("SELECT * FROM stops;")
+    data = curs.fetchall()
+    
+    StoppedDates = []
+    StoppedIntervals = []
 
-def getProductivityAlltime(numSamples2):
-    global minSpeed
+    if len(data) != 0:
+        oldDate = datetime(*datetime.strptime(data[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
+        for i in data:
 
-    curs.execute("SELECT COUNT(speed) FROM data WHERE speed < (?);",(minSpeed,))
-    dataSum = curs.fetchall()
-    curs.execute("SELECT COUNT(speed) FROM data;")
-    totalEntries = curs.fetchall()
-    totalEntries = totalEntries[0][0]
-    dataSum = dataSum[0][0]
+            Date = datetime(*datetime.strptime(i[0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
 
-    if dataSum != 0:
-        productivity = (1 - (dataSum) / totalEntries) * 100
-    elif dataSum == 0:
-        productivity = 100
+            if i[1] == 1 and i[2] == 0:
+                # its a start
+                StoppedDates.append([oldDate, Date])
+
+            oldDate = Date
+        
+        for i in StoppedDates:
+            timeDelta = i[1] - i[0]
+            if timeDelta > timedelta(seconds = 30):
+                StoppedIntervals.append(timeDelta)
+        
+        timesStopped = len(StoppedIntervals)
+        totalStoppedTime = sum(StoppedIntervals, timedelta())
+
+        return totalStoppedTime, timesStopped, StoppedDates
+    
     else:
-        productivity = -1
-
-    return round(productivity, 2)
+        return timedelta(seconds=0), 0, StoppedDates
 
 def getAvgSpeed(numSamples2):
     curs.execute("SELECT AVG(speed) FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '"+ str(numSamples2) +"';")
@@ -223,13 +260,14 @@ def index():
 
     Dates, Speeds, Lengths, Alarms = getHistData(numSamples2)
     DatesSum1, LengthsSum1 = getHistDataLengthMonthly(numSamples2)
-    ProcutivityToday = getProductivityToday(numSamples2)
-    ProcutivityMonth = getProductivityMonth(numSamples2)
-    ProcutivityAlltime = getProductivityAlltime(numSamples2)
     avgSpeed = getAvgSpeed(numSamples2)
 
+    totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityToday(numSamples2)
+    totalStoppedTime30d, timesStopped30d, StoppedDates30d = getProductivityMonth(numSamples2)
+    totalStoppedTimeAll, timesStoppedAll, StoppedDatesAll = getProductivityAlltime()
+
     for i in range(len(Dates)):
-      Dates[i] = Dates[i][11:16]
+      Dates[i] = Dates[i][5:16]
 
     for i in range(len(DatesSum1)):
         DatesSum1[i] = DatesSum1[i][:11]
@@ -250,11 +288,10 @@ def index():
         'lengthY'		        	: Lengths,
         'alarmX'		    		: Dates,
         'alarmY'		       		: Alarms,
-        'sysTemp'					: getCPUTemp(),
-        'samplingPeriod'			: samplingPeriod,
-        'uptimeDay'                 : ProcutivityToday,
-        'uptimeMonth'               : ProcutivityMonth,
-        'uptimeAll'                 : ProcutivityAlltime,
+        'downTime24h'               : totalStoppedTime24h,
+        'timesStopped24h'           : timesStopped24h,
+        'downTime30d'               : totalStoppedTime30d,
+        'timesStopped30d'           : timesStopped30d,
         'avgSpeed'                  : avgSpeed
     }
 
@@ -270,20 +307,21 @@ def my_form_post():
     numSamples1_disp = str(numSamples1)[:10]
     numSamples2_disp = str(numSamples2)[:10]
     numSamples2 = numSamples2 + timedelta(days=1, hours=6)
-    lastDate, power, length,xxxxx = getLastData()
+    lastDate, power, length, xxxxx = getLastData()
     firstDate = getFirstData()
     power = round(power, 2)
     length = round(length, 2)
 
     Dates, Speeds, Lengths, Alarms = getHistData(numSamples2)
     DatesSum1, LengthsSum1 = getHistDataLengthMonthly(numSamples2)
-    ProcutivityToday = getProductivityToday(numSamples2)
-    ProcutivityMonth = getProductivityMonth(numSamples2)
-    ProcutivityAlltime = getProductivityAlltime(numSamples2)
     avgSpeed = getAvgSpeed(numSamples2)
 
+    totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityToday(numSamples2)
+    totalStoppedTime30d, timesStopped30d, StoppedDates30d = getProductivityMonth(numSamples2)
+    totalStoppedTimeAll, timesStoppedAll, StoppedDatesAll = getProductivityAlltime()
+
     for i in range(len(Dates)):
-      Dates[i] = Dates[i][11:16]
+      Dates[i] = Dates[i][5:16]
 
     for i in range(len(DatesSum1)):
         DatesSum1[i] = DatesSum1[i][:11]
@@ -304,11 +342,10 @@ def my_form_post():
         'lengthY'		        	: Lengths,
         'alarmX'		    		: Dates,
         'alarmY'		       		: Alarms,
-        'sysTemp'					: getCPUTemp(),
-        'samplingPeriod'			: samplingPeriod,
-        'uptimeDay'                 : ProcutivityToday,
-        'uptimeMonth'               : ProcutivityMonth,
-        'uptimeAll'                 : ProcutivityAlltime,
+        'downTime24h'               : totalStoppedTime24h,
+        'timesStopped24h'           : timesStopped24h,
+        'downTime30d'               : totalStoppedTime30d,
+        'timesStopped30d'           : timesStopped30d,
         'avgSpeed'                  : avgSpeed
     }
 
@@ -320,6 +357,37 @@ def download():
         return send_from_directory("/", "./Database.db")
     else:
         return send_from_directory("/home/pi", "Database.db")
+
+
+@app.route("/downtime24h")
+def downtime24h():
+    global numSamples2
+    
+    totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityToday(numSamples2)
+
+    formattedString = []
+
+    for i in StoppedDates24h:
+        formattedString.append([str(i[0]), str(i[1])])
+
+    print(formattedString)
+
+    return formattedString
+
+@app.route("/downtime30d")
+def downtime30d():
+    global numSamples2   
+    
+    totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityMonth(numSamples2)
+
+    formattedString = []
+
+    for i in StoppedDates24h:
+        formattedString.append([str(i[0]), str(i[1])])
+
+    print(formattedString)
+
+    return formattedString
 
 
 if __name__ == "__main__":
