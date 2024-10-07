@@ -313,7 +313,7 @@ if OS != 'Windows':
 
 root = Tk()
 root.title('Line Speed and Length Meter')
-root.after(50, root.wm_attributes, '-fullscreen', 'true')
+root.after(1000, root.wm_attributes, '-fullscreen', 'true')
 
 bg = PhotoImage( file = logoPath) 
 label1 = Label(root, image = bg) 

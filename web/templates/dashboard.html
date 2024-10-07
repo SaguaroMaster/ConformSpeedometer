@@ -23,13 +23,13 @@
 <body class="">
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
-      <div class="logo">
+      <div class="logo" class="center">
         
         <a href="./" class="simple-text logo-normal">
-          Speed meter and logger
-          <!-- <div class="logo-image-big">
-            <img src="../assets/img/logo-big.png">
-          </div> -->
+          <div class="logo-image-big">
+            <img src="../static/img/logo.png" alt="VT_logo" class="center">
+           </div>
+          Production Supervisor
         </a>
       </div>
       <div class="sidebar-wrapper">
@@ -37,13 +37,13 @@
           <li class="active ">
             <a href="./">
               <i class="nc-icon nc-bank"></i>
-              <p>Dashboard</p>
+              <p>Conform 3</p>
             </a>
           </li>
           <li>
-            <a href="./">
+            <a href="/download">
               <i class="nc-icon nc-album-2"></i>
-              <p>Old Graphs</p>
+              <p>Download Database</p>
             </a>
           </li>
           
@@ -62,7 +62,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="./">Dashboard</a>
+            <a class="navbar-brand" href="./">Dashboard - Conform 3</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -318,7 +318,7 @@
           <div class="col-md-6">
             <div class="card card-chart">
               <div class="card-header">
-                <h5 class="card-title">Line Speed</h5>
+                <h5 class="card-title">Line Speed (5 minute average)</h5>
               </div>
               <div class="card-body">
                 <canvas id="power-today" data-graphdatax='{{ speedX|tojson }}' data-graphdatay='{{ speedY|tojson }}' height="100"></canvas>

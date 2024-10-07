@@ -354,7 +354,7 @@ def my_form_post():
 @app.route('/download', methods=['GET', 'POST'])
 def download():
     if sys() == 'Windows':
-        return send_from_directory("/", "./Database.db")
+        return send_from_directory("./", "Database.db")
     else:
         return send_from_directory("/home/pi", "Database.db")
 

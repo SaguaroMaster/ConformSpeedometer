@@ -4216,3 +4216,10 @@ License - nucleoapp.com/license/
     padding: 15px; } }
 
 /*# sourceMappingURL=paper-dashboard.css.map */
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
