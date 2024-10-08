@@ -317,7 +317,7 @@ root.after(1000, root.wm_attributes, '-fullscreen', 'true')
 
 bg = PhotoImage( file = logoPath) 
 label1 = Label(root, image = bg) 
-label1.place(x = 1165,y = 2) 
+label1.place(x = 1160,y = -10) 
 
 ResetButtonColor = '#ba737e'
 TargetButtonColor = '#82a9d9'
