@@ -131,6 +131,21 @@ def getLastData():
       alarmSetting = row[3]
    return time, alarmSetting
 
+def getLastStopState():
+   conn=sqlite3.connect(databaseName)
+   curs=conn.cursor()
+   for row in curs.execute("SELECT * FROM stops ORDER BY timestamp DESC LIMIT 1"):
+      time = row[0]
+      startState = row[1]
+      stopState = row[2]
+
+   if startState == 1 and stopState == 0:
+      machineState1 = 1
+   elif startState == 0 and stopState == 1:
+      machineState1 = 0
+      
+   return time, machineState1
+
 def getHistData (numSamples2):
    global daysToGraph
    conn=sqlite3.connect(databaseName)
@@ -394,6 +409,10 @@ SpeedString.set('{0: 04.0f}'.format(0))
 
 nada9, lengthTarget = getLastData()
 setLengthTarget()
+
+date, machineState = getLastStopState()
+
+time.sleep(3)
 
 try:
    if os.path.isfile(saveFilePath):

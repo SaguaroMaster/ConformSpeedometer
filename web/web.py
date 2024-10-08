@@ -35,7 +35,6 @@ def getLastData():
 def getFirstData():
     for row in curs.execute("SELECT * FROM data ORDER BY timestamp ASC LIMIT 1"):
         time = str(row[0])
-    #conn.close()
     return time
 
 def setGlobalVars():
@@ -103,19 +102,23 @@ def getProductivityToday(numSamples2):
 
     if len(data) != 0:
         oldDate = datetime(*datetime.strptime(data[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
+        oldState = data[0][1]
         for i in data:
 
             Date = datetime(*datetime.strptime(i[0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
 
-            if i[1] == 1 and i[2] == 0:
+            if i[1] == 1 and i[2] == 0 and oldState !=1:
                 # its a start
-                StoppedDates.append([oldDate, Date])
+                timeDelta = Date - oldDate
+                if timeDelta > timedelta(seconds = 20):
+                    StoppedDates.append([oldDate, Date])
 
             oldDate = Date
+            oldState = i[1]
         
         for i in StoppedDates:
             timeDelta = i[1] - i[0]
-            if timeDelta > timedelta(seconds = 30):
+            if timeDelta > timedelta(seconds = 20):
                 StoppedIntervals.append(timeDelta)
         
         timesStopped = len(StoppedIntervals)
@@ -136,19 +139,23 @@ def getProductivityMonth(numSamples2):
 
     if len(data) != 0:
         oldDate = datetime(*datetime.strptime(data[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
+        oldState = data[0][1]
         for i in data:
 
             Date = datetime(*datetime.strptime(i[0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
 
-            if i[1] == 1 and i[2] == 0:
+            if i[1] == 1 and i[2] == 0 and oldState !=1:
                 # its a start
-                StoppedDates.append([oldDate, Date])
+                timeDelta = Date - oldDate
+                if timeDelta > timedelta(seconds = 20):
+                    StoppedDates.append([oldDate, Date])
 
             oldDate = Date
+            oldState = i[1]
         
         for i in StoppedDates:
             timeDelta = i[1] - i[0]
-            if timeDelta > timedelta(seconds = 30):
+            if timeDelta > timedelta(seconds = 20):
                 StoppedIntervals.append(timeDelta)
         
         timesStopped = len(StoppedIntervals)
@@ -168,19 +175,23 @@ def getProductivityAlltime():
 
     if len(data) != 0:
         oldDate = datetime(*datetime.strptime(data[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
+        oldState = data[0][1]
         for i in data:
 
             Date = datetime(*datetime.strptime(i[0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
 
-            if i[1] == 1 and i[2] == 0:
+            if i[1] == 1 and i[2] == 0 and oldState !=1:
                 # its a start
-                StoppedDates.append([oldDate, Date])
+                timeDelta = Date - oldDate
+                if timeDelta > timedelta(seconds = 20):
+                    StoppedDates.append([oldDate, Date])
 
             oldDate = Date
+            oldState = i[1]
         
         for i in StoppedDates:
             timeDelta = i[1] - i[0]
-            if timeDelta > timedelta(seconds = 30):
+            if timeDelta > timedelta(seconds = 20):
                 StoppedIntervals.append(timeDelta)
         
         timesStopped = len(StoppedIntervals)
@@ -227,7 +238,7 @@ def index():
 
     totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityToday(numSamples2)
     totalStoppedTime30d, timesStopped30d, StoppedDates30d = getProductivityMonth(numSamples2)
-    totalStoppedTimeAll, timesStoppedAll, StoppedDatesAll = getProductivityAlltime()
+    #totalStoppedTimeAll, timesStoppedAll, StoppedDatesAll = getProductivityAlltime()
 
     for i in range(len(Dates)):
       Dates[i] = Dates[i][5:16]
@@ -281,7 +292,7 @@ def my_form_post():
 
     totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityToday(numSamples2)
     totalStoppedTime30d, timesStopped30d, StoppedDates30d = getProductivityMonth(numSamples2)
-    totalStoppedTimeAll, timesStoppedAll, StoppedDatesAll = getProductivityAlltime()
+    #totalStoppedTimeAll, timesStoppedAll, StoppedDatesAll = getProductivityAlltime()
 
     for i in range(len(Dates)):
       Dates[i] = Dates[i][5:16]
@@ -331,8 +342,6 @@ def downtime24h():
     for i in StoppedDates24h:
         formattedString.append([str(i[0]), str(i[1])])
 
-    print(formattedString)
-
     return formattedString
 
 @app.route("/downtime30d")
@@ -345,8 +354,6 @@ def downtime30d():
 
     for i in StoppedDates24h:
         formattedString.append([str(i[0]), str(i[1])])
-
-    print(formattedString)
 
     return formattedString
 
