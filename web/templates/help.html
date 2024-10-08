@@ -7,16 +7,13 @@
   <link rel="icon" type="image/png" href="../static/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Speed meter and logger
+    Production Supervisor
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <!-- CSS Files -->
   <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
   <link href="../static/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../static/demo/demo.css" rel="stylesheet" />
 </head>
 
@@ -34,7 +31,7 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="active ">
+          <li >
             <a href="./">
               <i class="nc-icon nc-bank"></i>
               <p>Conform 3</p>
@@ -46,7 +43,7 @@
               <p>Download Database</p>
             </a>
           </li>
-          <li>
+          <li class="active ">
             <a href="/help">
               <i class="nc-icon nc-alert-circle-i"></i>
               <p>Information</p>
@@ -57,7 +54,6 @@
       </div>
     </div>
     <div class="main-panel">
-      <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
         <div class="container-fluid">
           <div class="navbar-wrapper">
@@ -76,26 +72,11 @@
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            Get Graph Data: &nbsp;
-            <form method="POST">
-              <div class="input-group no-border">
-
-                  <input class="form-control" type="date" id="end" name="numSamples2"
-                  value="{{maxDateSel}}" 
-                  min="{{minDate}}"
-                  max="{{maxDate}}"
-                  style="margin: .5%">
-        
-                  <input type="submit" class="btn btn-info" style="margin: 2%;">
-                
-              </div>
-            </form>
             <ul class="navbar-nav">
             </ul>
           </div>
         </div>
       </nav>
-      <!-- End Navbar -->
       <div class="content">
         <div class="row">
           <div class="col-lg-3 col-md-6 col-sm-6">
@@ -203,167 +184,96 @@
               </div>
             </div>
           </div>
-          
         </div>
 
-
-
-
-
-        <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-info">
-                      <i class="nc-icon nc-watch-time text-info"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Downtime 24h</p>
-                      <p class="card-title">{{downTime24h}}<p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-calendar-o"></i>
-                  Downtime on the selected day from 06:00 to 06:00 the next day. [HH:MM:SS]
-                </div>
-              </div>
+        <div class="col-md-12">
+          <div class="card card-user">
+            <div class="card-header">
+              <h3 class="card-title">Usage</h3>
             </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-watch-time text-info"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Times stopped 24h</p>
-                      <a href="./downtime24h"><p class="card-title">{{timesStopped24h}}<p></p></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-calendar-o"></i>
-                  Line stopped for >10s this many times on the selected day
-                </div>
-              </div>
+            <div class="card-body">
+              <h5>Date Selection</h5>
+              <p>
+                Using this function the user can select a day from the calendar for which the data shown will be calculated from.<br>
+                A "day" starts from 06:00 on the selected day and last until 06:00 the next day.<br>
+                This is done so that the displayed graphs align with the starts/ends of the shifts.<br>
+              </p>
+              <hr>
+              <h5>Current Speed (Numeric value)</h5>
+              <p>
+                Current speed of the line on which the device is installed.<br>
+                This value represents the last 5 minutes average.<br>
+                Updates every 5 minutes, as every other measurement.<br>
+                It is calculated from the frequency of impulses that are generated by metal pieces mounted on a wheel that is rotated by the passing wire.<br>
+                These metal pieces pass in front of an inductive sensor that then generates electric impulses.<br>
+              </p>
+              <hr>
+              <h5>Current Length</h5>
+              <p>
+                The maximum length the device logs from every 5 minute interval.<br>
+                It is reset when the operator resets the counter on the screen of the device.<br>
+                Reaction of the web interface can be delayed by up to 5 minutes due to the update interval.<br>
+              </p>
+              <hr>
+              <h5>Last Reading</h5>
+              <p>
+                The last time the readings have been written into the database.<br>
+                This occurs every 5 minutes. <br>
+                The data seen on the web interface is calculated based on the values in the database, not directly from the sensors (as it is on the screen of the device).<br>
+              </p>
+              <hr>
+              <h5>Average Speed</h5>
+              <p>
+                This value represents the average speed of the line for the selected day, including stops.<br>
+              </p>
+              <hr>
+              <h5>Downtime 24h/30d</h5>
+              <p>
+                This value is the sum of the duration of all stops that are above a certain time limit (currently 10s).<br>
+                There are 2 values, one that represents downtime for the selected day, on that represents the past 30 days starting from the selected day.<br>
+                Format is HOURS:MINUTES:SECONDS.<br>
+              </p>
+              <hr>
+              <h5>Times Stopped 24h/30d</h5>
+              <p>
+                The given line was stopped this many times in the past 24hours or 30 days.<br>
+                This only includes stops that are above a certain time limit (currently 10s).<br>
+                By clicking on this value a list is shown detailing all the downtimes down to second accuracy (also includes values below the 10 second limit).<br>
+                A limitation of this function is that the 24 hour version does not include downtime where the line was stopped before a shift change (e.g. 5:45) and was started after it (e.g. 6:30).<br>
+                If the user wishes to also see these stops, a look at the 30d data will be neccessary.<br>
+              </p>
+              <hr>
+              <h5>Line Speed (Chart)</h5>
+              <p>
+                This chart represents the line speed for the given line.<br>
+                Every data point is the average of the past 5 minutes data.<br>
+                Given the averaging, downtime that last less than 10 minutes is not guaranteed to be shown on this chart.<br>
+              </p>
+              <hr>
+              <h5>Meters Made / Month</h5>
+              <p>
+                This chart serves information about how many meters of wire were made on the given line in the past month, in 1 month intervals, for the past year.<br>
+              </p>
+              <hr>
+              <h5>Length logged</h5>
+              <p>
+                Every data point on this chart represents the maximum length that was measured in the past 5 minutes.<br>
+                This is done so that the exact length at which the operator reset the counter could be determined if neccessary.<br>
+                Using this graph it is possible to see how many spools were manufactured on the given day (Conform only).<br>
+              </p>
+              <hr>
+              <h5>Alarm Setting</h5>
+              <p>
+                Here the user can see to what setting the operator has set the alarm limit.<br>
+                Above this limit the alarm will sound.<br>
+              </p>
+              <hr>
+              <h5>Download database</h5>
+              <p>
+                Using this menu point the user can download the database in .db fomrat (library used is sqlite3) for backing it up or extracting data from it for custom evaluation.<br>
+              </p>
+              <hr>
             </div>
-          </div>
-          
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-watch-time text-info"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Downtime 30d</p>
-                      <p class="card-title">{{downTime30d}}<p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-clock-o"></i>
-                  Downtime in the past 30 days starting from the selected day. [HH:MM:SS]
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-watch-time text-info"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Times stopped 30d</p>
-                      <a href="./downtime30d"><p class="card-title">{{timesStopped30d}}<p></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-clock-o"></i>
-                  Line was stopped for >10s in the past 30 days starting from the selected day.
-                </div>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-
-
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-title">Line Speed (5 minute average)</h5>
-              </div>
-              <div class="card-body">
-                <canvas id="power-today" data-graphdatax='{{ speedX|tojson }}' data-graphdatay='{{ speedY|tojson }}' height="100"></canvas>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-title">Meters made / Month</h5>
-              </div>
-              <div class="card-body">
-                <canvas id="daily-energy" data-graphdatax='{{ lengthsDailyX|tojson }}' data-graphdatay='{{ lengthsDailyY|tojson }}' height="100"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-title">Length logged</h5>
-              </div>
-              <div class="card-body">
-                <canvas id="average-energy" data-graphdatax='{{ lengthX|tojson }}' data-graphdatay='{{ lengthY|tojson }}' height="100"></canvas>
-              </div>
-              
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-title">Alarm Setting</h5>
-              </div>
-              <div class="card-body">
-                <canvas id="total-energy" data-graphdatax='{{ alarmX|tojson }}' data-graphdatay='{{ alarmY|tojson }}' height="100"></canvas>
-              </div>
-              
           </div>
         </div>
         
@@ -388,21 +298,16 @@
       </footer>
     </div>
   </div>
-  <!--   Core JS Files   -->
   <script src="../static/js/core/jquery.min.js"></script>
   <script src="../static/js/core/popper.min.js"></script>
   <script src="../static/js/core/bootstrap.min.js"></script>
   <script src="../static/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!-- Chart JS -->
   <script src="../static/js/plugins/chartjs.min.js"></script>
-  <!--  Notifications Plugin    -->
   <script src="../static/js/plugins/bootstrap-notify.js"></script>
-  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../static/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script><!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+  <script src="../static/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script>
   <script src="../static/demo/demo.js"></script>
   <script>
     $(document).ready(function() {
-      // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
       demo.initChartsPages();
     });
   </script>

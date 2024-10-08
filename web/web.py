@@ -350,6 +350,33 @@ def downtime30d():
 
     return formattedString
 
+@app.route("/help")
+def help():
+    global  numSamples1, numSamples2
+    
+    lastDate, power, length, ads = getLastData()
+    power = round(power, 2)
+    length = round(length, 2)
+
+    Dates, Speeds, Lengths, Alarms = getHistData(numSamples2)
+    avgSpeed = getAvgSpeed(numSamples2)
+
+    templateData = {
+        'speed'						: power,
+        'length'    				: length,
+        'maxDate'					: lastDate[:10],
+        'maxDateFull'				: lastDate[11:],
+        'speedX'					: Dates,
+        'speedY'					: Speeds,
+        'lengthX'	        		: Dates,
+        'lengthY'		        	: Lengths,
+        'alarmX'		    		: Dates,
+        'alarmY'		       		: Alarms,
+        'avgSpeed'                  : avgSpeed
+    }
+
+    return render_template('help.html', **templateData)
+
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', port=8000, debug=False)

@@ -28,7 +28,7 @@ demo = {
             label: 'Line Speed [m/min]',
             borderColor: "#5fa383",
             backgroundColor: "#85e6ba",
-            pointRadius: 0,
+            pointRadius: 2,
             pointHoverRadius: 0,
             borderWidth: 3,
             data: JSON.parse(document.getElementById("power-today").dataset.graphdatay)
@@ -42,7 +42,7 @@ demo = {
         },
 
         tooltips: {
-          enabled: false
+          enabled: true
         },
 
         scales: {
@@ -162,8 +162,8 @@ demo = {
             label: 'Length [m]',
             borderColor: "#7428f7",
             backgroundColor: "#ad7dff",
-            pointRadius: 0,
-            pointHoverRadius: 30,
+            pointRadius: 2,
+            pointHoverRadius: 0,
             borderWidth: 3,
             data: JSON.parse(document.getElementById("average-energy").dataset.graphdatay)
           }
@@ -176,7 +176,7 @@ demo = {
         },
 
         tooltips: {
-          enabled: false
+          enabled: true
         },
 
         scales: {
@@ -186,7 +186,6 @@ demo = {
               fontColor: "#9f9f9f",
               beginAtZero: true,
               maxTicksLimit: 4,
-              //padding: 20,
             },
             gridLines: {
               drawBorder: false,
