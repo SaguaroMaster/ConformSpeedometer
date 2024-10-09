@@ -71,7 +71,7 @@ else:
    sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_time = 0.001)
 
 
-if not os.path.isfile(databaseName):
+if not os.path.isfile(databaseName): #create database if it does not exist with default values specified below
    conn = sqlite3.connect(databaseName)
    curs=conn.cursor()
    curs.execute("CREATE TABLE data(timestamp DATETIME, speed REAL, length REAL, alarmSetting INT);")
@@ -88,14 +88,14 @@ if not os.path.isfile(databaseName):
    conn.commit()
    conn.close()
 
-def logData(speed, length, alarmSetting):
+def logData(speed, length, alarmSetting): #logs data, duh
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
    curs.execute("INSERT INTO data values(datetime('now', 'localtime'), (?), (?), (?))", (speed, length, int(alarmSetting)))
    conn.commit()
    conn.close()
 
-def logStops(state):
+def logStops(state): #logs machine stops/starts. separate columns in database table for stop/start.
 
    startState = 0
    stopState = 0
@@ -112,7 +112,7 @@ def logStops(state):
    conn.commit()
    conn.close()
 
-def getSettings():
+def getSettings(): #Returns setting values from database
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
    for row in curs.execute("SELECT * FROM settings ORDER BY timestamp DESC LIMIT 1"):
@@ -123,7 +123,7 @@ def getSettings():
       return lastEdit, samplingPeriod, savingPeriod, Circumference
    return None, None, None, None
 
-def getLastData():
+def getLastData(): #Gets last data entry from database
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
    for row in curs.execute("SELECT * FROM data ORDER BY timestamp DESC LIMIT 1"):
@@ -131,7 +131,7 @@ def getLastData():
       alarmSetting = row[3]
    return time, alarmSetting
 
-def getLastStopState():
+def getLastStopState(): #Sets the initial value of the variable used for the state machine for determining if the line is stopped/started
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
    for row in curs.execute("SELECT * FROM stops ORDER BY timestamp DESC LIMIT 1"):
@@ -143,10 +143,12 @@ def getLastStopState():
       machineState1 = 1
    elif startState == 0 and stopState == 1:
       machineState1 = 0
+   else:
+      machineState1 = 0
       
    return time, machineState1
 
-def getHistData (numSamples2):
+def getHistData (numSamples2): #fetches data from the data table for the specified time interval  (numSamples2, daysToGraph)
    global daysToGraph
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
@@ -166,7 +168,7 @@ def getHistData (numSamples2):
 def getDigit(number, n):
     return number // 10**n % 10
 
-def setLengthTarget():
+def setLengthTarget():  #updates digits on the GUI
    global lengthTarget
 
    Digit1String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 0)))
@@ -176,8 +178,8 @@ def setLengthTarget():
    Digit10000String.set('{0: 01.0f}'.format(getDigit(lengthTarget, 4)))
 
 def setLength(length): #if it looks stupid but works it aint stupid
-   global lengthTarget
-
+   global lengthTarget #sets the length target at which the alarm activates by single digits using the +/- buttons defined below.
+                       #also sets the minimum defineable length
    lengthTarget = int(lengthTarget)
 
    if length == 1:
@@ -238,24 +240,24 @@ def setLength(length): #if it looks stupid but works it aint stupid
 
    setLengthTarget()
    
-def resetLength():
+def resetLength(): #only resets length measurement
    global length
    global pulseCount2
    global alarmState
    length = 0
    pulseCount2 = 0
 
-def setAlarm():
+def setAlarm(): #turns alarm sound on for 0.2s then off for 1s. aslo turn on blinker
    relay1.blink(on_time=0.2, off_time=1)
    relay2.on()
 
-def resetAlarm():
+def resetAlarm(): #turns off all alarms
    global alarmState
    relay1.off()
    relay2.off()
 
 
-def unclockSetting():
+def unclockSetting(): #enables +/- buttons defined below and logs the time. buttons will lock after a set ammount of time.
    global unlockFlag, unlockTime
    unlockFlag = 1
 
@@ -313,7 +315,7 @@ runningAvgShort = deque(maxlen = 4)
 maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
 
-def pulseCallback(self):
+def pulseCallback(self): #ISR for calculating speed based on time elapsed between pulses
    global pulseCount2, speed, maxPulseInterval, wheelCircumference, lastPulse
    pulseCount2 = pulseCount2 + 1
    timeDiff = time.time() - lastPulse
@@ -322,7 +324,7 @@ def pulseCallback(self):
 
    lastPulse = time.time()
 
-if OS != 'Windows': 
+if OS != 'Windows': #only use GPIO stuff if it runs on an RPi
    sensor.when_released = pulseCallback
 
 
@@ -381,7 +383,7 @@ ButtonAlarmReset = Button(root, text = 'ALARM RESET', font=('bold', 25), command
 
 ButtonGraph = Button(root, text = 'GRAFIKON', font=('bold', 15), command = graphWindowCallback, height = 1, bg = UnlockButtonColor).grid(row=12,column=9, padx=(10,10), pady=(15,0), columnspan = 9)
 
-Unlock = Button(root, text = 'F E L N Y I T', font=('bold', 25), command = unclockSetting, height = 1, width = 17, bg = UnlockButtonColor).grid(row=12,column=2, padx=(10,10), columnspan = 5)
+Unlock = Button(root, text = 'F E L O L D', font=('bold', 25), command = unclockSetting, height = 1, width = 17, bg = UnlockButtonColor).grid(row=12,column=2, padx=(10,10), columnspan = 5)
 Plus1 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(1), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
 Plus1.grid(row=9,column=6, padx=(10,10))
 Plus10 = Button(root, text = '+', font=('bold', 40), command = lambda: setLength(10), height = 1, width = 2, bg = TargetButtonColor, state = DISABLED)
