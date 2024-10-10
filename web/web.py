@@ -9,6 +9,8 @@ import threading
 import pandas
 import dateutil.relativedelta
 import sqlite3
+import csv
+import os
 
 
 app = Flask(__name__)
@@ -120,6 +122,8 @@ def getProductivityToday(numSamples2):
             timeDelta = i[1] - i[0]
             if timeDelta > timedelta(seconds = 20):
                 StoppedIntervals.append(timeDelta)
+
+        
         
         timesStopped = len(StoppedIntervals)
         totalStoppedTime = sum(StoppedIntervals, timedelta())
@@ -209,6 +213,15 @@ def getAvgSpeed(numSamples2):
 
     return avgSpeed
 
+def saveToExcel(csvName):
+    curs.execute("SELECT * FROM data;")
+    data = curs.fetchall()
+    if os.path.isfile(csvName):
+        os.remove(csvName) 
+
+    with open(csvName, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerows(data)
 
 
 
@@ -244,7 +257,7 @@ def index():
       Dates[i] = Dates[i][5:16]
 
     for i in range(len(DatesSum1)):
-        DatesSum1[i] = DatesSum1[i][:11]
+        DatesSum1[i] = DatesSum1[i][:7]
 
     templateData = {
         'speed'						: power,
@@ -298,7 +311,7 @@ def my_form_post():
       Dates[i] = Dates[i][5:16]
 
     for i in range(len(DatesSum1)):
-        DatesSum1[i] = DatesSum1[i][:11]
+        DatesSum1[i] = DatesSum1[i][:7]
 
     templateData = {
         'speed'						: power,
@@ -329,6 +342,13 @@ def my_form_post():
 def download():
 
     return send_from_directory("/home/pi", "Database.db")
+
+@app.route('/downloadcsv', methods=['GET', 'POST'])
+def downloadcsv():
+
+    csvName = 'ExportedData.csv'
+    saveToExcel(csvName)
+    return send_from_directory("/home/pi", csvName)
 
 
 @app.route("/downtime24h")
