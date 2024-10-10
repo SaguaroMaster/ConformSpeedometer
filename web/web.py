@@ -221,6 +221,7 @@ def saveToExcel(csvName):
 
     with open(csvName, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
+        writer.writerow(['Date', 'Speed [m/min]', 'Length [m]', 'Alarm Setting [m]'])
         writer.writerows(data)
 
 
