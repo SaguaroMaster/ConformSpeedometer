@@ -225,16 +225,12 @@ def saveToExcel(csvName):
         writer.writerows(data)
 
 
-
-
-
 # main route 
 @app.route("/")
 def index():
     global  numSamples1, numSamples2
     setGlobalVars()
     lastEdit, samplingPeriod, language, theme = getSettings()
-
 
     numSamples2_1 = numSamples2 + timedelta(days=1, hours = 6)
     
