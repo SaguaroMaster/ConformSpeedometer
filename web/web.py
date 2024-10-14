@@ -4,6 +4,7 @@
 from datetime import datetime, timedelta
 from platform import system as sys
 from flask import Flask, render_template, send_from_directory, request
+ 
 
 import threading
 import pandas
@@ -25,6 +26,11 @@ else:
 curs=conn.cursor()
 
 lock = threading.Lock()
+
+def logIp(page):
+    ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr) 
+    curs.execute("INSERT INTO log values(datetime('now', 'localtime'), (?), (?))", (ip, page))
+    conn.commit()
 
 def getLastData():
     for row in curs.execute("SELECT * FROM data ORDER BY timestamp DESC LIMIT 1"):
@@ -230,6 +236,7 @@ def saveToExcel(csvName):
 def index():
     global  numSamples1, numSamples2
     setGlobalVars()
+    logIp("index")
     lastEdit, samplingPeriod, language, theme = getSettings()
 
     numSamples2_1 = numSamples2 + timedelta(days=1, hours = 6)
@@ -288,6 +295,8 @@ def my_form_post():
     numSamples2 = request.form['numSamples2']
     numSamples2 = datetime.strptime(numSamples2, "%Y-%m-%d")
 
+    logIp("getDate")
+
     numSamples1_disp = str(numSamples1)[:10]
     numSamples2_disp = str(numSamples2)[:10]
     numSamples2 = numSamples2 + timedelta(days=1, hours=6)
@@ -337,11 +346,13 @@ def my_form_post():
 
 @app.route('/download', methods=['GET', 'POST'])
 def download():
+    logIp("downloadDB")
 
     return send_from_directory("/home/pi", "Database.db")
 
 @app.route('/downloadcsv', methods=['GET', 'POST'])
 def downloadcsv():
+    logIp("downloadCSV")
 
     csvName = 'ExportedData.csv'
     saveToExcel(csvName)
@@ -351,6 +362,8 @@ def downloadcsv():
 @app.route("/downtime24h")
 def downtime24h():
     global numSamples2
+
+    logIp("downtime24h")
     
     totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityToday(numSamples2)
 
@@ -364,6 +377,8 @@ def downtime24h():
 @app.route("/downtime30d")
 def downtime30d():
     global numSamples2   
+
+    logIp("downtime30d")
     
     totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityMonth(numSamples2)
 
@@ -377,6 +392,8 @@ def downtime30d():
 @app.route("/help")
 def help():
     global  numSamples1, numSamples2
+
+    logIp("help")
     
     lastDate, power, length, ads = getLastData()
     power = round(power, 2)

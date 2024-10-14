@@ -80,6 +80,8 @@ if not os.path.isfile(databaseName): #create database if it does not exist with 
    conn.commit()
    curs.execute("CREATE TABLE settings(timestamp DATETIME, sampling_period REAL, saving_period NUMERIC, circumference NUMERIC, max_meters NUMERIC, setting1 NUMERIC, setting2 NUMERIC, setting3 NUMERIC, setting4 NUMERIC);")
    conn.commit()
+   curs.execute("CREATE TABLE log(timestamp DATETIME, ip TINYTEXT, page TINYTEXT);")
+   conn.commit()
    curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), 0.1, 300, (?), 5000, 0, 0, 0, 0);", (wheelCircumference,))
    conn.commit()
    curs.execute("INSERT INTO data values(datetime('now', 'localtime'), 0, 0, 10000);")
