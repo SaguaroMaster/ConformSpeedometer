@@ -5,7 +5,8 @@ INSERT INTO settings values(datetime('now', 'localtime'), 0.5, 300, 0.23, 5000, 
 
 
 To make Waveshare HMI display work put in config.txt after flashing sd card:
-(source: https://www.waveshare.com/wiki/10.1inch_DSI_LCD_(C) ) 
+(source: https://www.waveshare.com/wiki/10.1inch_DSI_LCD_(C) 
+         https://www.waveshare.com/wiki/PI5-HMI-080C ) 
 
 dtoverlay=vc4-kms-v3d
 #DSI1 Use

@@ -28,6 +28,7 @@ curs=conn.cursor()
 lock = threading.Lock()
 
 def logIp(page):
+
     ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr) 
     curs.execute("INSERT INTO log values(datetime('now', 'localtime'), (?), (?))", (ip, page))
     conn.commit()
@@ -420,4 +421,4 @@ def help():
 
 
 if __name__ == "__main__":
-   app.run(host='0.0.0.0', port=8000, debug=False)
+   app.run(host='0.0.0.0', port=8001, debug=False)
