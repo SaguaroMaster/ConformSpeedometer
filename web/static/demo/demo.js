@@ -46,20 +46,13 @@ demo = {
         },
 
         scales: {
-          y: [{
+          yAxes: [{
 
             ticks: {
-              fontColor: "#9f9f9f",
               beginAtZero: true,
-              maxTicksLimit: 4,
+              maxTicksLimit: 8,
               //padding: 20
             },
-            gridLines: {
-              drawBorder: false,
-              zeroLineColor: "#ccc",
-              color: 'rgba(255,255,255,0.05)',
-              display: true
-            }
 
           }],
 
@@ -90,7 +83,7 @@ demo = {
         
         datasets: [
           {
-            label: 'Length [m]',
+            label: 'Length [km]',
             borderColor: "#facf73",
             backgroundColor: "#facf73",
             pointRadius: 0,
@@ -180,33 +173,19 @@ demo = {
         },
 
         scales: {
-          y: [{
+          yAxes: [{
 
             ticks: {
-              fontColor: "#9f9f9f",
               beginAtZero: true,
-              maxTicksLimit: 4,
+              maxTicksLimit: 8,
             },
-            gridLines: {
-              drawBorder: false,
-              zeroLineColor: "#ccc",
-              color: 'rgba(255,255,255,0.05)',
-              display: true
-            }
 
           }],
 
-          x: [{
+          xAxes: [{
             barPercentage: 1.6,
-            gridLines: {
-              drawBorder: false,
-              color: 'rgba(255,255,255,0.1)',
-              zeroLineColor: "transparent",
-              display: true,
-            },
             ticks: {
-              padding: 20,
-              fontColor: "#9f9f9f"
+              //padding: 20,
             }
           }]
         },
@@ -245,45 +224,26 @@ demo = {
         },
 
         scales: {
-          y: [{
+          yAxes: [{
             ticks: {
-              fontColor: "#9f9f9f",
               beginAtZero: true,
-              maxTicksLimit: 4,
-              //padding: 20
+              maxTicksLimit: 8
             },
-            gridLines: {
-              drawBorder: false,
-              zeroLineColor: "#ccc",
-              color: 'rgba(255,255,255,0.05)',
-              display: true
-            },
-            
 
           }],
 
-          x: [{
+          xAxes: [{
             barPercentage: 1.6,
             gridLines: {
-              drawBorder: false,
+              drawBorder: true,
               color: 'rgba(255,255,255,0.1)',
               zeroLineColor: "transparent",
               display: true,
             },
             ticks: {
-              padding: 20,
-              fontColor: "#9f9f9f"
+              //padding: 20,
             },
-            stacked: true,
           }],
-          xAxes: [{
-            stacked: true,
-            scaleLabel: {
-              display: true,
-              labelString: 'Date [Month]'
-            }
-          }],
-
         },
       }
     });

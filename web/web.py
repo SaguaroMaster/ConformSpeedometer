@@ -96,7 +96,7 @@ def getHistDataLengthMonthly (numSamples2):
 		dataSum = curs.fetchall()
 		datesSum.append(str(entry2))
 		lengthSum.append(dataSum[0][0])
-	lengthSum = [0 if v is None else v*5 for v in lengthSum]
+	lengthSum = [0 if v is None else v*5/1000 for v in lengthSum]
 
 	return datesSum, lengthSum
 
