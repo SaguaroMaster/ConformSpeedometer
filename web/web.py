@@ -231,6 +231,10 @@ def saveToExcel(csvName):
         writer.writerow(['Date and Time', 'Speed [m/min]', 'Length [m]', 'Alarm Setting [m]'])
         writer.writerows(data)
 
+def readLog():
+    curs.execute("SELECT * FROM log;")
+    data = curs.fetchall()
+    return data
 
 # main route 
 @app.route("/")
@@ -418,6 +422,12 @@ def help():
     }
 
     return render_template('help.html', **templateData)
+
+@app.route("/log")
+def log():
+    logIp("log")
+    logs = readLog()
+    return logs
 
 
 if __name__ == "__main__":
