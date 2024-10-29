@@ -300,7 +300,7 @@ def my_form_post():
     numSamples2 = request.form['numSamples2']
     numSamples2 = datetime.strptime(numSamples2, "%Y-%m-%d")
 
-    logIp("getDate")
+    logIp("getDate " + str(numSamples2))
 
     numSamples1_disp = str(numSamples1)[:10]
     numSamples2_disp = str(numSamples2)[:10]
@@ -368,7 +368,7 @@ def downloadcsv():
 def downtime24h():
     global numSamples2
 
-    logIp("downtime24h")
+    logIp("downtime24h " + str(numSamples2))
     
     totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityToday(numSamples2)
 
@@ -383,7 +383,7 @@ def downtime24h():
 def downtime30d():
     global numSamples2   
 
-    logIp("downtime30d")
+    logIp("downtime30d " + str(numSamples2))
     
     totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityMonth(numSamples2)
 
