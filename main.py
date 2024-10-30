@@ -24,6 +24,8 @@ RELAY_CH1 = 26
 RELAY_CH2 = 20
 RELAY_CH3 = 21
 SENSOR_PIN = 6
+BUTTON1_PIN = 4
+BUTTON2_PIN = 27
 
 lengthSavePeriod = 5    ## period in seconds in which the current length is saved for backup in case of power outage, crash, etc..
 unlockDuration = 20     ## time in seconds until the alarm setting adjustment buttons stay unlocked for after pressing the unlock button
@@ -69,6 +71,8 @@ else:
    relay1 = GPIO.LED(RELAY_CH1, active_high=False)
    relay2 = GPIO.LED(RELAY_CH2, active_high=False) 
    sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_time = 0.001)
+   button1 = GPIO.Button(BUTTON1_PIN, pull_up = True, bounce_time = 0.01)
+   button2 = GPIO.Button(BUTTON2_PIN, pull_up = True, bounce_time = 0.01)
 
 
 if not os.path.isfile(databaseName): #create database if it does not exist with default values specified below
@@ -326,8 +330,18 @@ def pulseCallback(self): #ISR for calculating speed based on time elapsed betwee
 
    lastPulse = time.time()
 
+def button1Callback(self): #ISR for calculating speed based on time elapsed between pulses
+   resetLength()
+   print("Button 1 Pressed")
+
+def button2Callback(self): #ISR for calculating speed based on time elapsed between pulses
+   resetAlarm()
+   print("Button 2 Pressed")
+
 if OS != 'Windows': #only use GPIO stuff if it runs on an RPi
    sensor.when_released = pulseCallback
+   button1.when_released = button1Callback
+   button2.when_released = button2Callback
 
 
 root = Tk()
