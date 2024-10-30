@@ -431,7 +431,7 @@ setLengthTarget()
 
 date, machineState = getLastStopState()
 
-time.sleep(3)
+time.sleep(0.5)
 
 try:
    if os.path.isfile(saveFilePath):
