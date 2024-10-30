@@ -332,11 +332,9 @@ def pulseCallback(self): #ISR for calculating speed based on time elapsed betwee
 
 def button1Callback(self): #ISR for calculating speed based on time elapsed between pulses
    resetLength()
-   print("Button 1 Pressed")
 
 def button2Callback(self): #ISR for calculating speed based on time elapsed between pulses
    resetAlarm()
-   print("Button 2 Pressed")
 
 if OS != 'Windows': #only use GPIO stuff if it runs on an RPi
    sensor.when_released = pulseCallback
