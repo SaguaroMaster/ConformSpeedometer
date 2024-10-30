@@ -346,9 +346,8 @@ root = Tk()
 root.title('Line Speed and Length Meter')
 root.after(1000, root.wm_attributes, '-fullscreen', 'true')
 
-print("resetting gui...")
-root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
-root.attributes('-fullscreen', True)
+root.update()
+
 
 bg = PhotoImage( file = logoPath) 
 label1 = Label(root, image = bg) 
