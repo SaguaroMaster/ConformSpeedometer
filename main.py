@@ -67,6 +67,8 @@ else:
    databaseName = '/home/pi/Database.db'
    logoPath = '/home/pi/ConformSpeedometer/logo.png'
    saveFilePath = '/home/pi/lengthBackup.txt'
+   imagePath = '/home/pi/images'
+
 
    import gpiozero as GPIO
 
@@ -255,7 +257,7 @@ def resetLength(): #only resets length measurement
    global alarmState
    length = 0
    pulseCount2 = 0
-   cam.take_photo("/home/pi/asd/im.jpg")
+   cam.take_photo(imagePath + datetime.now())
 
 def setAlarm(): #turns alarm sound on for 0.2s then off for 1s. aslo turn on blinker
    relay1.blink(on_time=0.2, off_time=1)
@@ -387,7 +389,7 @@ Digit10VarString = Label(root, textvariable = Digit10String, font=('bold', 40)).
 Digit1VarString = Label(root, textvariable = Digit1String, font=('bold', 40)).grid(row=10, column=6, padx=(0,0))
 
 LastLogVarString = Label(root, textvariable = LastLogString, font=('bold', 10)).place(x = 0, y = 740)
-LastLogVarString = Label(root, textvariable = TimeNowString, font=('bold', 10)).place(x = 0, y = 760)
+TimeNowVarString = Label(root, textvariable = TimeNowString, font=('bold', 10)).place(x = 0, y = 760)
 CPUTempVarString = Label(root, textvariable = CPUTempString, font=('bold', 10)).place(x = 0, y = 780)
 
 
