@@ -13,6 +13,7 @@ import time
 import sqlite3
 from tkinter import *
 from statistics import mean
+from picamzero import Camera
 from collections import deque
 from platform import system as sys
 from matplotlib.figure import Figure
@@ -54,6 +55,7 @@ oldSpeed = 0
 machineState = 0
 machineStateLogged = 0
 OS = sys()
+cam = Camera()
 
 
 if OS == 'Windows':
@@ -69,7 +71,8 @@ else:
    import gpiozero as GPIO
 
    relay1 = GPIO.LED(RELAY_CH1, active_high=False)
-   relay2 = GPIO.LED(RELAY_CH2, active_high=False) 
+   relay2 = GPIO.LED(RELAY_CH2, active_high=False)
+   relay3 = GPIO.LED(RELAY_CH3, active_high=False) 
    sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_time = 0.001)
    button1 = GPIO.Button(BUTTON1_PIN, pull_up = True, bounce_time = 0.01)
    button2 = GPIO.Button(BUTTON2_PIN, pull_up = True, bounce_time = 0.01)
@@ -252,6 +255,7 @@ def resetLength(): #only resets length measurement
    global alarmState
    length = 0
    pulseCount2 = 0
+   cam.take_photo("/home/pi/im.jpg")
 
 def setAlarm(): #turns alarm sound on for 0.2s then off for 1s. aslo turn on blinker
    relay1.blink(on_time=0.2, off_time=1)
