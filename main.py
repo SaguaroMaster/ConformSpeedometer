@@ -67,7 +67,7 @@ else:
    databaseName = '/home/pi/Database.db'
    logoPath = '/home/pi/ConformSpeedometer/logo.png'
    saveFilePath = '/home/pi/lengthBackup.txt'
-   imagePath = '/home/pi/images/'
+   imagePath = '/home/pi/Pictures/'
 
 
    import gpiozero as GPIO
