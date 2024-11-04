@@ -4,7 +4,6 @@
 from datetime import datetime, timedelta
 from platform import system as sys
 from flask import Flask, render_template, send_from_directory, request
- 
 
 import threading
 import pandas
@@ -13,9 +12,7 @@ import sqlite3
 import csv
 import os
 
-
 app = Flask(__name__)
-
 
 if sys() == 'Windows':
     conn=sqlite3.connect('./Database.db', check_same_thread=False)
@@ -81,7 +78,6 @@ def getHistData (numSamples2):
       alarm.append(row[3])
    return dates, speed, length, alarm
 
-
 #initialize global variables
 global numSamples1, numSamples2
 setGlobalVars()
@@ -99,7 +95,6 @@ def getHistDataLengthMonthly (numSamples2):
 	lengthSum = [0 if v is None else v*5/1000 for v in lengthSum]
 
 	return datesSum, lengthSum
-
 
 def getProductivityToday(numSamples2):
 
@@ -271,6 +266,7 @@ def index():
     productivity24h = round(totalStoppedTime24h / timedelta(hours = 24) * 100, 1)
     productivity30d = round(totalStoppedTime30d / timedelta(days = 30) * 100, 1)
 
+
     templateData = {
         'speed'						: power,
         'length'    				: length,
@@ -438,7 +434,6 @@ def log():
     logIp("log")
     logs = readLog()
     return logs
-
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', port=8000, debug=False)
