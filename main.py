@@ -30,7 +30,7 @@ BUTTON2_PIN = 27
 
 lengthSavePeriod = 5    ## period in seconds in which the current length is saved for backup in case of power outage, crash, etc..
 unlockDuration = 20     ## time in seconds until the alarm setting adjustment buttons stay unlocked for after pressing the unlock button
-maxPulseInterval = 3    ## max time in seconds between impulses for sensor
+maxPulseInterval = 6    ## max time in seconds between impulses for sensor
 wheelCircumference = 0.1 ## length per impulse in meters
 daysToGraph = 2         ## time in days for which the line speed will be graphed on the deviced under the graph button
 
