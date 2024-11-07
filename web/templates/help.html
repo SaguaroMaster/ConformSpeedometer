@@ -31,8 +31,20 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li >
-            <a href="./">
+          <li class="{{activeButton1}}">
+            <a href="http://192.168.8.183:8000">
+              <i class="nc-icon nc-bank"></i>
+              <p>Conform 1</p>
+            </a>
+          </li>
+          <li class="{{activeButton2}}">
+            <a href="http://192.168.8.126:8000">
+              <i class="nc-icon nc-bank"></i>
+              <p>Conform 2</p>
+            </a>
+          </li>
+          <li class="{{activeButton3}}">
+            <a href="http://192.168.8.15:8000">
               <i class="nc-icon nc-bank"></i>
               <p>Conform 3</p>
             </a>
@@ -243,9 +255,9 @@
               <hr>
               <h5>Times Stopped 24h/30d</h5>
               <p>
-                The given line was stopped this many times in the past 24hours or 30 days.<br>
+                The given line was stopped this many times in the past 24 hours or 30 days.<br>
                 This only includes stops that are above a certain time limit (currently 10s).<br>
-                By clicking on this value a list is shown detailing all the downtimes down to second accuracy (also includes values below the 10 second limit).<br>
+                By clicking on this value a list is shown detailing all the downtimes down to second accuracy.<br>
                 A limitation of this function is that the 24 hour version does not include downtime where the line was stopped before a shift change (e.g. 5:45) and was started after it (e.g. 6:30).<br>
                 If the user wishes to also see these stops, a look at the 30d data will be neccessary.<br>
               </p>
@@ -253,13 +265,13 @@
               <h5>Line Speed (Chart)</h5>
               <p>
                 This chart represents the line speed for the given line.<br>
-                Every data point is the average of the past 5 minutes data.<br>
+                Every data point is the average of the past 5 minute's data.<br>
                 Given the averaging, downtime that last less than 10 minutes is not guaranteed to be shown on this chart.<br>
               </p>
               <hr>
               <h5>Meters Made / Month</h5>
               <p>
-                This chart serves information about how many meters of wire were made on the given line in the past month, in 1 month intervals, for the past year.<br>
+                This chart serves information about how many meters of wire were made on the given line in the past month, in 1 month intervals, for the past 12 months.<br>
               </p>
               <hr>
               <h5>Length logged</h5>
@@ -271,13 +283,13 @@
               <hr>
               <h5>Alarm Setting</h5>
               <p>
-                Here the user can see to what setting the operator has set the alarm limit.<br>
-                Above this limit the alarm will sound.<br>
+                Here the user can see what setting the operator has set the alarm limit to.<br>
+                Above this limit the alarm will sound until it is disabled using the on-screen/physical button on the device.<br>
               </p>
               <hr>
               <h5>Download database</h5>
               <p>
-                Using this menu point the user can download the database in .db fomrat (library used is sqlite3) for backing it up or extracting data from it for custom evaluation.<br>
+                Using this menupoint the user can download the database in .db fomrat (the library used is sqlite3) for backing it up or extracting data from it for custom data evaluation.<br>
               </p>
               <hr>
             </div>
