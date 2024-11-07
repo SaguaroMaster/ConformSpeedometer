@@ -384,7 +384,7 @@ def my_form_post():
         'activeButton1'             : activeButton1,
         'activeButton2'             : activeButton2,
         'activeButton3'             : activeButton3,
-        'timeNow'                   : datetime.now().time()
+        'timeNow'                   : str(datetime.now().time())[:8]
     }
 
     return render_template('dashboard.html', **templateData)
