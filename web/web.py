@@ -318,7 +318,7 @@ def index():
         'activeButton1'             : activeButton1,
         'activeButton2'             : activeButton2,
         'activeButton3'             : activeButton3,
-        'timeNow'                   : datetime.now().time()
+        'timeNow'                   : str(datetime.now())[:19]
     }
 
     return render_template('dashboard.html', **templateData)
