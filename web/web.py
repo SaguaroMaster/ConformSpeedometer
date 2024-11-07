@@ -3,9 +3,11 @@
 
 from datetime import datetime, timedelta
 from platform import system as sys
+
 from flask import Flask, render_template, send_from_directory, request
 
 import threading
+import platform
 import pandas
 import dateutil.relativedelta
 import sqlite3
@@ -23,6 +25,8 @@ else:
 curs=conn.cursor()
 
 lock = threading.Lock()
+
+print(platform.node())
 
 def logIp(page):
 
