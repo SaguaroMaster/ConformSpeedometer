@@ -6,15 +6,37 @@ from platform import system as sys
 
 from flask import Flask, render_template, send_from_directory, request
 
+import dateutil.relativedelta
 import threading
 import platform
-import pandas
-import dateutil.relativedelta
 import sqlite3
+import pandas
 import csv
 import os
 
 app = Flask(__name__)
+hostName = str(platform.node())
+
+if hostName == 'conf1pi':
+    activeButton1 = 'active'
+    activeButton2 = ''
+    activeButton3 = ''
+    lineName = 'Conform 1'
+elif hostName == 'conf2pi':
+    activeButton1 = ''
+    activeButton2 = 'active'
+    activeButton3 = ''
+    lineName = 'Conform 2'
+elif hostName == 'conf3pi':
+    activeButton1 = ''
+    activeButton2 = ''
+    activeButton3 = 'active'
+    lineName = 'Conform 3'
+else:
+    activeButton1 = ''
+    activeButton2 = ''
+    activeButton3 = ''
+    lineName = 'unknown device'
 
 if sys() == 'Windows':
     conn=sqlite3.connect('./Database.db', check_same_thread=False)
@@ -26,7 +48,7 @@ curs=conn.cursor()
 
 lock = threading.Lock()
 
-print(platform.node())
+
 
 def logIp(page):
 
@@ -238,7 +260,7 @@ def readLog():
 # main route 
 @app.route("/")
 def index():
-    global  numSamples1, numSamples2
+    global  numSamples1, numSamples2, activeButton1, activeButton2, activeButton3, lineName
     setGlobalVars()
     logIp("index")
     lastEdit, samplingPeriod, language, theme = getSettings()
@@ -246,8 +268,6 @@ def index():
     numSamples1_disp = str(numSamples1)[:10]
     numSamples2_disp = str(numSamples2 - timedelta(days = 1))[:10]
 
-
-    
     lastDate, power, length, ads = getLastData()
     firstDate = getFirstData()
     power = round(power, 2)
@@ -293,14 +313,18 @@ def index():
         'downTime30d'               : totalStoppedTime30d,
         'timesStopped30d'           : timesStopped30d,
         'productivity30d'           : productivity30d,
-        'avgSpeed'                  : avgSpeed
+        'avgSpeed'                  : avgSpeed,
+        'lineName'                  : lineName,
+        'activeButton1'             : activeButton1,
+        'activeButton2'             : activeButton2,
+        'activeButton3'             : activeButton3
     }
 
     return render_template('dashboard.html', **templateData)
 
 @app.route('/', methods=['POST'])
 def my_form_post():
-    global  numSamples1, numSamples2
+    global  numSamples1, numSamples2, activeButton1, activeButton2, activeButton3, lineName
     lastEdit, samplingPeriod, savingPeriod, lengthPerPulse = getSettings()
     numSamples2 = request.form['numSamples2']
     numSamples2 = datetime.strptime(numSamples2, "%Y-%m-%d")
@@ -354,7 +378,11 @@ def my_form_post():
         'downTime30d'               : totalStoppedTime30d,
         'timesStopped30d'           : timesStopped30d,
         'productivity30d'           : productivity30d,
-        'avgSpeed'                  : avgSpeed
+        'avgSpeed'                  : avgSpeed,
+        'lineName'                  : lineName,
+        'activeButton1'             : activeButton1,
+        'activeButton2'             : activeButton2,
+        'activeButton3'             : activeButton3
     }
 
     return render_template('dashboard.html', **templateData)
