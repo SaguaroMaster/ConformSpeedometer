@@ -244,7 +244,7 @@ def index():
     numSamples1_disp = str(numSamples1)[:10]
     numSamples2_disp = str(numSamples2_1 - timedelta(days=1, hours = 6))[:10]
 
-    print(numSamples2_disp)
+    print(numSamples2_1)
     
     lastDate, power, length, ads = getLastData()
     firstDate = getFirstData()
