@@ -240,9 +240,8 @@ def index():
     lastEdit, samplingPeriod, language, theme = getSettings()
     
     numSamples1_disp = str(numSamples1)[:10]
-    numSamples2_disp = str(numSamples2)[:10]
+    numSamples2_disp = str(numSamples2 - timedelta(days = 1))[:10]
 
-    print(numSamples2)
 
     
     lastDate, power, length, ads = getLastData()
