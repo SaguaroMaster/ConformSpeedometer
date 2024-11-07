@@ -317,7 +317,8 @@ def index():
         'lineName'                  : lineName,
         'activeButton1'             : activeButton1,
         'activeButton2'             : activeButton2,
-        'activeButton3'             : activeButton3
+        'activeButton3'             : activeButton3,
+        'timeNow'                   : datetime.now().time()
     }
 
     return render_template('dashboard.html', **templateData)
@@ -382,7 +383,8 @@ def my_form_post():
         'lineName'                  : lineName,
         'activeButton1'             : activeButton1,
         'activeButton2'             : activeButton2,
-        'activeButton3'             : activeButton3
+        'activeButton3'             : activeButton3,
+        'timeNow'                   : datetime.now().time()
     }
 
     return render_template('dashboard.html', **templateData)
