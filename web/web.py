@@ -126,6 +126,10 @@ def getProductivityToday(numSamples2):
 
     curs.execute("SELECT * FROM stops WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '"+ str(numSamples2) +"';")
     data = curs.fetchall()
+
+    curs.execute("SELECT * FROM data ORDER BY timestamp DESC LIMIT 1")
+    data2 = curs.fetchall()
+    LastDate = datetime(*datetime.strptime(data2[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
     
     StoppedDates = []
     StoppedIntervals = []
@@ -136,6 +140,18 @@ def getProductivityToday(numSamples2):
         for i in data:
 
             Date = datetime(*datetime.strptime(i[0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
+
+            if i[0] == data[0][0] and i[1] == 1 and i[2] == 0: 
+                # if its the first iteration of for
+
+                ShiftChangeTime = Date.replace(hour = 6, minute = 0, second = 0)
+                timeDelta = Date - ShiftChangeTime
+                StoppedDates.append([ShiftChangeTime, Date])
+
+            elif i[0] == data[len(data)-1][0] and i[1] == 0 and i[2] == 1:
+
+                timeDelta = Date - LastDate
+                StoppedDates.append([Date, LastDate])
 
             if i[1] == 1 and i[2] == 0 and oldState !=1:
                 # its a start
@@ -165,6 +181,10 @@ def getProductivityMonth(numSamples2):
 
     curs.execute("SELECT * FROM stops WHERE timestamp >= '" + str(numSamples2 - timedelta(days=30)) + "' AND timestamp <= '"+ str(numSamples2) +"';")
     data = curs.fetchall()
+
+    curs.execute("SELECT * FROM data ORDER BY timestamp DESC LIMIT 1")
+    data2 = curs.fetchall()
+    LastDate = datetime(*datetime.strptime(data2[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
     
     StoppedDates = []
     StoppedIntervals = []
@@ -175,6 +195,19 @@ def getProductivityMonth(numSamples2):
         for i in data:
 
             Date = datetime(*datetime.strptime(i[0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
+
+            if i[0] == data[0][0] and i[1] == 1 and i[2] == 0: 
+                # if its the first iteration of for
+
+                ShiftChangeTime = Date.replace(hour = 6, minute = 0, second = 0)
+                timeDelta = Date - ShiftChangeTime
+                StoppedDates.append([ShiftChangeTime, Date])
+
+            elif i[0] == data[len(data)-1][0] and i[1] == 0 and i[2] == 1:
+
+                timeDelta = Date - LastDate
+
+                StoppedDates.append([Date, LastDate])
 
             if i[1] == 1 and i[2] == 0 and oldState !=1:
                 # its a start
