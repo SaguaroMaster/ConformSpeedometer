@@ -127,7 +127,7 @@ def getProductivityToday(numSamples2):
     curs.execute("SELECT * FROM stops WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '"+ str(numSamples2) +"';")
     data = curs.fetchall()
 
-    curs.execute("SELECT * FROM data ORDER BY timestamp DESC LIMIT 1")
+    curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '"+ str(numSamples2) +"' ORDER BY timestamp DESC LIMIT 1")
     data2 = curs.fetchall()
     LastDate = datetime(*datetime.strptime(data2[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
     
@@ -182,7 +182,7 @@ def getProductivityMonth(numSamples2):
     curs.execute("SELECT * FROM stops WHERE timestamp >= '" + str(numSamples2 - timedelta(days=30)) + "' AND timestamp <= '"+ str(numSamples2) +"';")
     data = curs.fetchall()
 
-    curs.execute("SELECT * FROM data ORDER BY timestamp DESC LIMIT 1")
+    curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '"+ str(numSamples2) +"' ORDER BY timestamp DESC LIMIT 1")
     data2 = curs.fetchall()
     LastDate = datetime(*datetime.strptime(data2[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
     
