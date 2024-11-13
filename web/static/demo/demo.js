@@ -1,3 +1,52 @@
+const verticalLinePlugin = {
+  getLinePosition: function (chart, pointIndex) {
+    try {
+      const meta = chart.getDatasetMeta(0); // first dataset is used to discover X coordinate of a point
+      const data = meta.data;
+      return data[pointIndex]._model.x;
+    }
+    catch (e) {}
+  },
+  renderVerticalLine: function (chartInstance, pointIndex) {
+
+    try {
+      // Something that throws exception
+    
+      const lineLeftOffset = this.getLinePosition(chartInstance, pointIndex);
+      const scale = chartInstance.scales['y-axis-0'];
+      const context = chartInstance.chart.ctx;
+
+      // render vertical line
+      context.beginPath();
+      context.strokeStyle = '#dbdbdb';
+      context.moveTo(lineLeftOffset, scale.top);
+      context.lineTo(lineLeftOffset, scale.bottom);
+      context.stroke();
+
+      // write label
+      context.fillStyle = "#7d7d7d";
+      context.textAlign = 'center';
+      context.fillText('', lineLeftOffset, (scale.bottom - scale.top) / 2 + scale.top);
+
+    }
+    catch (e) {}
+
+  },
+
+  afterDatasetsDraw: function (chart, easing) {
+    try {
+      if (chart.config.lineAtIndex) {
+          chart.config.lineAtIndex.forEach(pointIndex => this.renderVerticalLine(chart, pointIndex));
+      }
+
+    }
+    catch (e) {}
+  }
+  };
+
+  Chart.plugins.register(verticalLinePlugin);
+
+
 demo = {
   initPickColor: function() {
     $('.pick-class-label').click(function() {
@@ -12,6 +61,7 @@ demo = {
       }
     });
   },
+  
 
   initChartsPages: function() {
     chartColor = "#FFFFFF";
@@ -36,6 +86,7 @@ demo = {
         ]
       },
       options: {
+
         responsive: true,
         legend: {
           display: true
@@ -46,13 +97,20 @@ demo = {
         },
 
         scales: {
-          yAxes: [{
+          y: [{
 
             ticks: {
+              fontColor: "#9f9f9f",
               beginAtZero: true,
-              maxTicksLimit: 8,
+              maxTicksLimit: 4,
               //padding: 20
             },
+            gridLines: {
+              drawBorder: false,
+              zeroLineColor: "#ccc",
+              color: 'rgba(255,255,255,0.05)',
+              display: true
+            }
 
           }],
 
@@ -70,7 +128,10 @@ demo = {
             }
           }]
         },
-      }
+
+      },
+      
+      lineAtIndex: lineSampleNums
     });
 
     ctx = document.getElementById('daily-energy').getContext("2d");
@@ -83,7 +144,7 @@ demo = {
         
         datasets: [
           {
-            label: 'Length [km]',
+            label: 'Length [m]',
             borderColor: "#facf73",
             backgroundColor: "#facf73",
             pointRadius: 0,
@@ -173,80 +234,40 @@ demo = {
         },
 
         scales: {
-          yAxes: [{
+          y: [{
 
             ticks: {
+              fontColor: "#9f9f9f",
               beginAtZero: true,
-              maxTicksLimit: 8,
+              maxTicksLimit: 4,
             },
-
-          }],
-
-          xAxes: [{
-            barPercentage: 1.6,
-            ticks: {
-              //padding: 20,
+            gridLines: {
+              drawBorder: false,
+              zeroLineColor: "#ccc",
+              color: 'rgba(255,255,255,0.05)',
+              display: true
             }
-          }]
-        },
-      }
-    });
-
-    ctx = document.getElementById('total-energy').getContext("2d");
-
-    myChart = new Chart(ctx, {
-      type: 'line',
-      
-      data: {
-        labels: JSON.parse(document.getElementById("total-energy").dataset.graphdatax),
-        
-        datasets: [
-          {
-            label: 'Alarm setting [m]',
-            borderColor: "#1cc2ff",
-            backgroundColor: "#9ee0f7",
-            pointRadius: 0,
-            pointHoverRadius: 0,
-            borderWidth: 3,
-            data: JSON.parse(document.getElementById("total-energy").dataset.graphdatay)
-          },
-          
-        ]
-      },
-      options: {
-        
-        legend: {
-          display: true
-        },
-
-        tooltips: {
-          enabled: true
-        },
-
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-              maxTicksLimit: 8
-            },
 
           }],
 
-          xAxes: [{
+          x: [{
             barPercentage: 1.6,
             gridLines: {
-              drawBorder: true,
+              drawBorder: false,
               color: 'rgba(255,255,255,0.1)',
               zeroLineColor: "transparent",
               display: true,
             },
             ticks: {
-              //padding: 20,
-            },
-          }],
+              padding: 20,
+              fontColor: "#9f9f9f"
+            }
+          }]
         },
-      }
+      },
+      lineAtIndex: lineSampleNums
     });
+
   },
 
   showNotification: function(from, align) {

@@ -48,6 +48,8 @@ curs=conn.cursor()
 
 lock = threading.Lock()
 
+maxSampleCount = 290
+
 
 
 def logIp(page):
@@ -73,7 +75,8 @@ def setGlobalVars():
     global numSamples1, numSamples2
     numSamples1, nada2, nada3, nada4 = getLastData()
     numSamples1 = datetime(*datetime.strptime(numSamples1, "%Y-%m-%d %H:%M:%S").timetuple()[:3])
-    numSamples2 = numSamples1 + timedelta(days=1, hours=6)
+    numSamples1 = numSamples1 + timedelta(hours=6)
+    numSamples2 = numSamples1 + timedelta(days=1)
 
 def saveSettings(samplingPeriod, language, theme):
     curs.execute("INSERT INTO settings values(datetime('now', 'localtime'), (?), (?), (?))", (samplingPeriod, language, theme))
@@ -88,10 +91,10 @@ def getSettings():
       return lastEdit, samplingPeriod, savingPeriod, Circumference
    return None, None, None, None
     
-def getHistData (numSamples2):
+def getHistData (numSamples1, numSamples2):
    conn=sqlite3.connect(databaseName)
    curs=conn.cursor()
-   curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '" + str(numSamples2) + "' ORDER BY timestamp DESC")
+   curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples1) + "' AND timestamp <= '" + str(numSamples2) + "' ORDER BY timestamp DESC")
    data = curs.fetchall()
    dates = []
    speed = []
@@ -122,13 +125,26 @@ def getHistDataLengthMonthly (numSamples2):
 
 	return datesSum, lengthSum
 
-def getProductivityToday(numSamples2):
 
-    curs.execute("SELECT * FROM stops WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '"+ str(numSamples2) +"';")
+def getProductivity(numSamples1, numSamples2): #not actually for 24h but any selected period between numSamples1 and 2
+
+    curs.execute("SELECT * FROM stops WHERE timestamp >= '" + str(numSamples1) + "' AND timestamp <= '"+ str(numSamples2) +"';")
     data = curs.fetchall()
 
-    curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '"+ str(numSamples2) +"' ORDER BY timestamp DESC LIMIT 1")
+    curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples1) + "' AND timestamp <= '"+ str(numSamples2) +"' ORDER BY timestamp DESC LIMIT 1")
     data2 = curs.fetchall()
+
+    curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples1) + "' AND timestamp <= '"+ str(numSamples2) +"' ORDER BY timestamp ASC LIMIT 1")
+    data3 = curs.fetchall()
+
+    curs.execute("SELECT speed FROM data WHERE timestamp >= '" + str(numSamples1) + "' AND timestamp <= '"+ str(numSamples2) +"';")
+    data4 = curs.fetchall()
+
+    speedSum = 0
+    for i in data4:
+        speedSum += sum(list(i))
+
+    FirstDate = datetime(*datetime.strptime(data3[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
     LastDate = datetime(*datetime.strptime(data2[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
     
     StoppedDates = []
@@ -154,63 +170,7 @@ def getProductivityToday(numSamples2):
                 StoppedDates.append([Date, LastDate])
 
             if i[1] == 1 and i[2] == 0 and oldState !=1:
-                # its a start
-                timeDelta = Date - oldDate
-                if timeDelta > timedelta(seconds = 20):
-                    StoppedDates.append([oldDate, Date])
-
-            oldDate = Date
-            oldState = i[1]
-        
-        for i in StoppedDates:
-            timeDelta = i[1] - i[0]
-            if timeDelta > timedelta(seconds = 20):
-                StoppedIntervals.append(timeDelta)
-
-        
-        
-        timesStopped = len(StoppedIntervals)
-        totalStoppedTime = sum(StoppedIntervals, timedelta())
-
-        return totalStoppedTime, timesStopped, StoppedDates
-    
-    else:
-        return timedelta(seconds=0), 0, StoppedDates
-
-def getProductivityMonth(numSamples2):
-
-    curs.execute("SELECT * FROM stops WHERE timestamp >= '" + str(numSamples2 - timedelta(days=30)) + "' AND timestamp <= '"+ str(numSamples2) +"';")
-    data = curs.fetchall()
-
-    curs.execute("SELECT * FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '"+ str(numSamples2) +"' ORDER BY timestamp DESC LIMIT 1")
-    data2 = curs.fetchall()
-    LastDate = datetime(*datetime.strptime(data2[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
-    
-    StoppedDates = []
-    StoppedIntervals = []
-
-    if len(data) != 0:
-        oldDate = datetime(*datetime.strptime(data[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
-        oldState = data[0][1]
-        for i in data:
-
-            Date = datetime(*datetime.strptime(i[0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
-
-            if i[0] == data[0][0] and i[1] == 1 and i[2] == 0: 
-                # if its the first iteration of for
-
-                ShiftChangeTime = Date.replace(hour = 6, minute = 0, second = 0)
-                timeDelta = Date - ShiftChangeTime
-                StoppedDates.append([ShiftChangeTime, Date])
-
-            elif i[0] == data[len(data)-1][0] and i[1] == 0 and i[2] == 1:
-
-                timeDelta = Date - LastDate
-
-                StoppedDates.append([Date, LastDate])
-
-            if i[1] == 1 and i[2] == 0 and oldState !=1:
-                # its a start
+                # its a start 
                 timeDelta = Date - oldDate
                 if timeDelta > timedelta(seconds = 20):
                     StoppedDates.append([oldDate, Date])
@@ -226,49 +186,31 @@ def getProductivityMonth(numSamples2):
         timesStopped = len(StoppedIntervals)
         totalStoppedTime = sum(StoppedIntervals, timedelta())
 
-        return totalStoppedTime, timesStopped, StoppedDates
-    
-    else:
-        return timedelta(seconds=0), 0, StoppedDates
+        productivity = round(totalStoppedTime / (LastDate - FirstDate) * 100, 1)
 
-def getProductivityAlltime():
-    curs.execute("SELECT * FROM stops;")
-    data = curs.fetchall()
-    
-    StoppedDates = []
-    StoppedIntervals = []
+        return totalStoppedTime, timesStopped, StoppedDates, productivity
 
-    if len(data) != 0:
-        oldDate = datetime(*datetime.strptime(data[0][0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
-        oldState = data[0][1]
-        for i in data:
 
-            Date = datetime(*datetime.strptime(i[0], "%Y-%m-%d %H:%M:%S").timetuple()[:6])
+    elif speedSum == 0:
 
-            if i[1] == 1 and i[2] == 0 and oldState !=1:
-                # its a start
-                timeDelta = Date - oldDate
-                if timeDelta > timedelta(seconds = 20):
-                    StoppedDates.append([oldDate, Date])
-
-            oldDate = Date
-            oldState = i[1]
-        
+        StoppedDates = [[FirstDate, LastDate]]
         for i in StoppedDates:
             timeDelta = i[1] - i[0]
             if timeDelta > timedelta(seconds = 20):
                 StoppedIntervals.append(timeDelta)
-        
         timesStopped = len(StoppedIntervals)
         totalStoppedTime = sum(StoppedIntervals, timedelta())
 
-        return totalStoppedTime, timesStopped, StoppedDates
+        productivity = round(totalStoppedTime / (LastDate - FirstDate) * 100, 1)
+
+        return totalStoppedTime, timesStopped, StoppedDates, productivity
     
     else:
-        return timedelta(seconds=0), 0, StoppedDates
+        return timedelta(seconds=0), 0, StoppedDates, 0
 
-def getAvgSpeed(numSamples2):
-    curs.execute("SELECT AVG(speed) FROM data WHERE timestamp >= '" + str(numSamples2 - timedelta(days=1)) + "' AND timestamp <= '"+ str(numSamples2) +"';")
+
+def getAvgSpeed(numSamples1, numSamples2):
+    curs.execute("SELECT AVG(speed) FROM data WHERE timestamp >= '" + str(numSamples1) + "' AND timestamp <= '"+ str(numSamples2) +"';")
     dataSum = curs.fetchall()
     avgSpeed = round(dataSum[0][0], 1)
 
@@ -293,10 +235,9 @@ def readLog():
 # main route 
 @app.route("/")
 def index():
-    global  numSamples1, numSamples2, activeButton1, activeButton2, activeButton3, lineName
+    global  numSamples1, numSamples2, activeButton1, activeButton2, activeButton3, lineName, maxSampleCount
     setGlobalVars()
     logIp("index")
-    lastEdit, samplingPeriod, language, theme = getSettings()
     
     numSamples1_disp = str(numSamples1)[:10]
     numSamples2_disp = str(numSamples2 - timedelta(days = 1))[:10]
@@ -306,13 +247,11 @@ def index():
     power = round(power, 2)
     length = round(length, 2)
 
-    Dates, Speeds, Lengths, Alarms = getHistData(numSamples2)
+    Dates, Speeds, Lengths, Alarms = getHistData(numSamples1, numSamples2)
     DatesSum1, LengthsSum1 = getHistDataLengthMonthly(numSamples2)
-    avgSpeed = getAvgSpeed(numSamples2)
+    avgSpeed = getAvgSpeed(numSamples1, numSamples2)
 
-    totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityToday(numSamples2)
-    totalStoppedTime30d, timesStopped30d, StoppedDates30d = getProductivityMonth(numSamples2)
-    #totalStoppedTimeAll, timesStoppedAll, StoppedDatesAll = getProductivityAlltime()
+    totalStoppedTime, timesStopped, StoppedDates, productivity = getProductivity(numSamples1, numSamples2)
 
     for i in range(len(Dates)):
       Dates[i] = Dates[i][5:16]
@@ -320,8 +259,21 @@ def index():
     for i in range(len(DatesSum1)):
         DatesSum1[i] = DatesSum1[i][:7]
 
-    productivity24h = round(totalStoppedTime24h / timedelta(hours = 24) * 100, 1)
-    productivity30d = round(totalStoppedTime30d / timedelta(days = 30) * 100, 1)
+    LineSampleNums = []
+
+    if len(Speeds) > maxSampleCount:
+
+        Factor = round(len(Speeds)/maxSampleCount)
+
+        for i in range(round(len(Speeds)/(144/Factor))):
+            LineSampleNums.append(round(144/Factor)*(i+1))
+        
+        Speeds = Speeds[1::Factor]
+        Lengths = Lengths[1::Factor]
+        Dates = Dates[1::Factor]
+    
+    else:
+        LineSampleNums = [144, 288]
 
 
     templateData = {
@@ -338,48 +290,48 @@ def index():
         'lengthsDailyY'		    	: LengthsSum1,
         'lengthX'	        		: Dates,
         'lengthY'		        	: Lengths,
-        'alarmX'		    		: Dates,
-        'alarmY'		       		: Alarms,
-        'downTime24h'               : totalStoppedTime24h,
-        'timesStopped24h'           : timesStopped24h,
-        'productivity24h'           : productivity24h,
-        'downTime30d'               : totalStoppedTime30d,
-        'timesStopped30d'           : timesStopped30d,
-        'productivity30d'           : productivity30d,
+        'downTime'                  : totalStoppedTime,
+        'timesStopped'              : timesStopped,
+        'productivity'              : productivity,
         'avgSpeed'                  : avgSpeed,
         'lineName'                  : lineName,
         'activeButton1'             : activeButton1,
         'activeButton2'             : activeButton2,
         'activeButton3'             : activeButton3,
-        'timeNow'                   : str(datetime.now())[:19]
+        'timeNow'                   : str(datetime.now())[:19],
+        'lineSampleNums'            : LineSampleNums
     }
 
     return render_template('dashboard.html', **templateData)
 
 @app.route('/', methods=['POST'])
 def my_form_post():
-    global  numSamples1, numSamples2, activeButton1, activeButton2, activeButton3, lineName
-    lastEdit, samplingPeriod, savingPeriod, lengthPerPulse = getSettings()
+    global  numSamples1, numSamples2, activeButton1, activeButton2, activeButton3, lineName, maxSampleCount
+
+    numSamples1 = request.form['numSamples1']
+    numSamples1 = datetime.strptime(numSamples1, "%Y-%m-%d")
+
     numSamples2 = request.form['numSamples2']
     numSamples2 = datetime.strptime(numSamples2, "%Y-%m-%d")
 
-    logIp("getDate " + str(numSamples2))
+    logIp("getDate " + str(numSamples1) + " - " + str(numSamples2))
 
     numSamples1_disp = str(numSamples1)[:10]
     numSamples2_disp = str(numSamples2)[:10]
+
     numSamples2 = numSamples2 + timedelta(days=1, hours=6)
+    numSamples1 = numSamples1 + timedelta(hours = 6)
+
     lastDate, power, length, xxxxx = getLastData()
     firstDate = getFirstData()
     power = round(power, 2)
     length = round(length, 2)
 
-    Dates, Speeds, Lengths, Alarms = getHistData(numSamples2)
+    Dates, Speeds, Lengths, Alarms = getHistData(numSamples1, numSamples2)
     DatesSum1, LengthsSum1 = getHistDataLengthMonthly(numSamples2)
-    avgSpeed = getAvgSpeed(numSamples2)
+    avgSpeed = getAvgSpeed(numSamples1, numSamples2)
 
-    totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityToday(numSamples2)
-    totalStoppedTime30d, timesStopped30d, StoppedDates30d = getProductivityMonth(numSamples2)
-    #totalStoppedTimeAll, timesStoppedAll, StoppedDatesAll = getProductivityAlltime()
+    totalStoppedTime, timesStopped, StoppedDates, productivity = getProductivity(numSamples1, numSamples2)
 
     for i in range(len(Dates)):
       Dates[i] = Dates[i][5:16]
@@ -387,8 +339,21 @@ def my_form_post():
     for i in range(len(DatesSum1)):
         DatesSum1[i] = DatesSum1[i][:7]
 
-    productivity24h = round(totalStoppedTime24h / timedelta(hours = 24) * 100, 1)
-    productivity30d = round(totalStoppedTime30d / timedelta(days = 30) * 100, 1)
+    LineSampleNums = []
+
+    if len(Speeds) > maxSampleCount:
+
+        Factor = round(len(Speeds)/maxSampleCount)
+
+        for i in range(round(len(Speeds)/(144/Factor))):
+            LineSampleNums.append(round(144/Factor)*(i+1))
+        
+        Speeds = Speeds[1::Factor]
+        Lengths = Lengths[1::Factor]
+        Dates = Dates[1::Factor]
+    
+    else:
+        LineSampleNums = [144, 288]
 
     templateData = {
         'speed'						: power,
@@ -404,20 +369,16 @@ def my_form_post():
         'lengthsDailyY'		    	: LengthsSum1,
         'lengthX'	        		: Dates,
         'lengthY'		        	: Lengths,
-        'alarmX'		    		: Dates,
-        'alarmY'		       		: Alarms,
-        'downTime24h'               : totalStoppedTime24h,
-        'timesStopped24h'           : timesStopped24h,
-        'productivity24h'           : productivity24h,
-        'downTime30d'               : totalStoppedTime30d,
-        'timesStopped30d'           : timesStopped30d,
-        'productivity30d'           : productivity30d,
+        'downTime'                  : totalStoppedTime,
+        'timesStopped'              : timesStopped,
+        'productivity'              : productivity,
         'avgSpeed'                  : avgSpeed,
         'lineName'                  : lineName,
         'activeButton1'             : activeButton1,
         'activeButton2'             : activeButton2,
         'activeButton3'             : activeButton3,
-        'timeNow'                   : str(datetime.now())[:19]
+        'timeNow'                   : str(datetime.now())[:19],
+        'lineSampleNums'            : LineSampleNums
     }
 
     return render_template('dashboard.html', **templateData)
@@ -437,28 +398,13 @@ def downloadcsv():
     return send_from_directory("/home/pi", csvName)
 
 
-@app.route("/downtime24h")
+@app.route("/downtime")
 def downtime24h():
     global numSamples2
 
     logIp("downtime24h " + str(numSamples2))
     
-    totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityToday(numSamples2)
-
-    formattedString = []
-
-    for i in StoppedDates24h:
-        formattedString.append([str(i[0]), str(i[1])])
-
-    return formattedString
-
-@app.route("/downtime30d")
-def downtime30d():
-    global numSamples2   
-
-    logIp("downtime30d " + str(numSamples2))
-    
-    totalStoppedTime24h, timesStopped24h, StoppedDates24h = getProductivityMonth(numSamples2)
+    totalStoppedTime24h, timesStopped24h, StoppedDates24h, productivity = getProductivity(numSamples1, numSamples2)
 
     formattedString = []
 
@@ -477,8 +423,8 @@ def help():
     power = round(power, 2)
     length = round(length, 2)
 
-    Dates, Speeds, Lengths, Alarms = getHistData(numSamples2)
-    avgSpeed = getAvgSpeed(numSamples2)
+    Dates, Speeds, Lengths, Alarms = getHistData(numSamples1, numSamples2)
+    avgSpeed = getAvgSpeed(numSamples1, numSamples2)
 
     templateData = {
         'speed'						: power,
@@ -489,8 +435,6 @@ def help():
         'speedY'					: Speeds,
         'lengthX'	        		: Dates,
         'lengthY'		        	: Lengths,
-        'alarmX'		    		: Dates,
-        'alarmY'		       		: Alarms,
         'avgSpeed'                  : avgSpeed
     }
 
