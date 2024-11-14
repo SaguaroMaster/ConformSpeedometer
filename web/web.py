@@ -10,6 +10,7 @@ import dateutil.relativedelta
 import threading
 import platform
 import sqlite3
+import socket
 import pandas
 import csv
 import os
@@ -54,8 +55,9 @@ maxSampleCount = 290
 
 def logIp(page):
 
-    ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr) 
-    curs.execute("INSERT INTO log values(datetime('now', 'localtime'), (?), (?))", (ip, page))
+    ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    name = socket.gethostbyaddr(ip)
+    curs.execute("INSERT INTO log values(datetime('now', 'localtime'), (?), (?))", (ip + " - " + str(name), page))
     conn.commit()
 
 def getLastData():
@@ -314,7 +316,7 @@ def my_form_post():
     numSamples2 = request.form['numSamples2']
     numSamples2 = datetime.strptime(numSamples2, "%Y-%m-%d")
 
-    logIp("getDate " + str(numSamples1) + " - " + str(numSamples2))
+    logIp("getDate " + str(numSamples1)[:10] + " - " + str(numSamples2)[:10])
 
     numSamples1_disp = str(numSamples1)[:10]
     numSamples2_disp = str(numSamples2)[:10]
