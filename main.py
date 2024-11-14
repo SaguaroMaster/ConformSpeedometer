@@ -258,7 +258,7 @@ def resetLength(): #only resets length measurement
    global imagePath
    length = 0
    pulseCount2 = 0
-   cam.take_photo(imagePath + " " + str(datetime.now()))
+   #cam.take_photo(imagePath + " " + str(datetime.now()))
 
 def setAlarm(): #turns alarm sound on for 0.2s then off for 1s. aslo turn on blinker
    relay1.blink(on_time=0.2, off_time=1)
