@@ -305,14 +305,20 @@ def index():
         peaks, _ = find_peaks(LengthsLocal)
         peak_values = [LengthsLocal[j] for j in peaks]  
         OldLineSampleNum = i
+        diff_list = []
+        for k in range(1, len(LengthsLocal)):
+            diff_list.append(round(LengthsLocal[k] - LengthsLocal[k-1]))
+
         try:
-            if len(peaks) > 0 or LengthsLocal[-1] > LengthsLocal[0]:
+            print(abs(min(diff_list)))
+            if len(peaks) > 0 or (LengthsLocal[-1] > LengthsLocal[0] ):
                 LengthPerShift.append(round(sum(peak_values) + LengthsLocal[-1] - LengthsLocal[0]))
+            elif len(peaks) == 0 and abs(min(diff_list)) > 800:
+                LengthPerShift.append(round(LengthsLocal[-1]))
             else:
                 LengthPerShift.append(0)
         except:
             pass
-
     if len(LineSampleNums) > 0:
         LineSampleNums.pop(0)
         LineSampleNums = LineSampleNums[:-1]
@@ -413,9 +419,16 @@ def my_form_post():
         peaks, _ = find_peaks(LengthsLocal)
         peak_values = [LengthsLocal[j] for j in peaks]  
         OldLineSampleNum = i
+        diff_list = []
+        for k in range(1, len(LengthsLocal)):
+            diff_list.append(round(LengthsLocal[k] - LengthsLocal[k-1]))
+
         try:
-            if len(peaks) > 0 or LengthsLocal[-1] > LengthsLocal[0]:
+            print(abs(min(diff_list)))
+            if len(peaks) > 0 or (LengthsLocal[-1] > LengthsLocal[0] ):
                 LengthPerShift.append(round(sum(peak_values) + LengthsLocal[-1] - LengthsLocal[0]))
+            elif len(peaks) == 0 and abs(min(diff_list)) > 800:
+                LengthPerShift.append(round(LengthsLocal[-1]))
             else:
                 LengthPerShift.append(0)
         except:
