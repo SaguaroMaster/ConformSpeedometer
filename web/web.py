@@ -1,17 +1,43 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+###########################################
+#                                         #
+# Line speed, length, downtime, uptime,   #
+# etc.. meter and logger.                 #
+# Kristof Berta - Technology              #
+# Vicente Torns Slovakia, 2024            #
+#                                         #
+###########################################
 
+import time
+import sqlite3
+from platform import system
 from datetime import datetime, timedelta
-from platform import system as sys
+
+
+loadTime = time.time()
+
+if system() == 'Windows':
+    conn=sqlite3.connect('./Database.db', check_same_thread=False)
+    databaseName = './Database.db'
+else:
+    conn=sqlite3.connect('/home/pi/Database.db', check_same_thread=False)
+    databaseName = '/home/pi/Database.db'
+    logFilePath = '/home/pi/webServer.log'
+    sys.stdout = open(logFilePath, 'a')
+
+print(str(datetime.now()) + ": Initializing...")
 
 from flask import Flask, render_template, send_from_directory, request
-
+from scipy.signal import find_peaks
 import dateutil.relativedelta
 import threading
 import platform
-import sqlite3
+
 import socket
 import pandas
+import numpy as np
+import sys
 import csv
 import os
 
@@ -39,18 +65,12 @@ else:
     activeButton3 = ''
     lineName = 'unknown device'
 
-if sys() == 'Windows':
-    conn=sqlite3.connect('./Database.db', check_same_thread=False)
-    databaseName = './Database.db'
-else:
-    conn=sqlite3.connect('/home/pi/Database.db', check_same_thread=False)
-    databaseName = '/home/pi/Database.db'
+
 curs=conn.cursor()
 
 lock = threading.Lock()
 
-maxSampleCount = 290
-
+maxSampleCount = 2000
 
 
 def logIp(page):
@@ -261,21 +281,38 @@ def index():
     for i in range(len(DatesSum1)):
         DatesSum1[i] = DatesSum1[i][:7]
 
+    ShiftChangeFlag = 0
     LineSampleNums = []
+    for i in Dates:
+        if int(i[6:8]) == 18 and ShiftChangeFlag == 0:
+            LineSampleNums.append(Dates.index(i))
+            ShiftChangeFlag = 1
+        elif int(i[6:8]) == 19 and ShiftChangeFlag == 1:
+            ShiftChangeFlag = 0
 
-    if len(Speeds) > maxSampleCount:
+        elif int(i[6:8]) == 6 and ShiftChangeFlag == 0:
+            LineSampleNums.append(Dates.index(i))
+            ShiftChangeFlag = 1
+        elif int(i[6:8]) == 7 and ShiftChangeFlag == 1:
+            ShiftChangeFlag = 0
 
-        Factor = round(len(Speeds)/maxSampleCount)
+    OldLineSampleNum = 0
+    LengthPerShift = []
 
-        for i in range(round(len(Speeds)/(144/Factor))):
-            LineSampleNums.append(round(144/Factor)*(i+1))
-        
-        Speeds = Speeds[1::Factor]
-        Lengths = Lengths[1::Factor]
-        Dates = Dates[1::Factor]
-    
-    else:
-        LineSampleNums = [144, 288]
+    LineSampleNums.append(len(Lengths)-1)
+
+    for i in LineSampleNums:
+        LengthsLocal = Lengths[OldLineSampleNum:i]
+        peaks, _ = find_peaks(LengthsLocal)
+        peak_values = [LengthsLocal[j] for j in peaks]    
+        OldLineSampleNum = i
+        try:
+            LengthPerShift.append(round(sum(peak_values) + LengthsLocal[-1] - LengthsLocal[0]))
+        except:
+            pass
+
+    if len(LengthPerShift) > 1 and LengthPerShift[0] == 0:
+        LengthPerShift.pop(0)
 
 
     templateData = {
@@ -301,7 +338,8 @@ def index():
         'activeButton2'             : activeButton2,
         'activeButton3'             : activeButton3,
         'timeNow'                   : str(datetime.now())[:19],
-        'lineSampleNums'            : LineSampleNums
+        'lineSampleNums'            : LineSampleNums,
+        'lengthPerShift'            : LengthPerShift
     }
 
     return render_template('dashboard.html', **templateData)
@@ -341,21 +379,46 @@ def my_form_post():
     for i in range(len(DatesSum1)):
         DatesSum1[i] = DatesSum1[i][:7]
 
-    LineSampleNums = []
 
     if len(Speeds) > maxSampleCount:
-
         Factor = round(len(Speeds)/maxSampleCount)
-
-        for i in range(round(len(Speeds)/(144/Factor))):
-            LineSampleNums.append(round(144/Factor)*(i+1))
-        
         Speeds = Speeds[1::Factor]
         Lengths = Lengths[1::Factor]
         Dates = Dates[1::Factor]
-    
-    else:
-        LineSampleNums = [144, 288]
+
+    ShiftChangeFlag = 0
+    LineSampleNums = []
+    for i in Dates:
+        if int(i[6:8]) == 18 and ShiftChangeFlag == 0:
+            LineSampleNums.append(Dates.index(i))
+            ShiftChangeFlag = 1
+        elif int(i[6:8]) == 19 and ShiftChangeFlag == 1:
+            ShiftChangeFlag = 0
+
+        elif int(i[6:8]) == 6 and ShiftChangeFlag == 0:
+            LineSampleNums.append(Dates.index(i))
+            ShiftChangeFlag = 1
+        elif int(i[6:8]) == 7 and ShiftChangeFlag == 1:
+            ShiftChangeFlag = 0
+
+    OldLineSampleNum = 0
+    LengthPerShift = []
+    LineSampleNums.append(len(Lengths)-1)
+
+    for i in LineSampleNums:
+        LengthsLocal = Lengths[OldLineSampleNum:i]
+        peaks, _ = find_peaks(LengthsLocal)
+        peak_values = [LengthsLocal[j] for j in peaks]  
+        OldLineSampleNum = i
+        try:
+            LengthPerShift.append(round(sum(peak_values) + LengthsLocal[-1] - LengthsLocal[0]))
+        except:
+            pass
+
+    if len(LineSampleNums) > 0:
+        LineSampleNums.pop(0)
+        LineSampleNums = LineSampleNums[:-1]
+
 
     templateData = {
         'speed'						: power,
@@ -380,7 +443,8 @@ def my_form_post():
         'activeButton2'             : activeButton2,
         'activeButton3'             : activeButton3,
         'timeNow'                   : str(datetime.now())[:19],
-        'lineSampleNums'            : LineSampleNums
+        'lineSampleNums'            : LineSampleNums,
+        'lengthPerShift'            : LengthPerShift
     }
 
     return render_template('dashboard.html', **templateData)
@@ -449,4 +513,7 @@ def log():
     return logs
 
 if __name__ == "__main__":
-   app.run(host='0.0.0.0', port=8000, debug=False)
+    from waitress import serve
+    print(str(datetime.now()) + ": Server Ready, took " + str(round(float(time.time()-loadTime), 2)) + " seconds")
+    serve(app, host="0.0.0.0", port=8000, threads = 6)
+    #app.run(host='0.0.0.0', port=8000, debug=False)

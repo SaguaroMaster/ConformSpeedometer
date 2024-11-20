@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 ###########################################
 #                                         #
 # Line speed, length, downtime, uptime,   #
@@ -8,17 +9,15 @@
 #                                         #
 ###########################################
 
-import os
+
+import sys
 import time
 import sqlite3
-from tkinter import *
-from statistics import mean
-from picamzero import Camera
-from collections import deque
-from platform import system as sys
-from matplotlib.figure import Figure
+from platform import system
 from datetime import datetime, timedelta
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+loadTime = time.time()
+OS = system()
 
 ## GPIO PINS TO USE FOR RELAYS AND SENSOR
 RELAY_CH1 = 26
@@ -27,6 +26,36 @@ RELAY_CH3 = 21
 SENSOR_PIN = 6
 BUTTON1_PIN = 4
 BUTTON2_PIN = 27
+
+if OS == 'Windows':
+   print('Windows detected, no GPIO Functionality')
+   databaseName = './Database.db'
+   logoPath = './logo.png'
+   saveFilePath = './lengthBackup.txt'
+else:
+   databaseName = '/home/pi/Database.db'
+   logoPath = '/home/pi/ConformSpeedometer/logo.png'
+   saveFilePath = '/home/pi/lengthBackup.txt'
+   logFilePath = '/home/pi/gui.log'
+   sys.stdout = open(logFilePath, 'a')
+
+   import gpiozero as GPIO
+
+   relay1 = GPIO.LED(RELAY_CH1, active_high=False)
+   relay2 = GPIO.LED(RELAY_CH2, active_high=False)
+   relay3 = GPIO.LED(RELAY_CH3, active_high=False) 
+   sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_time = 0.001)
+   button1 = GPIO.Button(BUTTON1_PIN, pull_up = True, bounce_time = 0.01)
+   button2 = GPIO.Button(BUTTON2_PIN, pull_up = True, bounce_time = 0.01)
+
+print(str(datetime.now()) + ": Initializing...")
+
+import os
+from tkinter import *
+from statistics import mean
+from collections import deque
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 lengthSavePeriod = 5    ## period in seconds in which the current length is saved for backup in case of power outage, crash, etc..
 unlockDuration = 20     ## time in seconds until the alarm setting adjustment buttons stay unlocked for after pressing the unlock button
@@ -54,30 +83,7 @@ oldLength = 0
 oldSpeed = 0
 machineState = 0
 machineStateLogged = 0
-OS = sys()
-cam = Camera()
 
-
-if OS == 'Windows':
-   print('Windows detected, no GPIO Functionality')
-   databaseName = './Database.db'
-   logoPath = './logo.png'
-   saveFilePath = './lengthBackup.txt'
-else:
-   databaseName = '/home/pi/Database.db'
-   logoPath = '/home/pi/ConformSpeedometer/logo.png'
-   saveFilePath = '/home/pi/lengthBackup.txt'
-   imagePath = '/home/pi/Pictures/'
-
-
-   import gpiozero as GPIO
-
-   relay1 = GPIO.LED(RELAY_CH1, active_high=False)
-   relay2 = GPIO.LED(RELAY_CH2, active_high=False)
-   relay3 = GPIO.LED(RELAY_CH3, active_high=False) 
-   sensor = GPIO.Button(SENSOR_PIN, pull_up = None, active_state = True, bounce_time = 0.001)
-   button1 = GPIO.Button(BUTTON1_PIN, pull_up = True, bounce_time = 0.01)
-   button2 = GPIO.Button(BUTTON2_PIN, pull_up = True, bounce_time = 0.01)
 
 
 if not os.path.isfile(databaseName): #create database if it does not exist with default values specified below
@@ -456,6 +462,7 @@ except:
    length = 0
    pulseCount2 = 0
 
+print(str(datetime.now()) + ": GUI Ready, took " + str(round(float(time.time()-loadTime), 2)) + " seconds")
 
 while True:
 
