@@ -298,21 +298,24 @@ def index():
 
     OldLineSampleNum = 0
     LengthPerShift = []
-
     LineSampleNums.append(len(Lengths)-1)
 
     for i in LineSampleNums:
         LengthsLocal = Lengths[OldLineSampleNum:i]
         peaks, _ = find_peaks(LengthsLocal)
-        peak_values = [LengthsLocal[j] for j in peaks]    
+        peak_values = [LengthsLocal[j] for j in peaks]  
         OldLineSampleNum = i
         try:
-            LengthPerShift.append(round(sum(peak_values) + LengthsLocal[-1] - LengthsLocal[0]))
+            if len(peaks) > 0 or LengthsLocal[-1] > LengthsLocal[0]:
+                LengthPerShift.append(round(sum(peak_values) + LengthsLocal[-1] - LengthsLocal[0]))
+            else:
+                LengthPerShift.append(0)
         except:
             pass
 
-    if len(LengthPerShift) > 1 and LengthPerShift[0] == 0:
-        LengthPerShift.pop(0)
+    if len(LineSampleNums) > 0:
+        LineSampleNums.pop(0)
+        LineSampleNums = LineSampleNums[:-1]
 
 
     templateData = {
@@ -411,7 +414,10 @@ def my_form_post():
         peak_values = [LengthsLocal[j] for j in peaks]  
         OldLineSampleNum = i
         try:
-            LengthPerShift.append(round(sum(peak_values) + LengthsLocal[-1] - LengthsLocal[0]))
+            if len(peaks) > 0 or LengthsLocal[-1] > LengthsLocal[0]:
+                LengthPerShift.append(round(sum(peak_values) + LengthsLocal[-1] - LengthsLocal[0]))
+            else:
+                LengthPerShift.append(0)
         except:
             pass
 
