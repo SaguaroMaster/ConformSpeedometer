@@ -13,7 +13,7 @@ import time
 import sqlite3
 from platform import system
 from datetime import datetime, timedelta
-
+import sys
 
 loadTime = time.time()
 
@@ -37,7 +37,6 @@ import platform
 import socket
 import pandas
 import numpy as np
-import sys
 import csv
 import os
 
