@@ -33,10 +33,7 @@ from scipy.signal import find_peaks
 import dateutil.relativedelta
 import threading
 import platform
-
-import socket
 import pandas
-import numpy as np
 import csv
 import os
 
@@ -75,8 +72,7 @@ maxSampleCount = 2000
 def logIp(page):
 
     ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-    name = socket.gethostbyaddr(ip)
-    curs.execute("INSERT INTO log values(datetime('now', 'localtime'), (?), (?))", (ip + " - " + str(name), page))
+    curs.execute("INSERT INTO log values(datetime('now', 'localtime'), (?), (?))", (ip, page))
     conn.commit()
 
 def getLastData():
