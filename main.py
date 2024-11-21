@@ -330,7 +330,7 @@ def graphWindowCallback():
 
 lastEdit, samplePeriod, savePeriod, wheelCircumference = getSettings()
 runningAvgLong = deque(maxlen = int(savePeriod / samplePeriod))
-runningAvgShort = deque(maxlen = 4)
+runningAvgShort = deque(maxlen = 8)
 maxLength = deque(maxlen = int(savePeriod / samplePeriod) + 1)
 
 
